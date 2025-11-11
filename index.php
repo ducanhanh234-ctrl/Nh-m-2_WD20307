@@ -5,8 +5,8 @@ session_start();
 spl_autoload_register(function ($class) {    
     $fileName = "$class.php";
 
-    $fileModel              = PATH_MODEL . $fileName;
-    $fileController         = PATH_CONTROLLER . $fileName;
+    $fileModel = findInFolder(PATH_MODEL, $fileName);
+    $fileController = findInFolder(PATH_CONTROLLER, $fileName);
 
     if (is_readable($fileModel)) {
         require_once $fileModel;
@@ -15,6 +15,16 @@ spl_autoload_register(function ($class) {
         require_once $fileController;
     }
 });
+function findInFolder($baseDir, $fileName)
+{
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($baseDir));
+    foreach ($iterator as $file) {
+        if ($file->getFilename() === $fileName) {
+            return $file->getPathname();
+        }
+    }
+    return false;
+}
 
 require_once './configs/env.php';
 require_once './configs/helper.php';
