@@ -20,4 +20,12 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+    // 5 Linh Trang Quản Lý Danh Mục Tuor
+    'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),
+    // 6 Linh Trang Thêm Mới Danh Mục Tuor
+    'danhmuc_insert'  => (new HScontroller)->insert_danhmuc(),
+    // 7 Linh Trang Cập Nhật Danh Mục Tuor
+    'danhmuc_update'  => (new HScontroller)->update_danhmuc($id),
+    // 8 Linh Trang Xóa Danh Mục Tuor
+    'danhmuc_delete'  => (new HScontroller)->delete_danhmuc($id),
 };
