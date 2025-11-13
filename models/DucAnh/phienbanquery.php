@@ -39,7 +39,7 @@ JOIN khachsan ON pb.khachsan_id = khachsan.id";
     }
     public function find($id){
         try{
-          $sql = "";
+          $sql = "SELECT * FROM `phienban` WHERE `id` = $id";
         $data = $this->pdo->query($sql)->fetch();
         if($data === false){
             echo "lỗi<br>";
@@ -65,9 +65,10 @@ JOIN khachsan ON pb.khachsan_id = khachsan.id";
             echo "Lỗi<br>".$e->getMessage();
         }
     }
-    public function create(phienban $phienban){
+    public function insert(phienban $phienban){
         try{
-         $sql = "";
+         $sql = "INSERT INTO `phienban`( `name`, `loaipb_id`, `anh_tuor_id`, `chinhsach_tuor_id`, `nhacungcap_id`, `price`, `thoigian`, `phuongtien`, `khoihanh`, `khachsan_id`) VALUES 
+         ('".$phienban->name."','".$phienban->loaipb_id."','".$phienban->anh_tuor_id."','".$phienban->chinhsach_tuor_id."','".$phienban->nhacungcap_id."','".$phienban->price."','".$phienban->thoigian."','".$phienban->phuongtien."','".$phienban->khoihanh."','".$phienban->khachsan_id."')";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
@@ -76,7 +77,10 @@ JOIN khachsan ON pb.khachsan_id = khachsan.id";
     }
     public function update(phienban $phienban){
         try{
-         $sql = "";
+         $sql = "UPDATE `phienban` SET `name`='".$phienban->name."',
+         `loaipb_id`='".$phienban->loaipb_id."',`anh_tuor_id`='".$phienban->anh_tuor_id."',`chinhsach_tuor_id`='".$phienban->chinhsach_tuor_id."'
+         ,`nhacungcap_id`='".$phienban->nhacungcap_id."',`price`='".$phienban->price."',`thoigian`='".$phienban->thoigian."',
+         `phuongtien`='".$phienban->phuongtien."',`khoihanh`='".$phienban->khoihanh."',`khachsan_id`='".$phienban->khachsan_id."' WHERE `id`='".$phienban->id."'";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
@@ -85,7 +89,7 @@ JOIN khachsan ON pb.khachsan_id = khachsan.id";
     }
     public function delete($id){
         try{
-         $sql = "";
+         $sql = "DELETE FROM phienban WHERE `phienban`.`id` = $id";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
