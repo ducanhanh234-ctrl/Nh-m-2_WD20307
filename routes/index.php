@@ -20,6 +20,15 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+
+    // 5 Linh Trang Quản Lý Danh Mục Tuor
+    'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),
+    // 6 Linh Trang Thêm Mới Danh Mục Tuor
+    'danhmuc_insert'  => (new HScontroller)->insert_danhmuc(),
+    // 7 Linh Trang Cập Nhật Danh Mục Tuor
+    'danhmuc_update'  => (new HScontroller)->update_danhmuc($id),
+    // 8 Linh Trang Xóa Danh Mục Tuor
+    'danhmuc_delete'  => (new HScontroller)->delete_danhmuc($id),
     // 5 Link Trang Quản Lý Tuor
     'tuor-list'     => (new DAcontroller)->tuor(),
     // 6 Link Trang Quản Lý Phiên BẢn
@@ -36,4 +45,5 @@ match ($action) {
     'tuor-update'     => (new DAcontroller)->update_tuor(),
     // 12 Link Chức Năng Xóa Tuor
     'tuor-delete'     => (new DAcontroller)->delete_tuor(),
+
 };
