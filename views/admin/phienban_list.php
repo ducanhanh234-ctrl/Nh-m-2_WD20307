@@ -10,7 +10,7 @@ require_once "header.php";
                 <tr>
                   <th>id</th>
                   <th>name</th>
-                  <th>loaipb_id</th>
+                  <th>loaipb_name</th>
                   <th>anh_tuor_id</th>
                   <th>chinhsach_tuor_id</th>
                   <th>nhacungcap_id</th>
@@ -29,15 +29,15 @@ require_once "header.php";
                     <tr>
                   <td><?=$a->id?></td>
                   <td><?=$a->name?></td>
-                  <td><?=$a->loaipb_id?></td>
-                  <td><?=$a->anh_tuor_id?></td>
-                  <td><?=$a->chinhsach_tuor_id?></td>
-                  <td><?=$a->nhacungcap_id?></td>
+                  <td><?=$a->loaipb_name?></td>
+                  <td><img src="<?= $a->anh_tuor_name?>" alt="" wifth="100px"></td>
+                  <td><?=$a->chinhsach_tuor_name?></td>
+                  <td><?=$a->nhacungcap_name?></td>
                   <td><?=$a->price?></td>
                   <td><?=$a->thoigian?></td>
                   <td><?=$a->phuongtien?></td>
                   <td><?=$a->khoihanh?></td>
-                  <td><?=$a->khachsan_id?></td>
+                  <td><?=$a->khachsan_name?></td>
                   <td>
                     <a href="" class="sua_style_btn">Sửa</a>
                     <a href="" class="xoa_style_btn" style="margin-top:20px;" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>

@@ -2,9 +2,11 @@
 class DAcontroller {
     public $tuorquery;
     public $phienbanquery;
+    public $loaipbquery;
     public function __construct(){
         $this->tuorquery = new tuorquery();
         $this->phienbanquery = new phienbanquery();
+        $this->loaipbquery = new loaipbquery();
     }
     public function index(){
         include "views/admin/index.php";
@@ -21,6 +23,7 @@ class DAcontroller {
     }
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
+       $arr_loaipb = $this->loaipbquery->all();
        include "views/admin/phienban_list.php";
     }
 }
