@@ -2,7 +2,10 @@
 class tuorquery extends BaseModel{
     public function all(){
         try{
-          $sql = "SELECT * FROM `tuor`";
+          $sql = "SELECT tuor.* , danhmuc_tuor.name as danhmuc_name , phienban.name as phienban_name 
+FROM tuor 
+JOIN danhmuc_tuor ON tuor.danhmuc_id = danhmuc_tuor.id
+JOIN phienban ON tuor.phienban_id = phienban.id";
         $data = $this->pdo->query($sql)->fetchAll();
         $arr = [];
         foreach($data as $a){
@@ -10,8 +13,10 @@ class tuorquery extends BaseModel{
             $tuor->id = $a["id"];
             $tuor->name = $a["name"];
             $tuor->danhmuc_id = $a["danhmuc_id"];
+            $tuor->danhmuc_name = $a["danhmuc_name"];
             $tuor->mota = $a["mota"];
             $tuor->phienban_id = $a["phienban_id"];
+            $tuor->phienban_name = $a["phienban_name"];
             $arr[]=$tuor;
         }
         return $arr;
@@ -22,7 +27,7 @@ class tuorquery extends BaseModel{
     }
     public function find($id){
         try{
-          $sql = "";
+          $sql = "SELECT * FROM `tuor` WHERE `id` = $id";
         $data = $this->pdo->query($sql)->fetch();
         if($data === false){
             echo "lỗi<br>";
@@ -42,9 +47,9 @@ class tuorquery extends BaseModel{
             echo "Lỗi<br>".$e->getMessage();
         }
     }
-    public function create(tuor $tuor){
+    public function insert(tuor $tuor){
         try{
-         $sql = "";
+         $sql = "INSERT INTO `tuor`( `name`, `danhmuc_id`, `mota`, `phienban_id`) VALUES ('".$tuor->name."','".$tuor->danhmuc_id."','".$tuor->mota."','".$tuor->phienban_id."')";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
@@ -53,7 +58,7 @@ class tuorquery extends BaseModel{
     }
     public function update(tuor $tuor){
         try{
-         $sql = "";
+         $sql = "UPDATE `tuor` SET `name`='".$tuor->name."',`danhmuc_id`='".$tuor->danhmuc_id."',`mota`='".$tuor->mota."',`phienban_id`='".$tuor->phienban_id."' WHERE `id`='".$tuor->id."'";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
@@ -62,7 +67,7 @@ class tuorquery extends BaseModel{
     }
     public function delete($id){
         try{
-         $sql = "";
+         $sql = "DELETE FROM tuor WHERE `tuor`.`id` = $id";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){

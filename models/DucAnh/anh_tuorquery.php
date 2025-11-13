@@ -8,7 +8,6 @@ class anh_tuorquery extends BaseModel{
         foreach($data as $a){
             $anh_tuor = new anh_tuor();
             $anh_tuor->id = $a["id"];
-            $anh_tuor->name = $a["name"];
             $anh_tuor->img_main = $a["img_main"];
             $anh_tuor->img_phu_1 = $a["img_phu_1"];
             $anh_tuor->img_phu_2 = $a["img_phu_2"];

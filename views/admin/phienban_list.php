@@ -2,9 +2,10 @@
 require_once "header.php";
 ?>
 <div class="chart">
-<h3>Quản Lý Tuor</h3>
+<h3>Quản Lý Phiên Bản</h3>
 </div>
 <div class="table_qlpbt">
+  <a href="?action=phienban-insert" class="sua_style_btn">Thêm Mới</a>
             <table class="styled-table">
               <thead>
                 <tr>
@@ -39,8 +40,8 @@ require_once "header.php";
                   <td><?=$a->khoihanh?></td>
                   <td><?=$a->khachsan_name?></td>
                   <td>
-                    <a href="" class="sua_style_btn">Sửa</a>
-                    <a href="" class="xoa_style_btn" style="margin-top:20px;" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
+                    <a href="?action=phienban-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
+                    <a href="?action=phienban-delete&id=<?=$a->id?>" class="xoa_style_btn" style="margin-top:20px;" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
                   </td>
                 </tr>
                     <?php
