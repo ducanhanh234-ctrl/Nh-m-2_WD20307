@@ -20,4 +20,8 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+    // 5 Link Trang Quản Lý Tuor
+    'tuor-list'     => (new DAcontroller)->tuor(),
+    // 6 Link Trang Quản Lý Tuor
+    'phienban-list'     => (new DAcontroller)->phienban(),
 };
