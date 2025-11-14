@@ -48,7 +48,7 @@
     <label>Chức vụ:</label><br>
     <input type="text" name="chucvu" value="<?= $user['chucvu'] ?>"><br><br>
 
-    <button type="submit">Cập nhật</button>
+    <button class="btn" type="submit">Cập nhật</button>
 </form>
 
 </body>

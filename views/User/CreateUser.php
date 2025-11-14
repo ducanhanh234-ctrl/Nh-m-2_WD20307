@@ -48,7 +48,7 @@
     <label>Chức vụ:</label><br>
     <input type="text" name="chucvu"><br><br>
 
-    <button type="submit">Lưu</button>
+    <button class="btn" type="submit">Lưu</button>
 </form>
 
 </body>

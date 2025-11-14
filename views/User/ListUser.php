@@ -10,6 +10,17 @@
         a.btn { padding: 6px 12px; background: #0099ff; color:white; text-decoration:none; border-radius:4px; }
         a.btn-red { background:red; }
         img { width: 60px; }
+        .btn {
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px; /* khoảng cách mặc định */
+}
+.btn-red {
+    background-color: #e53935;
+    color: white;
+}
+
     </style>
 </head>
 <body>
@@ -43,7 +54,13 @@
         <td><?= $user['id'] ?></td>
         <td><?= $user['name'] ?></td>
         <td><?= $user['ngaysinh'] ?></td>
-        <td><img src="<?= $user['avatar'] ?>"></td>
+       <td>
+        <?php if (!empty($user['avatar'])): ?>
+            <img src="<?= 'https://images.vietnamtourism.gov.vn/vn//images/2022/thang_6/1006.net_hue.jpg' ?>" alt="<?= $user['name'] ?>" style="width:80px; height:80px; object-fit:cover; border-radius:5px;">
+        <?php else: ?>
+            <span>Chưa có ảnh</span>
+        <?php endif; ?>
+    </td>
         <td><?= $user['sdt'] ?></td>
         <td><?= $user['email'] ?></td>
         <td><?= $user['chungchi'] ?></td>
