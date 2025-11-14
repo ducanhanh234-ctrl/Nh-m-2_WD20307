@@ -61,4 +61,5 @@ match ($action) {
     'nhacungcap-insert' => (new nhacungcap_contro)->insert_nhacungcap(),
     'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
     'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
+    
 };

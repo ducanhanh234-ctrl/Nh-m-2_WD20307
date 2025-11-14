@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Danh sách nhân sự</title>
+<?php
+require_once "views/admin/header.php";
+?>
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { padding: 8px; border: 1px solid #ccc; }
@@ -22,11 +20,10 @@
 }
 
     </style>
-</head>
-<body>
+
 
 <h2>Danh sách nhân sự</h2>
-
+<div class="table_qlpbt">
 <a href="?action=createUsers" class="btn">+ Thêm nhân sự</a>
 <br><br>
 
@@ -56,14 +53,14 @@
         <td><?= $user['ngaysinh'] ?></td>
        <td>
         <?php if (!empty($user['avatar'])): ?>
-            <img src="<?= 'https://images.vietnamtourism.gov.vn/vn//images/2022/thang_6/1006.net_hue.jpg' ?>" alt="<?= $user['name'] ?>" style="width:80px; height:80px; object-fit:cover; border-radius:5px;">
+            <img src="<?= $user['avatar'] ?>" alt="" style="width:80px; height:80px; object-fit:cover; border-radius:5px;">
         <?php else: ?>
             <span>Chưa có ảnh</span>
         <?php endif; ?>
     </td>
         <td><?= $user['sdt'] ?></td>
         <td><?= $user['email'] ?></td>
-        <td><?= $user['chungchi'] ?></td>
+        <td> <img src="<?= $user['chungchi'] ?>" alt="" style="width:80px; height:80px; object-fit:cover; border-radius:5px;"></td>
         <td><?= $user['ngonngu'] ?></td>
         <td><?= $user['kinhnghiem'] ?></td>
         <td><?= $user['lichsudantuor'] ?></td>
@@ -80,6 +77,8 @@
     <?php endforeach; ?>
 
 </table>
+</div>
+<?php
+require_once "views/admin/footer.php";
+?>
 
-</body>
-</html>

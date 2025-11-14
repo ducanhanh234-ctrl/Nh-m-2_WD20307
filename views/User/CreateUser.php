@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Thêm nhân sự</title>
+    <link rel="stylesheet" href="./views/admin/cssCRUD.css">
 </head>
 <body>
 
-<h2>Thêm nhân sự</h2>
+<h2 style="text-align: center;">Thêm nhân sự</h2>
 
 <form action="?action=storeUsers" method="POST">
     <label>Họ tên:</label><br>
@@ -44,7 +45,6 @@
 
     <label>Loại HDV (ID):</label><br>
     <input type="number" name="loaihdv_id"><br><br>
-
     <label>Chức vụ:</label><br>
     <input type="text" name="chucvu"><br><br>
 
