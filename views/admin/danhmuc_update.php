@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="views/admin/cssCRUD.css" />
   </head>
   <body>
-    <h1>Cập Nhật Tuor</h1>
+    <h1>Cập Nhật danh Mục</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div>
         <span>Nhập Tên:</span>
