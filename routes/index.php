@@ -20,6 +20,16 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+    // ! Quản lí booking
+    'manageBookings' => (new BTcontroller) -> manageBookings(),
+    'addBooking' => (new BTcontroller) -> addBooking(),
+    'deleteBooking' => (new BTcontroller) -> deleteBooking(),
+    'addNewBooking' => (new BTcontroller) -> addNewBooking(),
+    'editBooking' => (new BTcontroller) -> editBooking(),
+    'editNewBooking' => (new BTcontroller) -> editNewBooking(),
+    // ! Quản lí Trạng thái Booking
+    'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
+    'changeStatus' => (new BTcontroller) -> changeStatus(),
 
     // 5 Linh Trang Quản Lý Danh Mục Tuor
     'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),
@@ -45,5 +55,6 @@ match ($action) {
     'tuor-update'     => (new DAcontroller)->update_tuor(),
     // 12 Link Chức Năng Xóa Tuor
     'tuor-delete'     => (new DAcontroller)->delete_tuor(),
+
 
 };

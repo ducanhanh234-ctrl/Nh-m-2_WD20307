@@ -1,10 +1,18 @@
+<?php
+// ! Xử lí để lấy active
+$current_page = $_GET['action'] ?? 'index';
+?>
+
+
 <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Material Dashboard</title>
-    <link rel="stylesheet" href="./views/Admin/css.css" />
+    <link rel="stylesheet" href="./views/admin/css.css" />
+
+
   </head>
   <body>
     <div class="dashboard">
@@ -12,11 +20,11 @@
       <aside class="sidebar">
         <div class="logo">LUXTUOR</div>
         <ul class="menu">
-          <li class="active"><a href="index.html">Index</a></li>
-          <li><a href="Widgets.html">Widgets</a></li>
-          <li><a href="Charts.html">Charts</a></li>
-          <li><a href="Tables.html">Tables</a></li>
-          <li><a href="Settings.html">Settings</a></li>
+
+          <li class="<?= $current_page === 'index' ? "active" : '' ?>"><a href="?action=index">Index</a></li>
+            <!-- Xử lí để lấy active -->
+          <li class="<?= $current_page === 'manageBookings' ? "active" : '' ?>"><a href="?action=manageBookings">Quản lí booking</a></li>
+          <li class="<?= $current_page === 'quanlitrangthai' ? "active" : '' ?>"><a href="?action=quanlitrangthai">Quản lí trạng thái Booking</a></li>
         </ul>
       </aside>
 
