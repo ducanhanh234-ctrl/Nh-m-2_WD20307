@@ -9,10 +9,13 @@ body {
   background: #f4f4f4;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Dashboard Layout */
 .dashboard {
   display: flex;
-  height: 100vh;
 }
 
 /* Sidebar */
@@ -38,10 +41,15 @@ body {
 }
 
 .menu li {
-  padding: 12px;
-  cursor: pointer;
   border-radius: 6px;
+  cursor: pointer;
   transition: 0.3s;
+}
+
+.menu li a {
+  width: 100%;
+  display: inline-block;
+  padding: 12px;
 }
 
 .menu li:hover {
@@ -82,8 +90,8 @@ body {
 }
 /* Content */
 .content {
+  min-height: 90vh;
   padding: 20px;
-  height: 100%;
   background-color: rgb(236, 236, 236);
   width: 100%;
 }
@@ -119,33 +127,33 @@ body {
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
-  border: 1px solid var(--border-color);
+  padding: 10px 15px;
 }
 
 .styled-table tbody tr:nth-child(even) {
   background-color: var(--row-alt);
 }
+
 .xoa_style_btn {
-  margin-top: 20px;
+  margin-left: 5px;
+  margin-top: 3px;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px; /* Bo góc */
   font-size: 15px;
-  transition: 0.3s;
   background-color: red;
 }
 .sua_style_btn {
+  margin-top: 3px;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px; /* Bo góc */
   font-size: 15px;
-  transition: 0.3s;
   background-color: rgb(44, 219, 102);
 }
-.phanphong_style_btn {
+.them_style_btn {
   color: white;
   padding: 10px 20px;
   border: none;

@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Sửa nhân sự</title>
+    <link rel="stylesheet" href="./views/admin/cssCRUD.css">
+
+
 </head>
 <body>
 
-<h2>Sửa nhân sự</h2>
+<h2 style="text-align: center;">Sửa nhân sự</h2>
 
 <form action="?action=updateUsers&id=<?= $user['id'] ?>" method="POST">
     <label>Họ tên:</label><br>
