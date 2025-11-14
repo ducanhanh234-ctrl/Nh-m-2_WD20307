@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="views/admin/cssCRUD.css" />
   </head>
   <body>
     <h1>Thêm Mới Phiên Bản</h1>
@@ -18,8 +19,8 @@
           <?php
           foreach($arr_loaipb as $a){
             ?>
-            <option value="<?=$a->id?>"><?=$a->name?></option>
-            <?php
+          <option value="<?=$a->id?>"><?=$a->name?></option>
+          <?php
           }
           ?>
         </select>
@@ -30,8 +31,8 @@
           <?php
           foreach($arr_anhtuor as $b){
             ?>
-            <option value="<?=$b->id?>"><?=$b->img_main?></option>
-            <?php
+          <option value="<?=$b->id?>"><?=$b->img_main?></option>
+          <?php
           }
           ?>
         </select>
@@ -42,20 +43,20 @@
           <?php
           foreach($arr_chinhsach as $c){
             ?>
-            <option value="<?=$c->id?>"><?=$c->name?></option>
-            <?php
+          <option value="<?=$c->id?>"><?=$c->name?></option>
+          <?php
           }
           ?>
         </select>
       </div>
       <div>
         <span>Nhập Nhà Cung Cấp:</span>
-       <select name="nhacungcap_id" id="">
+        <select name="nhacungcap_id" id="">
           <?php
           foreach($arr_nhacungcap as $d){
             ?>
-            <option value="<?=$d->id?>"><?=$d->ten_don_vi?></option>
-            <?php
+          <option value="<?=$d->id?>"><?=$d->ten_don_vi?></option>
+          <?php
           }
           ?>
         </select>
@@ -82,8 +83,8 @@
           <?php
           foreach($arr_khachsan as $e){
             ?>
-            <option value="<?=$e->id?>"><?=$e->ten_ks?></option>
-            <?php
+          <option value="<?=$e->id?>"><?=$e->ten_ks?></option>
+          <?php
           }
           ?>
         </select>

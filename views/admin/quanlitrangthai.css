@@ -1,0 +1,71 @@
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.booking-table th,
+.booking-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.booking-table th {
+  background: #f5f5f5;
+  font-weight: bold;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-pending {
+  background: #ffeb3b;
+  color: #000;
+}
+
+.status-confirmed {
+  background: #4caf50;
+  color: white;
+}
+
+.status-processing {
+  background: #2196f3;
+  color: white;
+}
+
+.status-completed {
+  background: #9c27b0;
+  color: white;
+}
+
+.status-cancelled {
+  background: #f44336;
+  color: white;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: 1px solid #000;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.btn-complete {
+  background: greenyellow;
+}
+.btn-cancel {
+  background: rgb(253, 36, 36);
+  color: white;
+}
+.btn-process {
+  background: rgb(39, 52, 243);
+  color: white;
+}
+.btn-confirm {
+  background: rgb(255, 238, 6);
+}
