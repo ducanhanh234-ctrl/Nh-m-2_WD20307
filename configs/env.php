@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_URL',          'http://localhost/BaseExam/');
+define('BASE_URL',          'http://localhost/du-an-1/Nh-m-2_WD20307/');
 
 define('PATH_ROOT',         __DIR__ . '/../');
 
