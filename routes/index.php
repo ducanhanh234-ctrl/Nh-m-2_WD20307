@@ -56,5 +56,9 @@ match ($action) {
     // 12 Link Chức Năng Xóa Tuor
     'tuor-delete'     => (new DAcontroller)->delete_tuor($id),
 
-
+    // Quản Lý Nhà Cung cấp
+    'nhacungcap-list' => (new nhacungcap_contro)->nhacungcap_list(),
+    'nhacungcap-insert' => (new nhacungcap_contro)->insert_nhacungcap(),
+    'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
+    'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
 };
