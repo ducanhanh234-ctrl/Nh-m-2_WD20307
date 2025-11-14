@@ -7,6 +7,7 @@ class DAcontroller {
     public $chinhsach_tuorquery;
     public $nhacungcapquery;
     public $khachsanquery;
+    public $danhmucquery;
     public function __construct(){
         $this->tuorquery = new tuorquery();
         $this->phienbanquery = new phienbanquery();
@@ -15,6 +16,7 @@ class DAcontroller {
         $this->chinhsach_tuorquery = new chinhsach_tuorquery();
         $this->nhacungcapquery = new nhacungcapquery();
         $this->khachsanquery = new khachsanquery();
+        $this->danhmucquery = new danhmucquery();
     }
     public function index(){
         include "views/admin/index.php";
@@ -91,6 +93,51 @@ class DAcontroller {
         $data = $this->phienbanquery->delete($id);
         if($data == 1){
             header("Location: ?action=phienban-list");
+        }else{
+            echo "Lỗi";
+        }
+    }
+    public function insert_tuor(){
+        $arr_danhmuc = $this->danhmucquery->all();
+        $arr_phienban = $this->phienbanquery->all();
+        $tuor = new tuor();
+        if(isset($_POST["nut"])){
+            $tuor->name = trim($_POST["name"]);
+            $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
+            $tuor->mota = trim($_POST["mota"]);
+            $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $data = $this->tuorquery->insert($tuor);
+            if($data == 1){
+                header("Location: ?action=tuor-list");
+            }
+        }
+     include "views/admin/insert_tuor.php";
+    }
+    public function update_tuor($id){
+        $arr_find = $this->tuorquery->find($id);
+        $arr_danhmuc = $this->danhmucquery->all();
+        $arr_phienban = $this->phienbanquery->all();
+        $tuor = new tuor();
+        $tuor->id = $id;
+        if(isset($_POST["nut"])){
+            $tuor->name = trim($_POST["name"]);
+            $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
+            $tuor->mota = trim($_POST["mota"]);
+            $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $data = $this->tuorquery->update($tuor);
+            if($data == 1){
+                header("Location: ?action=tuor-list");
+            }else{
+                header("Location: ?action=tuor-list");
+
+            }
+        }
+     include "views/admin/update_tuor.php";
+    }
+    public function delete_tuor($id){
+        $data = $this->tuorquery->delete($id);
+        if($data == 1){
+            header("Location: ?action=tuor-list");
         }else{
             echo "Lỗi";
         }
