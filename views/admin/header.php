@@ -41,6 +41,4 @@ $current_page = $_GET['action'] ?? 'index';
 
         <!-- Charts and tables -->
         <section class="content">
-          <div class="chart">
-            <h3>Daily Sales</h3>
-          </div>
+          

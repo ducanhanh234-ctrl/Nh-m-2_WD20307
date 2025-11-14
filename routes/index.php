@@ -20,7 +20,6 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
-
     // ! Quản lí booking
     'manageBookings' => (new BTcontroller) -> manageBookings(),
     'addBooking' => (new BTcontroller) -> addBooking(),
@@ -28,8 +27,34 @@ match ($action) {
     'addNewBooking' => (new BTcontroller) -> addNewBooking(),
     'editBooking' => (new BTcontroller) -> editBooking(),
     'editNewBooking' => (new BTcontroller) -> editNewBooking(),
-    
     // ! Quản lí Trạng thái Booking
     'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
     'changeStatus' => (new BTcontroller) -> changeStatus(),
+
+    // 5 Linh Trang Quản Lý Danh Mục Tuor
+    'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),
+    // 6 Linh Trang Thêm Mới Danh Mục Tuor
+    'danhmuc_insert'  => (new HScontroller)->insert_danhmuc(),
+    // 7 Linh Trang Cập Nhật Danh Mục Tuor
+    'danhmuc_update'  => (new HScontroller)->update_danhmuc($id),
+    // 8 Linh Trang Xóa Danh Mục Tuor
+    'danhmuc_delete'  => (new HScontroller)->delete_danhmuc($id),
+    // 5 Link Trang Quản Lý Tuor
+    'tuor-list'     => (new DAcontroller)->tuor(),
+    // 6 Link Trang Quản Lý Phiên BẢn
+    'phienban-list'     => (new DAcontroller)->phienban(),
+    // 7 Link Trang Thêm Mới Phiên Bản
+    'phienban-insert'     => (new DAcontroller)->insert_phienban(),
+    // 8 Link Trang Cập Nhật Phiên Bản
+    'phienban-update'     => (new DAcontroller)->update_phienban($id),
+    // 9 Link Chức Năng Xóa Phiên Bản
+    'phienban-delete'     => (new DAcontroller)->delete_phienban($id),
+    // 10 Link Trang Thêm Mới Tuor
+    'tuor-insert'     => (new DAcontroller)->insert_tuor(),
+    // 11 Link Trang Cập Nhật Tuor
+    'tuor-update'     => (new DAcontroller)->update_tuor(),
+    // 12 Link Chức Năng Xóa Tuor
+    'tuor-delete'     => (new DAcontroller)->delete_tuor(),
+
+
 };
