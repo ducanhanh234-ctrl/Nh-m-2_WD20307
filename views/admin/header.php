@@ -31,7 +31,7 @@ $current_page = $_GET['action'] ?? 'index';
       <!-- Main content -->
       <div class="main">
         <!-- Header -->
-        <header class="header">
+        <header class="header" style=" height:69px">
           <h2>LUXTUOR</h2>
           <div class="user-info">
             <span>Xin chào, Admin</span>
