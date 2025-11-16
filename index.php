@@ -26,41 +26,15 @@ function findInFolder($baseDir, $fileName)
     return false;
 }
 
-// require_once './configs/env.php';
-// require_once './configs/helper.php';
+require_once './configs/env.php';
+require_once './configs/helper.php';
 
-// // Điều hướng
-// // require_once './routes/index.php';
 
-// require_once './controllers/Huy/QHController.php';
+// Điều hướng
 
-// $controller = new QHController();
-// $action = $_GET['action'] ?? 'listUsers';
-// $id = $_GET['id'] ?? null;
+require_once './routes/index.php';
 
-// switch($action) {
-//     case 'listUsers':
-//         $controller->listUsers();
-//         break;
-//     case 'createUsers':
-//         $controller->createUsers();
-//         break;
-//     case 'storeUsers':
-//         $controller->storeUsers();
-//         break;
-//     case 'editUsers':
-//         if ($id) $controller->editUsers($id);
-//         break;
-//     case 'updateUsers':
-//         if ($id) $controller->updateUsers($id);
-//         break;
-//     case 'deleteUsers':
-//         if ($id) $controller->deleteUsers($id);
-//         break;
-//     default:
-//         $controller->listUsers();
-//         break;
-// }
+
 
 
 
