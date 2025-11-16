@@ -6,7 +6,9 @@ class UsersQuery extends BaseModel {
     public $name;
     public $ngaysinh;
     public $avatar;
+
     public $sdt;    
+
     public $email;
     public $chungchi;
     public $ngonngu;
