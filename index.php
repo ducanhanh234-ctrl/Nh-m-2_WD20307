@@ -30,6 +30,7 @@ require_once './configs/env.php';
 require_once './configs/helper.php';
 
 // Điều hướng
+<<<<<<< HEAD
 // require_once './routes/index.php';
 
 require_once './controllers/Huy/QHController.php';
@@ -61,6 +62,11 @@ switch($action) {
         $controller->listUsers();
         break;
 }
+=======
+require_once './routes/index.php';
+ 
+
+>>>>>>> 414e4fd (first commit)
 
 
 

@@ -9,6 +9,11 @@
 // Cú Pháp Điều hướng
 // VD: Điều Đến Trang index.php
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
+<<<<<<< HEAD
+=======
+require_once './controllers/Huy/QHcontroller.php';
+
+>>>>>>> 414e4fd (first commit)
 $action = $_GET['action'] ?? '/';
 $id = $_GET['id'] ?? '/';
 match ($action) {
@@ -62,4 +67,16 @@ match ($action) {
     'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
     'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
     
+<<<<<<< HEAD
+=======
+    // Quản Lý Users
+    'listUsers' => (new QHController)->listUsers(),
+    'createUsers' => (new QHController)->createUsers(),
+    'storeUsers' => (new QHController)->storeUsers(),
+    'editUsers' => (new QHController)->editUsers($id),
+    'updateUsers' => (new QHController)->updateUsers($id),
+    'deleteUsers' => (new QHController)->deleteUsers($id),
+
+    
+>>>>>>> 414e4fd (first commit)
 };

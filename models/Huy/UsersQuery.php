@@ -6,7 +6,11 @@ class UsersQuery extends BaseModel {
     public $name;
     public $ngaysinh;
     public $avatar;
+<<<<<<< HEAD
     public $sdt;
+=======
+    public $sdt;    
+>>>>>>> 414e4fd (first commit)
     public $email;
     public $chungchi;
     public $ngonngu;
