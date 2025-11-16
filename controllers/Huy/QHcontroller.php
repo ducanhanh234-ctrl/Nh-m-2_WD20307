@@ -13,7 +13,7 @@ class QHController
     public function listUsers()
     {
         $users = $this->userQuery->getAll();
-        require './views/User/ListUser.php';
+        require_once './views/User/ListUser.php';
     }
 
     public function createUsers()
