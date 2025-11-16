@@ -1,7 +1,7 @@
 <?php
 require_once './models/Huy/UsersQuery.php';
 
-class QHController
+ class QHController
 {
     private $userQuery;
 
@@ -10,11 +10,19 @@ class QHController
         $this->userQuery = new UsersQuery();
     }
 
+
     public function listUsers()
     {
         $users = $this->userQuery->getAll();
-        require './views/User/ListUser.php';
+
+        require_once './views/User/ListUser.php';
+
+
+       
+
+
     }
+
 
     public function createUsers()
     {

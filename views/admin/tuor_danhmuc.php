@@ -5,6 +5,7 @@ require_once "header.php";
 <div class="chart">
             <h3>Quản Lý Danh Mục Tuor</h3>
           </div>
+          <br>
           <div><a href="?action=danhmuc_insert" class="them_style_btn" style="color: white;
   padding: 10px 20px;
   border: none;
