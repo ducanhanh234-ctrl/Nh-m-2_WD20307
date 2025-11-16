@@ -10,7 +10,6 @@
 // VD: Điều Đến Trang index.php
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
 require_once './controllers/Huy/QHcontroller.php';
-
 $action = $_GET['action'] ?? '/';
 $id = $_GET['id'] ?? '/';
 match ($action) {

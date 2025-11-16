@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="views/admin/cssCRUD.css" />
+    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css" />
   </head>
   <body>
     <h1>Thêm Mới Phiên Bản</h1>

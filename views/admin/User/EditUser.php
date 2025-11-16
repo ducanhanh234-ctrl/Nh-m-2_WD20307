@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sửa nhân sự</title>
-    <link rel="stylesheet" href="./views/admin/cssCRUD.css">
+    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css">
 
 
 </head>

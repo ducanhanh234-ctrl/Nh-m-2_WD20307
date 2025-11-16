@@ -8,7 +8,7 @@ class nhacungcap_contro{
     }
     public function nhacungcap_list(){
         $arr_nhacungcap = $this->nhacungcapquery->all();
-        include "views/admin/nhacungcap_list.php";
+        include "views/admin/NhaCungCap/nhacungcap_list.php";
     }
     public function insert_nhacungcap(){
         $arr_dichvu = $this->dichvu_tuorquery->all();
@@ -25,7 +25,7 @@ class nhacungcap_contro{
                 header("Location: ?action=nhacungcap-list");
             }
         }
-     include "views/admin/insert_nhacungcap.php";
+     include "views/admin/NhaCungCap/insert_nhacungcap.php";
     }
     public function update_nhacungcap($id){
         $arr_find = $this->nhacungcapquery->find($id);
@@ -47,7 +47,7 @@ class nhacungcap_contro{
 
             }
         }
-     include "views/admin/update_nhacungcap.php";
+     include "views/admin/NhaCungCap/update_nhacungcap.php";
     }
     public function delete_nhacungcap($id){
         $data = $this->nhacungcapquery->delete($id);

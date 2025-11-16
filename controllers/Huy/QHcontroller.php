@@ -13,12 +13,12 @@ class QHController
     public function listUsers()
     {
         $users = $this->userQuery->getAll();
-        require_once './views/User/ListUser.php';
+        require_once './views/admin/User/ListUser.php';
     }
 
     public function createUsers()
     {
-        require './views/User/CreateUser.php';
+        require './views/admin/User/CreateUser.php';
     }
 
     public function storeUsers()
@@ -50,7 +50,7 @@ class QHController
     public function editUsers($id)
     {
         $user = $this->userQuery->getById($id);
-        require './views/User/EditUser.php';
+        require './views/admin/User/EditUser.php';
     }
 
     public function updateUsers($id)

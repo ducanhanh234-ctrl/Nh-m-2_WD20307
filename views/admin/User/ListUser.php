@@ -1,34 +1,16 @@
 <?php
-require_once "views/admin/header.php";
+require_once "views/admin/layout/header.php";
 ?>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { padding: 8px; border: 1px solid #ccc; }
-        th { background: #eee; }
-        a.btn { padding: 6px 12px; background: #0099ff; color:white; text-decoration:none; border-radius:4px; }
-        a.btn-red { background:red; }
-        img { width: 60px; }
-        .btn {
-    padding: 5px 10px;
-    text-decoration: none;
-    display: inline-block;
-    margin-right: 10px; /* khoảng cách mặc định */
-}
-.btn-red {
-    background-color: #e53935;
-    color: white;
-}
-
-    </style>
-
-
-<h2>Danh sách nhân sự</h2>
+<div class="chart">
+  <h3>Danh sách nhân sự</h3>
+  <div class="button-group">
+    <a href="?action=createUsers" class="them_style_btn">+ Thêm nhân sự</a>
+  </div>
+</div>
 <div class="table_qlpbt">
-<a href="?action=createUsers" class="btn">+ Thêm nhân sự</a>
-<br><br>
-
-<table>
-    <tr>
+  <table class="styled-table">
+    <thead>
+      <tr>
         <th>ID</th>
         <th>Họ tên</th>
         <th>Ngày sinh</th>
@@ -44,8 +26,9 @@ require_once "views/admin/header.php";
         <th>Loại HDV</th>
         <th>Chức vụ</th>
         <th>Hành động</th>
-    </tr>
-
+      </tr>
+    </thead>
+    <tbody>
     <?php foreach ($users as $user): ?>
     <tr>
         <td><?= $user['id'] ?></td>
@@ -68,17 +51,16 @@ require_once "views/admin/header.php";
         <td><?= $user['suckhoe'] ?></td>
         <td><?= $user['loaihdv_name'] ?></td>
         <td><?= $user['chucvu'] ?></td>
-        <td>
-            <a href="?action=editUsers&id=<?= $user['id'] ?>" class="btn">Sửa</a>
-            <br>
-            <a href="?action=deleteUsers&id=<?= $user['id'] ?>" onclick="return confirm('Xóa nhân sự này?')" class="btn btn-red">Xóa</a>
+        <td class="action">
+            <a href="?action=editUsers&id=<?= $user['id'] ?>" class="sua_style_btn">Sửa</a>
+            <a href="?action=deleteUsers&id=<?= $user['id'] ?>" onclick="return confirm('Xóa nhân sự này?')" class="xoa_style_btn">Xóa</a>
         </td>
     </tr>
     <?php endforeach; ?>
-
-</table>
+    </tbody>
+  </table>
 </div>
 <?php
-require_once "views/admin/footer.php";
+require_once "views/admin/layout/footer.php";
 ?>
 
