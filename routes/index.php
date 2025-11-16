@@ -10,6 +10,9 @@
 // VD: Điều Đến Trang index.php
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
 
+require_once './controllers/Huy/QHcontroller.php';
+
+
 $action = $_GET['action'] ?? '/';
 $id = $_GET['id'] ?? '/';
 match ($action) {
@@ -62,6 +65,19 @@ match ($action) {
     'nhacungcap-insert' => (new nhacungcap_contro)->insert_nhacungcap(),
     'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
     'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
-};
+
     
+
+    // Quản Lý Users
+    'listUsers' => (new QHController)->listUsers(),
+    'createUsers' => (new QHController)->createUsers(),
+    'storeUsers' => (new QHController)->storeUsers(),
+    'editUsers' => (new QHController)->editUsers($id),
+    'updateUsers' => (new QHController)->updateUsers($id),
+    'deleteUsers' => (new QHController)->deleteUsers($id),
+
+    
+};
+
 ?>
+

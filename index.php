@@ -30,43 +30,9 @@ require_once './configs/env.php';
 require_once './configs/helper.php';
 
 // Điều hướng
-<<<<<<< HEAD
-// require_once './routes/index.php';
 
-require_once './controllers/Huy/QHController.php';
-
-$controller = new QHController();
-$action = $_GET['action'] ?? 'listUsers';
-$id = $_GET['id'] ?? null;
-
-switch($action) {
-    case 'listUsers':
-        $controller->listUsers();
-        break;
-    case 'createUsers':
-        $controller->createUsers();
-        break;
-    case 'storeUsers':
-        $controller->storeUsers();
-        break;
-    case 'editUsers':
-        if ($id) $controller->editUsers($id);
-        break;
-    case 'updateUsers':
-        if ($id) $controller->updateUsers($id);
-        break;
-    case 'deleteUsers':
-        if ($id) $controller->deleteUsers($id);
-        break;
-    default:
-        $controller->listUsers();
-        break;
-}
-=======
 require_once './routes/index.php';
- 
 
->>>>>>> 414e4fd (first commit)
 
 
 
