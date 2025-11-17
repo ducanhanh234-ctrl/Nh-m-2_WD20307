@@ -1,20 +1,15 @@
 <?php
-require_once "header.php";
+require_once "views/admin/layout/header.php";
 ?>
 
 <div class="chart">
-            <h3>Quản Lý nhà Cung cấp</h3>
-          </div>
-          <div><a href="?action=nhacungcap-insert" class="them_style_btn" style="color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px; /* Bo góc */
-  font-size: 15px;
-  transition: 0.3s;
-  background-color: rgb(44, 219, 102);
-  margin-top: 150px;">Thêm Mới Nhà Cung Cấp</a></div>
+  <h3>Quản Lý nhà Cung cấp</h3>
+  <div class="button-group">
+    <a href="?action=nhacungcap-insert" class="them_style_btn">Thêm Mới Nhà Cung Cấp</a>
+  </div>
+</div>
 <div class="table_qlpbt">
-            <table class="styled-table">
+  <table class="styled-table">
               <thead>
                 <tr>
                   <th>id</th>
@@ -37,7 +32,7 @@ require_once "header.php";
                   <td><?=$a->lienhe?></td>
                   <td><?=$a->nang_luc_cung_cap?></td>
                   <td><?=$a->dichvu_tuor_name?></td>
-                  <td>
+                  <td class="action">
                     <a href="?action=nhacungcap-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
                     <a href="?action=nhacungcap-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
                   </td>
@@ -50,5 +45,5 @@ require_once "header.php";
             </table>
           </div>
 <?php
-require_once "footer.php";
+require_once "views/admin/layout/footer.php";
 ?>

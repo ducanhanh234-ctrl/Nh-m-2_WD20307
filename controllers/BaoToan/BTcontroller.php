@@ -11,7 +11,7 @@ class BTcontroller {
 
     public function manageBookings(){
         $bookings = $this->model->GetAllBooking();
-        include  './views/admin/manageBookings.php';
+        include  './views/admin/Booking/manageBookings.php';
     }
 
     public function deleteBooking() {
@@ -22,7 +22,7 @@ class BTcontroller {
 
     public function addBooking() {
         $listTour = $this -> tour -> GetAllTour();
-        include "views/admin/addBooking.php";
+        include "views/admin/Booking/addBooking.php";
     }
     
     public function addNewBooking() {
@@ -46,7 +46,7 @@ class BTcontroller {
         $id = $_GET['id'];
         $getBookingId = $this -> model -> GetBookingId($id);
         $listTour = $this -> tour -> GetAllTour();
-        include "views/admin/editBooking.php";
+        include "views/admin/Booking/editBooking.php";
     }
     
     public function editNewBooking() {
@@ -68,7 +68,7 @@ class BTcontroller {
 
     public function quanlitrangthai() {
         $bookings = $this->model->GetAllBooking();
-        include "views/admin/quanlitrangthai.php";
+        include "views/admin/Booking/quanlitrangthai.php";
     }
 
     // Thay đổi trạng thái (sử dụng POST)

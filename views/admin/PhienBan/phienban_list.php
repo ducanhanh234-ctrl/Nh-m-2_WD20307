@@ -1,12 +1,14 @@
 <?php
-require_once "header.php";
+require_once "views/admin/layout/header.php";
 ?>
 <div class="chart">
-<h3>Quản Lý Phiên Bản</h3>
+  <h3>Quản Lý Phiên Bản</h3>
+  <div class="button-group">
+    <a href="?action=phienban-insert" class="them_style_btn">Thêm Mới</a>
+  </div>
 </div>
 <div class="table_qlpbt">
-  <a href="?action=phienban-insert" class="sua_style_btn">Thêm Mới</a>
-            <table class="styled-table">
+  <table class="styled-table">
               <thead>
                 <tr>
                   <th>id</th>
@@ -39,9 +41,9 @@ require_once "header.php";
                   <td><?=$a->phuongtien?></td>
                   <td><?=$a->khoihanh?></td>
                   <td><?=$a->khachsan_name?></td>
-                  <td>
+                  <td class="action">
                     <a href="?action=phienban-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
-                    <a href="?action=phienban-delete&id=<?=$a->id?>" class="xoa_style_btn" style="margin-top:20px;" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
+                    <a href="?action=phienban-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
                   </td>
                 </tr>
                     <?php
@@ -52,5 +54,5 @@ require_once "header.php";
             </table>
           </div>
 <?php
-require_once "footer.php";
+require_once "views/admin/layout/footer.php";
 ?>

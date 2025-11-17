@@ -6,7 +6,7 @@ class HScontroller{
     }
     public function all_danhmuc(){
         $arr_danhmuc = $this->danhmucquery->all();
-        include "views/admin/tuor_danhmuc.php";
+        include "views/admin/Tour/tuor_danhmuc.php";
     }
     public function insert_danhmuc(){
         $danhmuc = new danhmuc();
@@ -17,7 +17,7 @@ class HScontroller{
                 header("Location: ?action=tuor_danhmuc");
             }
         }
-        include "views/admin/danhmuc_insert.php";
+        include "views/admin/DanhMuc/danhmuc_insert.php";
     }
     public function update_danhmuc($id){
         $arr_danhmuc = $this->danhmucquery->find($id);
@@ -32,7 +32,7 @@ class HScontroller{
                 header("Location: ?action=tuor_danhmuc");
             }
         }
-        include "views/admin/danhmuc_update.php";
+        include "views/admin/DanhMuc/danhmuc_update.php";
     }
     public function delete_danhmuc($id){
        $a = $this->danhmucquery->delete($id);
