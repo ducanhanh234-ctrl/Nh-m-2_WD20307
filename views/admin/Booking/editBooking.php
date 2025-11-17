@@ -1,5 +1,5 @@
-<?php require "header.php"; ?>
-<link rel="stylesheet" href="./views/admin/addBooking.css">
+<?php require_once "views/admin/layout/header.php"; ?>
+<link rel="stylesheet" href="views/admin/assets/style/BookingCSS/booking.css">
 
 <div class="add-booking-container">
   <div class="add-booking-header">
@@ -82,5 +82,4 @@
   </div>
 </div>
 
-<?php require "footer.php"; ?>
-
+<?php require_once "views/admin/layout/footer.php"; ?>

@@ -1,8 +1,9 @@
 <?php
-require_once "header.php";
+require_once "views/admin/layout/header.php";
 ?>
 
 <div class="chart">
+<<<<<<< HEAD:views/admin/tuor_danhmuc.php
             <h3>Quản Lý Danh Mục Tuor</h3>
           </div>
           <br>
@@ -14,8 +15,15 @@ require_once "header.php";
   transition: 0.3s;
   background-color: rgb(44, 219, 102);
   margin-top: 150px;">Thêm Mới Danh Mục</a></div>
+=======
+  <h3>Quản Lý Danh Mục Tuor</h3>
+  <div class="button-group">
+    <a href="?action=danhmuc_insert" class="them_style_btn">Thêm Mới Danh Mục</a>
+  </div>
+</div>
+>>>>>>> bao-toan:views/admin/Tour/tuor_danhmuc.php
 <div class="table_qlpbt">
-            <table class="styled-table">
+  <table class="styled-table">
               <thead>
                 <tr>
                   <th>id</th>
@@ -30,7 +38,7 @@ require_once "header.php";
                     <tr>
                   <td><?=$a->id?></td>
                   <td><?=$a->name?></td>
-                  <td>
+                  <td class="action">
                     <a href="?action=danhmuc_update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
                     <a href="?action=danhmuc_delete&id=<?=$a->id?>" class="xoa_style_btn">Xóa</a>
                   </td>
@@ -43,5 +51,5 @@ require_once "header.php";
             </table>
           </div>
 <?php
-require_once "footer.php";
+require_once "views/admin/layout/footer.php";
 ?>

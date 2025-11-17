@@ -1,13 +1,5 @@
-<?php require_once "header.php" ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lí trang thái Booking</title>
-  <link rel="stylesheet" href="./views/admin/quanlitrangthai.css">
-</head>
-<body>
+<?php require_once "views/admin/layout/header.php"; ?>
+<link rel="stylesheet" href="views/admin/assets/style/BookingCSS/quanlitrangthai.css">
   <div class="booking-section">
             <h3>Quản lý trạng thái Booking</h3>
             <div class="booking-list">
@@ -82,5 +74,4 @@
               </table>
             </div>
           </div>
-</body>
-</html>
+<?php require_once "views/admin/layout/footer.php"; ?>
