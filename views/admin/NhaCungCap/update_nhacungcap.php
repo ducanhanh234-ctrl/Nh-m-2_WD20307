@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css" />
   </head>
   <body>
-    <h1>Thêm Mới nhacungcap</h1>
+    <h1>Cập Nhật nhacungcap</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div>
         <span>Nhập Tên Nhà Cung cấp:</span>
@@ -21,10 +21,7 @@
         <span>Nhập Liên Hệ:</span>
         <input type="text" name="lienhe" value="<?=$arr_find->lienhe?>"/>
       </div>
-      <div>
-        <span>Nhập Năng Lực Cung cấp:</span>
-        <input type="text" name="nang_luc_cung_cap" value="<?=$arr_find->nang_luc_cung_cap?>"/>
-      </div>
+      
       <div>
         <span>Nhập Dịch Vụ Nhà Cung Cấp:</span>
         <select name="dichvu_tuor_id" id="">
@@ -42,6 +39,17 @@
           }
           }
           ?>
+        </select>
+      </div>
+      <div>
+        <span>Đánh Giá Dịch Vụ:</span>
+        <select name="nang_luc_cung_cap" id="">
+          <option value="<?=$arr_find->nang_luc_cung_cap?>" selected><?=$arr_find->nang_luc_cung_cap?></option>
+          <option value="5 Sao">5 Sao</option>
+          <option value="4 Sao">4 Sao</option>
+          <option value="3 Sao">3 Sao</option>
+          <option value="2 Sao">2 Sao</option>
+          <option value="1 Sao">1 Sao</option>
         </select>
       </div>
       <div>
