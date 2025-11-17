@@ -9,6 +9,10 @@
 // Cú Pháp Điều hướng
 // VD: Điều Đến Trang index.php
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
+
+require_once './controllers/Huy/QHcontroller.php';
+
+
 $action = $_GET['action'] ?? '/';
 $id = $_GET['id'] ?? '/';
 match ($action) {
@@ -20,6 +24,17 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+    // ! Quản lí booking
+    'manageBookings' => (new BTcontroller) -> manageBookings(),
+    'addBooking' => (new BTcontroller) -> addBooking(),
+    'deleteBooking' => (new BTcontroller) -> deleteBooking(),
+    'addNewBooking' => (new BTcontroller) -> addNewBooking(),
+    'editBooking' => (new BTcontroller) -> editBooking(),
+    'editNewBooking' => (new BTcontroller) -> editNewBooking(),
+    // ! Quản lí Trạng thái Booking
+    'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
+    'changeStatus' => (new BTcontroller) -> changeStatus(),
+
     // 5 Linh Trang Quản Lý Danh Mục Tuor
     'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),
     // 6 Linh Trang Thêm Mới Danh Mục Tuor
@@ -28,4 +43,41 @@ match ($action) {
     'danhmuc_update'  => (new HScontroller)->update_danhmuc($id),
     // 8 Linh Trang Xóa Danh Mục Tuor
     'danhmuc_delete'  => (new HScontroller)->delete_danhmuc($id),
+    // 5 Link Trang Quản Lý Tuor
+    'tuor-list'     => (new DAcontroller)->tuor(),
+    // 6 Link Trang Quản Lý Phiên BẢn
+    'phienban-list'     => (new DAcontroller)->phienban(),
+    // 7 Link Trang Thêm Mới Phiên Bản
+    'phienban-insert'     => (new DAcontroller)->insert_phienban(),
+    // 8 Link Trang Cập Nhật Phiên Bản
+    'phienban-update'     => (new DAcontroller)->update_phienban($id),
+    // 9 Link Chức Năng Xóa Phiên Bản
+    'phienban-delete'     => (new DAcontroller)->delete_phienban($id),
+    // 10 Link Trang Thêm Mới Tuor
+    'tuor-insert'     => (new DAcontroller)->insert_tuor(),
+    // 11 Link Trang Cập Nhật Tuor
+    'tuor-update'     => (new DAcontroller)->update_tuor($id),
+    // 12 Link Chức Năng Xóa Tuor
+    'tuor-delete'     => (new DAcontroller)->delete_tuor($id),
+
+    // Quản Lý Nhà Cung cấp
+    'nhacungcap-list' => (new nhacungcap_contro)->nhacungcap_list(),
+    'nhacungcap-insert' => (new nhacungcap_contro)->insert_nhacungcap(),
+    'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
+    'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
+
+    
+
+    // Quản Lý Users
+    'listUsers' => (new QHController)->listUsers(),
+    'createUsers' => (new QHController)->createUsers(),
+    'storeUsers' => (new QHController)->storeUsers(),
+    'editUsers' => (new QHController)->editUsers($id),
+    'updateUsers' => (new QHController)->updateUsers($id),
+    'deleteUsers' => (new QHController)->deleteUsers($id),
+
+    
 };
+
+?>
+
