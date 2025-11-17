@@ -8,6 +8,7 @@ class DAcontroller {
     public $nhacungcapquery;
     public $khachsanquery;
     public $danhmucquery;
+    public $giasaucungquery;
     public function __construct(){
         $this->tuorquery = new tuorquery();
         $this->phienbanquery = new phienbanquery();
@@ -17,6 +18,7 @@ class DAcontroller {
         $this->nhacungcapquery = new nhacungcapquery();
         $this->khachsanquery = new khachsanquery();
         $this->danhmucquery = new danhmucquery();
+        $this->giasaucungquery = new giasaucungquery();
     }
     public function index(){
         include "views/admin/index.php";
@@ -33,7 +35,7 @@ class DAcontroller {
     }
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
-       
+       $arr_gia = $this->giasaucungquery->all();
        include "views/admin/PhienBan/phienban_list.php";
     }
     public function insert_phienban(){
