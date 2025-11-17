@@ -7,4 +7,8 @@ class tuor{
     public $mota;
     public $phienban_id;
     public $phienban_name;
+    public $phienban_price;
+    public $phienban_thoigian;
+    public $phienban_phuongtien;
+    public $phienban_khoihanh;
 }

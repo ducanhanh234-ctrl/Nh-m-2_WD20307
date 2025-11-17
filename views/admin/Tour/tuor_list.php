@@ -13,7 +13,11 @@ require_once "header.php";
                   <th>name</th>
                   <th>danhmuc_id</th>
                   <th>mota</th>
-                  <th>phienban_id</th>
+                  <th>phienban_name</th>
+                  <th>phienban_price</th>
+                  <th>phienban_thoigian</th>
+                  <th>phienban_phuongtien</th>
+                  <th>phienban_khoihanh</th>
                   <th>Active</th>
                 </tr>
               </thead>
@@ -27,7 +31,10 @@ require_once "header.php";
                   <td><?=$a->danhmuc_name?></td>
                   <td><?=$a->mota?></td>
                   <td><?=$a->phienban_name?></td>
-                 
+                  <td><?=$a->phienban_price?></td>
+                  <td><?=$a->phienban_thoigian?></td>
+                  <td><?=$a->phienban_phuongtien?></td>
+                  <td><?=$a->phienban_khoihanh?></td>
                   <td>
                     <a href="?action=tuor-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
                     <a href="?action=tuor-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>

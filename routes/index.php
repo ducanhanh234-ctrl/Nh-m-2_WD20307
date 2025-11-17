@@ -12,7 +12,6 @@
 
 require_once './controllers/Huy/QHcontroller.php';
 
-
 $action = $_GET['action'] ?? '/';
 $id = $_GET['id'] ?? '/';
 match ($action) {

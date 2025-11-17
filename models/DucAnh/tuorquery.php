@@ -2,10 +2,7 @@
 class tuorquery extends BaseModel{
     public function all(){
         try{
-          $sql = "SELECT tuor.* , danhmuc_tuor.name as danhmuc_name , phienban.name as phienban_name 
-FROM tuor 
-JOIN danhmuc_tuor ON tuor.danhmuc_id = danhmuc_tuor.id
-JOIN phienban ON tuor.phienban_id = phienban.id";
+          $sql = "SELECT tuor.* , danhmuc_tuor.name as danhmuc_name , phienban.name as phienban_name , phienban.price as phienban_price , phienban.thoigian as phienban_thoigian , phienban.phuongtien as phienban_phuongtien , phienban.khoihanh as phienban_khoihanh FROM tuor JOIN danhmuc_tuor ON tuor.danhmuc_id = danhmuc_tuor.id JOIN phienban ON tuor.phienban_id = phienban.id;";
         $data = $this->pdo->query($sql)->fetchAll();
         $arr = [];
         foreach($data as $a){
@@ -17,6 +14,10 @@ JOIN phienban ON tuor.phienban_id = phienban.id";
             $tuor->mota = $a["mota"];
             $tuor->phienban_id = $a["phienban_id"];
             $tuor->phienban_name = $a["phienban_name"];
+            $tuor->phienban_price = $a["phienban_price"];
+            $tuor->phienban_thoigian = $a["phienban_thoigian"];
+            $tuor->phienban_phuongtien = $a["phienban_phuongtien"];
+            $tuor->phienban_khoihanh = $a["phienban_khoihanh"];
             $arr[]=$tuor;
         }
         return $arr;

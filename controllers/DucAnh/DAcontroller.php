@@ -29,12 +29,12 @@ class DAcontroller {
     }
     public function tuor(){
        $arr_tuor = $this->tuorquery->all();
-       include "views/admin/tuor_list.php";
+       include "views/admin/Tour/tuor_list.php";
     }
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
        
-       include "views/admin/phienban_list.php";
+       include "views/admin/PhienBan/phienban_list.php";
     }
     public function insert_phienban(){
         $arr_loaipb = $this->loaipbquery->all();
@@ -59,7 +59,7 @@ class DAcontroller {
                 header("Location: ?action=phienban-list");
             }
         }
-     include "views/admin/insert_pb.php";
+     include "views/admin/PhienBan/insert_pb.php";
     }
     public function update_phienban($id){
         $arr_find = $this->phienbanquery->find($id);
@@ -87,7 +87,7 @@ class DAcontroller {
                 header("Location: ?action=phienban-list");
             }
         }
-     include "views/admin/update_pb.php";
+     include "views/admin/PhienBan/update_pb.php";
     }
     public function delete_phienban($id){
         $data = $this->phienbanquery->delete($id);
@@ -111,7 +111,7 @@ class DAcontroller {
                 header("Location: ?action=tuor-list");
             }
         }
-     include "views/admin/insert_tuor.php";
+     include "views/admin/Tour/insert_tuor.php";
     }
     public function update_tuor($id){
         $arr_find = $this->tuorquery->find($id);
@@ -132,7 +132,7 @@ class DAcontroller {
 
             }
         }
-     include "views/admin/update_tuor.php";
+     include "views/admin/Tour/update_tuor.php";
     }
     public function delete_tuor($id){
         $data = $this->tuorquery->delete($id);

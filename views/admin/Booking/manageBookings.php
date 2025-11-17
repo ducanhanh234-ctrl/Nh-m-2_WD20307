@@ -1,26 +1,16 @@
 <?php
-require "header.php";
+require_once "views/admin/layout/header.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giao diện Quản lí</title>
-  <link rel="stylesheet" href="./views/admin/manageBookings.css">
-</head>
-<body>
-  
-</body>
-</html>
+<link rel="stylesheet" href="views/admin/assets/style/BookingCSS/booking.css">
 
-<div style="margin-top:16px">
-    <div style="display:flex;gap:8px;margin-bottom:12px">
+<div class="chart">
+    <div class="button-group">
         <a class="phanphong_style_btn" href="?action=addBooking">Thêm Booking</a>
         <a class="sua_style_btn" href="?action=quanlitrangthai">Quản lí trạng thái</a>
     </div>
 
     <?php if (!empty($bookings) && is_array($bookings)): ?>
+        <div class="table_qlpbt">
         <table class="styled-table">
             <thead>
                 <tr>
@@ -58,9 +48,12 @@ require "header.php";
                 <?php endforeach; ?>
             </tbody>
         </table>
+        </div>
     <?php else: ?>
-        <p>Không có booking nào.</p>
+        <div class="chart">
+            <p>Không có booking nào.</p>
+        </div>
     <?php endif; ?>
 </div>
 
-<?php require "footer.php"; ?>
+<?php require_once "views/admin/layout/footer.php"; ?>
