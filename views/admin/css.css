@@ -153,4 +153,5 @@ body {
   font-size: 15px;
   transition: 0.3s;
   background-color: rgb(44, 219, 102);
+  text-decoration: none;
 }
