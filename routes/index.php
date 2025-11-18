@@ -9,8 +9,13 @@
 // Cú Pháp Điều hướng
 // VD: Điều Đến Trang index.php
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
-require_once './controllers/Huy/QHcontroller.php';
 $action = $_GET['action'] ?? '/';
+$id = $_GET['id'] ?? '/';
+require_once './controllers/BaoToan/BTcontroller.php';
+require_once './controllers/Huy/QHcontroller.php';
+require_once './controllers/DucAnh/DAcontroller.php';
+require_once './controllers/HoangSon/HScontroller.php';
+require_once './controllers/DucAnh/nhacungcap_contro.php';
 $id = $_GET['id'] ?? '/';
 match ($action) {
     // 1 Link Trang Mặc Định
@@ -23,6 +28,8 @@ match ($action) {
     'logup'         => (new DAcontroller)->logup(),
     // ! Quản lí booking
     'manageBookings' => (new BTcontroller) -> manageBookings(),
+    'UsersBookingList' => (new BTcontroller) -> UsersBookingList(),
+    'assignHdv' => (new BTcontroller) -> assignHdv(),
     'addBooking' => (new BTcontroller) -> addBooking(),
     'deleteBooking' => (new BTcontroller) -> deleteBooking(),
     'addNewBooking' => (new BTcontroller) -> addNewBooking(),

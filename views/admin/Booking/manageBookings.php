@@ -22,6 +22,9 @@ require_once "views/admin/layout/header.php";
                     <th>Số Người</th>
                     <th>Giới Tính</th>
                     <th>Số ngày</th>
+                    <th>Phương tiện</th>
+                    <th>Nhà cung cấp</th>
+                    <th>HDV</th>
                     <th>Yêu Cầu</th>
                     <th>Trạng Thái</th>
                     <th>Hành Động</th>
@@ -38,6 +41,21 @@ require_once "views/admin/layout/header.php";
                         <td><?= $item['soluong_nguoi'] ?? $item['soluongnguoi'] ?? $item['soluong_nguoi'] ?? '' ?></td>
                         <td><?= $item['gioitinh'] ?? '' ?></td>
                         <td><?= $item['songay'] ?? '' ?></td>
+                        <td><?= $item['phienban_phuongtien'] ?? '' ?></td>
+                        <td>
+                            <?php if (!empty($item['nhacungcap_name'])): ?>
+                                <?= htmlspecialchars($item['nhacungcap_name']) ?>
+                            <?php else: ?>
+                                <a class="phanphong_style_btn" href="?action=nhacungcap-insert&tour_id=<?= $item['tuor_id'] ?? '' ?>">Thêm NCC</a>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($item['hdv_name']) || !empty($item['hdv_id'])): ?>
+                                <?= htmlspecialchars($item['hdv_name'] ?? $item['hdv_id']) ?>
+                            <?php else: ?>
+                                <a class="phanphong_style_btn" href="?action=UsersBookingList&id=<?= $item['id'] ?>">Thêm HDV</a>
+                            <?php endif; ?>
+                        </td>
                         <td><?= $item['yeucaudacbiet'] ?? '' ?></td>
                         <td><?= $item['status_name'] ?? '' ?></td>
                         <td class="action">

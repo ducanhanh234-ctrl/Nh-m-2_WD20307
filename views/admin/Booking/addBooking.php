@@ -9,7 +9,7 @@
   <div class="add-booking-form-wrapper">
     <h3>Thêm Booking Mới</h3>
     
-    <form method="POST" action="?action=addNewBooking" class="booking-form">
+    <form method="POST" action="?action=addNewBooking" class="booking-form" id="bookingForm">
       
       <div class="form-group">
         <label>Tên Khách:</label>
@@ -35,10 +35,10 @@
 
       <div class="form-group">
         <label>Tour:</label>
-        <select name="tuor_id" required>
+        <select name="tuor_id" id="tourSelect" required>
           <option value="">-- Chọn tour --</option>
           <?php foreach ($listTour as $item) : ?>
-            <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+            <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" data-phuongtien="<?= ($item['phienban_phuongtien']) ?>"><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
           <?php endforeach ; ?>
         </select>
       </div>
@@ -65,9 +65,19 @@
 
       <div class="form-group">
         <label>Số ngày:</label>
-        <input type="text" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm" name="songay">
+        <input type="text" id="songay" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm" name="songay">
       </div>
 
+      <div class="form-group">
+        <label>Phương tiện di chuyển:</label>
+        <input type="text" id="phuongtien" placeholder="VD: Máy bay, Ô tô" name="phuongtien">
+      </div>
+
+       <div class="form-group">
+        <label>Danh sách khách hàng:</label>
+        <textarea name="danhsachkhachhang" placeholder="Danh sách những người đi tour (Nếu có)" rows="3"></textarea>
+      </div>
+            
       <div class="form-group">
         <label>Yêu Cầu Đặc Biệt:</label>
         <textarea name="yeucaudacbiet" placeholder="Các bệnh lí, dị ứng, v.v" rows="3"></textarea>
@@ -81,5 +91,15 @@
     </form>
   </div>
 </div>
+
+<script>
+document.getElementById('tourSelect').addEventListener('change', function() {
+  const selectedOption = this.options[this.selectedIndex];
+  const thoigian = selectedOption.getAttribute('data-thoigian');
+  const phuongtien = selectedOption.getAttribute('data-phuongtien')
+  document.getElementById('songay').value = thoigian || '';
+  document.getElementById('phuongtien').value = phuongtien || '';
+});
+</script>
 
 <?php require_once "views/admin/layout/footer.php"; ?>

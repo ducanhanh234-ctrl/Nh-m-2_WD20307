@@ -2,20 +2,60 @@
 
 class BookingModel extends BaseModel {
     public function GetAllBooking() {
-        $sql = "
+        //! ⚠️ QUAN TRỌNG: Chiến lược 2 query để đảm bảo tương thích với HDV
+        //? Query 1: CÓ JOIN HDV (yêu cầu cột booking.hdv_id phải tồn tại trong DB)
+        $sqlWithHdv = "
             SELECT 
                 b.*,
                 t.name AS tour_name,
+                p.phuongtien AS phienban_phuongtien,
+                ncc.ten_don_vi AS nhacungcap_name,
+                h.name AS hdv_name,
                 s.name AS status_name
             FROM booking b
             LEFT JOIN tuor t ON b.tuor_id = t.id
+            LEFT JOIN phienban p ON t.phienban_id = p.id
+            LEFT JOIN nha_cung_cap ncc ON p.nhacungcap_id = ncc.id
+            LEFT JOIN nhansu h ON b.hdv_id = h.id
             LEFT JOIN trangthai_booking s ON b.trangthai_booking = s.id
             ORDER BY b.id DESC
         ";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll();
+
+        //? Query 2: KHÔNG JOIN HDV (sử dụng khi cột booking.hdv_id chưa tồn tại)
+        $sqlWithoutHdv = "
+            SELECT 
+                b.*,
+                t.name AS tour_name,
+                p.phuongtien AS phienban_phuongtien,
+                ncc.ten_don_vi AS nhacungcap_name,
+                s.name AS status_name
+            FROM booking b
+            LEFT JOIN tuor t ON b.tuor_id = t.id
+            LEFT JOIN phienban p ON t.phienban_id = p.id
+            LEFT JOIN nha_cung_cap ncc ON p.nhacungcap_id = ncc.id
+            LEFT JOIN trangthai_booking s ON b.trangthai_booking = s.id
+            ORDER BY b.id DESC
+        ";
+
+        //! CHÍNH: Thử query CÓ JOIN HDV trước (trả về hdv_name)
+        try {
+            $stmt = $this->pdo->prepare($sqlWithHdv);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            //? DỰ PHÒNG 1: Nếu JOIN HDV thất bại (vì cột không tồn tại), dùng query an toàn
+            //! Điều này ngăn chặn lỗi fatal khi booking.hdv_id chưa được thêm vào DB
+            try {
+                $stmt = $this->pdo->prepare($sqlWithoutHdv);
+                $stmt->execute();
+                return $stmt->fetchAll();
+            } catch (\PDOException $e2) {
+                //! DỰ PHÒNG 2: Cách cuối cùng - trả về mảng rỗng để tránh crash
+                return [];
+            }
+        }
     }
+    
 
     public function deleteBooking($id) {
         $sql = "DELETE FROM booking WHERE `booking`.`id` = :id";
@@ -90,6 +130,18 @@ class BookingModel extends BaseModel {
         $sql = "UPDATE `booking` SET `trangthai_booking` = :status WHERE `id` = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':status' => $statusId, ':id' => $id]);
+    }
+
+    // Gán HDV cho booking (nếu cột hdv_id tồn tại)
+    public function assignHdv($bookingId, $hdvId) {
+        try {
+            $sql = "UPDATE `booking` SET `hdv_id` = :hdv WHERE `id` = :id";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([':hdv' => $hdvId, ':id' => $bookingId]);
+        } catch (\PDOException $e) {
+            // Nếu cột hdv_id không tồn tại hoặc lỗi khác, trả về false
+            return false;
+        }
     }
 
 }

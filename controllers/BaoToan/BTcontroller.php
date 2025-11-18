@@ -2,15 +2,18 @@
 class BTcontroller {
     protected $model;
     protected $tour;
+    protected $user;
 
     public function __construct(){
         // Kết nối model ở constructor để controller có thể tái sử dụng
         $this->model = new BookingModel();
         $this->tour = new TourModel();
+        $this ->user = new UsersQuery();
     }
 
     public function manageBookings(){
         $bookings = $this->model->GetAllBooking();
+        // debug($bookings);
         include  './views/admin/Booking/manageBookings.php';
     }
 
@@ -20,8 +23,33 @@ class BTcontroller {
         header('location: index.php?action=manageBookings');
     }
 
+    public function UsersBookingList() {
+        $id = $_GET['id'];
+        $usersBooking = $this -> user -> getAll();
+        // debug($usersBooking);
+        include './views/admin/Booking/UsersBookingList.php';
+    }
+
+    public function assignHdv() {
+        $booking_id = $_GET['booking_id'] ?? null;
+        $hdv_id = $_GET['hdv_id'] ?? null;
+        if ($booking_id && $hdv_id) {
+            $ok = $this->model->assignHdv((int)$booking_id, (int)$hdv_id);
+            if ($ok) {
+                header('Location: index.php?action=manageBookings');
+                exit;
+            } else {
+                header('Location: index.php?action=UsersBookingList&id=' . urlencode($booking_id));
+                exit;
+            }
+        }
+        header('Location: index.php?action=manageBookings');
+        exit;
+    }
+
     public function addBooking() {
         $listTour = $this -> tour -> GetAllTour();
+
         include "views/admin/Booking/addBooking.php";
     }
     
