@@ -25,10 +25,11 @@ $current_page = $_GET['action'] ?? 'index';
             <!-- Xử lí để lấy active -->
           <li class="<?= $current_page === 'manageBookings' ? "active" : '' ?>"><a href="?action=manageBookings">Quản lí booking</a></li>
           <li class="<?= $current_page === 'quanlitrangthai' ? "active" : '' ?>"><a href="?action=quanlitrangthai">Quản lí trạng thái Booking</a></li>
-<<<<<<< HEAD
-=======
+
+
           <li class="<?= $current_page === 'listUsers' ? "active" : '' ?>"><a href="?action=listUsers">Danh sách nhân sự</a></li>
->>>>>>> 414e4fd (first commit)
+          <li class="<?= $current_page === 'phanhoi-list' ? "active" : '' ?>"><a href="?action=phanhoi-list">Danh sách phản hồi đánh giá</a></li>
+
         </ul>
       </aside>
 
