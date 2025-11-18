@@ -75,12 +75,22 @@ match ($action) {
     'updateUsers' => (new QHController)->updateUsers($id),
     'deleteUsers' => (new QHController)->deleteUsers($id),
 
+
+  
+    
+    // Quản Lý Kế Hoạch Khởi Hành
+    'kehoachkh-list' => (new HScontroller)->all_kehoachkh(),
+    'kehoachkh-insert' => (new HScontroller)->insert_kehoachkh(),
+    'nhacungcap-update' => (new HScontroller)->update_nhacungcap($id),
+    'nhacungcap-delete' => (new HScontroller)->delete_nhacungcap($id),
+
     // Quản Lý Giá
 
     'gia-list' => (new giacontro)->giasaucung_list(),
     'gia-insert' => (new giacontro)->giasaucung_insert(),
     'gia-update' => (new giacontro)->giasaucung_update($id),
     'gia-delete' => (new giacontro)->giasaucung_delete($id),
+
 };
 
 ?>
