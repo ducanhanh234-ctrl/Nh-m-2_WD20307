@@ -75,7 +75,12 @@ match ($action) {
     'updateUsers' => (new QHController)->updateUsers($id),
     'deleteUsers' => (new QHController)->deleteUsers($id),
 
-    
+    // Quản Lý Giá
+
+    'gia-list' => (new giacontro)->giasaucung_list(),
+    'gia-insert' => (new giacontro)->giasaucung_insert(),
+    'gia-update' => (new giacontro)->giasaucung_update($id),
+    'gia-delete' => (new giacontro)->giasaucung_delete($id),
 };
 
 ?>

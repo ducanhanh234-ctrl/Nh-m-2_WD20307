@@ -8,6 +8,8 @@ class DAcontroller {
     public $nhacungcapquery;
     public $khachsanquery;
     public $danhmucquery;
+    public $giasaucungquery;
+    public $BookingModel;
     public function __construct(){
         $this->tuorquery = new tuorquery();
         $this->phienbanquery = new phienbanquery();
@@ -17,6 +19,8 @@ class DAcontroller {
         $this->nhacungcapquery = new nhacungcapquery();
         $this->khachsanquery = new khachsanquery();
         $this->danhmucquery = new danhmucquery();
+        $this->giasaucungquery = new giasaucungquery();
+        $this->BookingModel = new BookingModel();
     }
     public function index(){
         include "views/admin/index.php";
@@ -33,7 +37,7 @@ class DAcontroller {
     }
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
-       
+       $arr_gia = $this->giasaucungquery->all();
        include "views/admin/PhienBan/phienban_list.php";
     }
     public function insert_phienban(){
@@ -90,6 +94,15 @@ class DAcontroller {
      include "views/admin/PhienBan/update_pb.php";
     }
     public function delete_phienban($id){
+        $arr_tuor = $this->tuorquery->find($id);
+        $arr_phienban = $this->phienbanquery->find($id);
+        if($arr_phienban->id == $arr_tuor->phienban_id){
+            echo "<script>
+            alert('Không Xóa Đc Phiên Bản Này Vì trong tuor đã chọn phiên bản');
+            window.location.href='?action=phienban-list'; 
+            </script>";
+            
+        }
         $data = $this->phienbanquery->delete($id);
         if($data == 1){
             header("Location: ?action=phienban-list");
@@ -135,6 +148,13 @@ class DAcontroller {
      include "views/admin/Tour/update_tuor.php";
     }
     public function delete_tuor($id){
+        $arr_booking = $this->BookingModel->GetBookingId($id);
+        if($arr_booking['tuor_id'] == $id){
+         echo "<script>
+            alert('Không Xóa Đc Tuor Này Vì trong booking đã chọn ');
+            window.location.href='?action=tuor-list'; 
+            </script>";
+        }
         $data = $this->tuorquery->delete($id);
         if($data == 1){
             header("Location: ?action=tuor-list");

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="views/admin/cssCRUD.css" />
+     <link rel="stylesheet" href="views/admin/assets/style/layoutCSS/cssCRUD.css" />
   </head>
   <body>
     <h1>Cập Nhật Tuor</h1>
@@ -58,19 +58,19 @@
       </div>
       <div>
         <span>Giá:</span>
-        <input type="text" id="phienban_price" />
+        <input type="text" id="phienban_price" disabled/>
       </div>
       <div>
         <span>Thời Gian:</span>
-        <input type="text" id="phienban_thoigian" />
+        <input type="text" id="phienban_thoigian" disabled/>
       </div>
       <div>
         <span>Phương Tiện:</span>
-        <input type="text" id="phienban_phuongtien" />
+        <input type="text" id="phienban_phuongtien" disabled/>
       </div>
       <div>
         <span>Khởi Hành:</span>
-        <input type="text" id="phienban_khoihanh" />
+        <input type="text" id="phienban_khoihanh" disabled/>
       </div>
       <div>
         <button type="submit" name="nut">OK</button>
