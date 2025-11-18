@@ -1,10 +1,18 @@
 <?php
 require_once "views/admin/layout/header.php";
 ?>
+
+
+<div class="chart">
+
+
   <h3>Quản Lý Danh Mục Tuor</h3>
   <div class="button-group">
     <a href="?action=danhmuc_insert" class="them_style_btn">Thêm Mới Danh Mục</a>
   </div>
+
+</div>
+
 
 <div class="table_qlpbt">
   <table class="styled-table">

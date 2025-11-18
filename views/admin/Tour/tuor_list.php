@@ -1,5 +1,5 @@
 <?php
-require_once "header.php";
+require_once "views/admin/layout/header.php";
 ?>
 <div class="chart">
 <h3>Quản Lý Tuor</h3>
@@ -48,5 +48,5 @@ require_once "header.php";
             </table>
           </div>
 <?php
-require_once "footer.php";
+require_once "views/admin/layout/footer.php";
 ?>
