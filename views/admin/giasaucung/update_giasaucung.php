@@ -111,39 +111,30 @@
 
   function layGia(item) {
       if (!item) return 0;
-
-      // Nếu có giá trị bị TĂNG
       if (item.tang !== null && item.tang !== undefined && item.tang !== "") {
-          return Number(item.tang); // cộng
+          return Number(item.tang); 
       }
-
-      // Nếu có GIẢM
       if (item.giam !== null && item.giam !== undefined && item.giam !== "") {
-          return Number(item.giam) * -1; // trừ
+          return Number(item.giam) * -1; 
       }
       if(item.price){
         return Number(item.price);
       }
-
       return 0;
   }
 
   function tinhTong() {
       let tong = 0;
 
-      // Phiên bản
       let pb = arrPhienBan.find(i => i.id == selectPhienBan.value);
       tong += layGia(pb);
 
-      // Đối tượng
       let dt = arrDoituong.find(i => i.id == selectDoituong.value);
       tong += layGia(dt);
 
-      // Thời điểm
       let td = arrThoidiem.find(i => i.id == selectThoidiem.value);
       tong += layGia(td);
 
-      // Dịch vụ kèm theo
       let dv = arrDichvu.find(i => i.id == selectDichvu.value);
       tong += layGia(dv);
 
@@ -152,11 +143,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     tinhTong(); 
 });
-
-  [selectPhienBan, selectDoituong, selectThoidiem, selectDichvu].forEach(s => {
+[selectPhienBan, selectDoituong, selectThoidiem, selectDichvu].forEach(s => {
       s.addEventListener("change", tinhTong);
   });
-      
     </script>
   </body>
 </html>
