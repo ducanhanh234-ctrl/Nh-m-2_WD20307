@@ -18,6 +18,7 @@ require_once "views/admin/layout/header.php";
                   <th>chinhsach_tuor_id</th>
                   <th>nhacungcap_id</th>
                   <th>price</th>
+                  <th>price sau cùng</th>
                   <th>thoigian</th>
                   <th>phuongtien</th>
                   <th>khoihanh</th>
@@ -33,10 +34,17 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->id?></td>
                   <td><?=$a->name?></td>
                   <td><?=$a->loaipb_name?></td>
-                  <td><img src="<?= $a->anh_tuor_name?>" alt="" wifth="100px"></td>
+                  <td><img src="<?= $a->anh_tuor_name?>" alt="" wifth="10px"></td>
                   <td><?=$a->chinhsach_tuor_name?></td>
                   <td><?=$a->nhacungcap_name?></td>
-                  <td><?=$a->price?></td>
+                  <td><?= number_format($a->price)?></td>
+                  <td><?php 
+                  foreach($arr_gia as $b){
+                    if($b->phienban_id == $a->id){
+                    echo number_format($b->tong_gia) ."VND<br>";
+                  }
+                  }
+                  ?></td>
                   <td><?=$a->thoigian?></td>
                   <td><?=$a->phuongtien?></td>
                   <td><?=$a->khoihanh?></td>
