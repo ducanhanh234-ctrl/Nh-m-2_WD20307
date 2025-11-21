@@ -4,7 +4,10 @@
 
 <div class="container" style="padding:16px">
     <h2>Danh sách HDV hiện có</h2>
-
+<div class="add-booking-header">
+    <a class="phanphong_style_btn" href="?action=manageBookings">← Quay lại</a>
+  </div>
+  
     <?php if (!empty($usersBooking) && is_array($usersBooking)): ?>
         <table class="styled-table" style="width:100%; margin-top:12px">
             <thead>

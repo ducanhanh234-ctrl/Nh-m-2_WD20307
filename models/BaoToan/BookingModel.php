@@ -134,14 +134,9 @@ class BookingModel extends BaseModel {
 
     // Gán HDV cho booking (nếu cột hdv_id tồn tại)
     public function assignHdv($bookingId, $hdvId) {
-        try {
-            $sql = "UPDATE `booking` SET `hdv_id` = :hdv WHERE `id` = :id";
-            $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute([':hdv' => $hdvId, ':id' => $bookingId]);
-        } catch (\PDOException $e) {
-            // Nếu cột hdv_id không tồn tại hoặc lỗi khác, trả về false
-            return false;
-        }
+        $sql = "UPDATE `booking` SET `hdv_id` = :hdv WHERE `id` = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([':hdv' => $hdvId, ':id' => $bookingId]);
     }
 
 }
