@@ -74,5 +74,8 @@ class UsersQuery extends BaseModel {
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
+
+    // Bên Booking
+    
 }
 ?>
