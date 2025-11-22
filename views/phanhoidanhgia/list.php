@@ -11,7 +11,7 @@ require_once "views/admin/header.php";
     .btn { padding: 5px 10px; text-decoration: none; display: inline-block; margin-right: 10px; }
 </style>
 
-<h2>Danh sách phản hồi đánh giá</h2>
+<h1>Danh sách phản hồi đánh giá</h1>
 <div class="table_qlpbt">
     <a class="btn" href="index.php?action=phanhoi-create">Thêm mới phản hồi</a>
     <br><br>

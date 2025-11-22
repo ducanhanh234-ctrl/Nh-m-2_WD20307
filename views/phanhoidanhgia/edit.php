@@ -11,7 +11,7 @@ require_once "views/admin/header.php";
     a.cancel-btn { margin-left: 10px; color: #555; text-decoration: none; font-size: 14px; }
 </style>
 
-<h2>Sửa phản hồi</h2>
+<h1>Sửa phản hồi</h1>
 
 <form action="index.php?action=phanhoi-update&id=<?= $feedback['id'] ?>" method="POST">
 

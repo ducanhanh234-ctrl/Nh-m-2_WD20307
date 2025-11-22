@@ -10,9 +10,9 @@ require_once "views/admin/header.php";
     button:hover { background-color: #007acc; }
 </style>
 
-<h2>Thêm phản hồi mới</h2>
+<h1>Thêm phản hồi mới</h1>
 
-<h2>Thêm phản hồi đánh giá</h2>
+<h1>Thêm phản hồi đánh giá</h1>
 
 <form action="index.php?action=phanhoi-store" method="POST">
 

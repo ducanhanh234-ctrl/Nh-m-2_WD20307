@@ -140,5 +140,6 @@ class QHController
         header("Location: index.php?action=listUsers");
         exit;
     }
+    public function test01(){}
 }
 ?>
