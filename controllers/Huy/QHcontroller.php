@@ -15,14 +15,14 @@ require_once './models/Huy/UsersQuery.php';
     public function listUsers()
     {
         $users = $this->userQuery->getAll();
-        require './views/User/ListUser.php';
+        require './views/admin/User/ListUser.php';
     }
 
     // Hiển thị form thêm mới
     public function createUsers()
     {
         $loaiHDV = $this->userQuery->getLoaiHDV();
-        require './views/User/CreateUser.php';
+        require './views/admin/User/CreateUser.php';
 
     }
 
@@ -82,7 +82,7 @@ require_once './models/Huy/UsersQuery.php';
         $user = $this->userQuery->getById($id);
 
         $loaiHDV = $this->userQuery->getLoaiHDV();
-        require './views/User/EditUser.php';
+        require './views/admin/User/EditUser.php';
 
     }
 

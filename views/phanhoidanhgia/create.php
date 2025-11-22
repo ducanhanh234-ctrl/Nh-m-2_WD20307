@@ -1,5 +1,5 @@
 <?php
-require_once "views/admin/header.php";
+require_once "views/admin/layout/header.php";
 ?>
 
 <style>
@@ -68,5 +68,5 @@ require_once "views/admin/header.php";
 
 
 <?php
-require_once "views/admin/footer.php";
+require_once "views/admin/layout/footer.php";
 ?>

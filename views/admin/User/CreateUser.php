@@ -1,15 +1,6 @@
-<<<<<<< HEAD:views/admin/User/CreateUser.php
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Thêm nhân sự</title>
-    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css">
-</head>
-<body>
-=======
-<?php require_once "views/admin/header.php"; ?>
->>>>>>> quang-huy:views/User/CreateUser.php
+
+<?php require_once "views/admin/layout/header.php"; ?>
+
 
 <style>
 .form-box {
@@ -85,4 +76,4 @@ img.preview { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; 
 </form>
 </div>
 
-<?php require_once "views/admin/footer.php"; ?>
+<?php require_once "views/admin/layout/footer.php"; ?>

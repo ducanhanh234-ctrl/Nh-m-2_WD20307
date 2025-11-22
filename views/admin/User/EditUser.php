@@ -1,13 +1,6 @@
-<<<<<<< HEAD:views/admin/User/EditUser.php
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Sửa nhân sự</title>
-    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css">
-=======
-<?php require_once "views/admin/header.php"; ?>
->>>>>>> quang-huy:views/User/EditUser.php
+
+<?php require_once "views/admin/layout/header.php"; ?>
+
 
 <style>
     .form-box {
@@ -124,4 +117,4 @@
 
 </div>
 
-<?php require_once "views/admin/footer.php"; ?>
+<?php require_once "views/admin/layout/footer.php"; ?>

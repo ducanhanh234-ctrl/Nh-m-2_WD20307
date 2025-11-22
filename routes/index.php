@@ -110,7 +110,7 @@ match ($action) {
     'gia-update' => (new giacontro)->giasaucung_update($id),
     'gia-delete' => (new giacontro)->giasaucung_delete($id),
 
-};
+
 
 
     
