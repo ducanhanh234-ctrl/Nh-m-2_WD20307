@@ -19,7 +19,14 @@ class BTcontroller {
 
     public function deleteBooking() {
         $id = $_GET['id'];
-        $this -> model -> deleteBooking($id);
+        $result = $this -> model -> deleteBooking($id);
+        
+        if ($result) {
+            $_SESSION['success_message'] = "Xóa booking thành công!";
+        } else {
+            $_SESSION['error_message'] = "Không thể xóa booking này vì khách hàng đã thanh toán!";
+        }
+        
         header('location: index.php?action=manageBookings');
     }
 
@@ -64,7 +71,25 @@ class BTcontroller {
         $ngaykhoi_hanh = $_POST['ngaykhoi_hanh']; 
         $songay = $_POST['songay']; 
         $yeucaudacbiet = $_POST['yeucaudacbiet']; 
-        $this -> model -> addNewBooking($tenkhach,$sdt,$email,$cccd,$tuor_id,$soluong_nguoi,$gioitinh,$ngaykhoi_hanh,$songay,$yeucaudacbiet);
+        //! Thêm booking mới
+        $booking_id = $this->model->addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet);
+
+
+        $danhsach_khach = $_POST['danhsach_khach'];
+
+        if(!empty($danhsach_khach)) {
+            $danhsach_khach = json_decode($danhsach_khach, true);
+
+            foreach($danhsach_khach as $khach) {
+                $hovaten = $khach['name'];
+                $ngaysinh = $khach['birthday'];
+                $gioitinh = $khach['gender'];
+                $cccd = $khach['cccd'];
+                $sdt = $khach['phone'];
+
+                $this -> model -> addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt);
+            }
+        }
         header('location: index.php?action=manageBookings');
     }
     

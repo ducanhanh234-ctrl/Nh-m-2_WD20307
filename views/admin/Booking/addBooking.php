@@ -105,27 +105,97 @@
         </div>
 
 
-        <!-- Section 3: Thông tin bổ sung -->
+        <!-- Section 3: Danh sách khách hàng -->
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section3">
-              <span class="fw-bold me-2">3.</span> Thông tin bổ sung
+              <span class="fw-bold me-2">3.</span> Danh sách khách hàng tham gia
             </button>
           </h2>
           <div id="section3" class="accordion-collapse collapse">
             <div class="accordion-body">
+              <h5 class="mb-3">Danh sách khách đi tour</h5>
+
+              <!-- Form nhập thông tin khách - Compact version -->
+              <div class="customer-input-form mb-4 p-3 border rounded">
+                <div class="row g-2">
+                  <div class="col-md-2">
+                    <label class="form-label form-label-sm">Họ và tên:</label>
+                    <input type="text" id="c_name" class="form-control form-control-sm" placeholder="Nhập tên khách">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label form-label-sm">Ngày sinh:</label>
+                    <input type="date" id="c_birthday" class="form-control form-control-sm">
+                  </div>
+                  <div class="col-md-1">
+                    <label class="form-label form-label-sm">Giới tính:</label>
+                    <select id="c_gender" class="form-select form-select-sm">
+                      <option value="">-Chọn Giới Tính-</option>
+                      <option value="Nam">Nam</option>
+                      <option value="Nữ">Nữ</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label form-label-sm">Số CMND/CCCD:</label>
+                    <input type="text" id="c_cccd" class="form-control form-control-sm" placeholder="Số CMND/CCCD">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label form-label-sm">Số điện thoại:</label>
+                    <input type="text" id="c_phone" class="form-control form-control-sm" placeholder="Số ĐT">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label form-label-sm">Ghi chú:</label>
+                    <input type="text" id="c_note" class="form-control form-control-sm" placeholder="Ghi chú">
+                  </div>
+                  <div class="col-md-1 d-flex align-items-end">
+                    <button type="button" onclick="addCustomer()" class="btn btn-primary btn-sm w-100">+ Thêm</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hiển thị danh sách khách tạm -->
+              <h6 class="mb-2">Danh sách tạm thời:</h6>
+              <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                  <thead class="table-light">
+                    <tr>
+                      <th style="width: 40px;">STT</th>
+                      <th>Họ và Tên</th>
+                      <th style="width: 120px;">Ngày sinh</th>
+                      <th style="width: 80px;">Giới tính</th>
+                      <th style="width: 130px;">Số CMND/CCCD</th>
+                      <th style="width: 120px;">Số điện thoại</th>
+                      <th>Ghi chú</th>
+                      <th style="width: 100px;" class="text-center">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customerTable">
+                    <!-- JS render vào đây -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Yêu cầu đặc biệt -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#section4">
+              <span class="fw-bold me-2">4.</span> Yêu cầu đặc biệt
+            </button>
+          </h2>
+          <div id="section4" class="accordion-collapse collapse">
+            <div class="accordion-body">
               <div class="row g-3">
                 <div class="col-12">
-                  <label class="form-label">Danh sách khách hàng</label>
-                  <textarea name="danhsachkhachhang" class="form-control" rows="4" placeholder="Danh sách những người đi tour (Nếu có)"></textarea>
-                </div>
-                <div class="col-12">
                   <label class="form-label">Yêu Cầu Đặc Biệt</label>
-                  <textarea name="yeucaudacbiet" class="form-control" rows="4" placeholder="Các bệnh lí, dị ứng, v.v"></textarea>
+                  <textarea name="yeucaudacbiet" class="form-control" rows="4" placeholder="Các bệnh lí, dị ứng, yêu cầu về phòng, ăn uống, v.v"></textarea>
                 </div>
               </div>
             </div>
           </div>
+          <input type="hidden" name="danhsach_khach" id="danhsach_khach" value="">
         </div>
 
       </div>
@@ -145,6 +215,75 @@ document.getElementById('tourSelect').addEventListener('change', function() {
   const phuongtien = selectedOption.getAttribute('data-phuongtien');
   document.getElementById('songay').value = thoigian || '';
   document.getElementById('phuongtien').value = phuongtien || '';
+});
+
+// Quản lý danh sách khách hàng
+const listCustomer = [];
+
+function addCustomer() {
+  const name = document.getElementById('c_name').value;
+  const birthday = document.getElementById('c_birthday').value;
+  const gender = document.getElementById('c_gender').value;
+  const cccd = document.getElementById('c_cccd').value;
+  const phone = document.getElementById('c_phone').value;
+  const note = document.getElementById('c_note').value;
+  
+  // Kiểm tra validation cơ bản
+  if (!name.trim()) {
+    alert('Vui lòng nhập họ và tên!');
+    return;
+  }
+  
+  // Thêm vào danh sách
+  listCustomer.push({name, birthday, gender, cccd, phone, note});
+  
+  // Render lại bảng
+  renderCustomer();
+  
+  // Clear form
+  document.getElementById('c_name').value = '';
+  document.getElementById('c_birthday').value = '';
+  document.getElementById('c_gender').value = '';
+  document.getElementById('c_cccd').value = '';
+  document.getElementById('c_phone').value = '';
+  document.getElementById('c_note').value = '';
+}
+
+function renderCustomer() {
+  const tbody = document.getElementById('customerTable');
+  tbody.innerHTML = '';
+  
+  listCustomer.forEach((customer, index) => {
+    const row = `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${customer.name}</td>
+        <td>${customer.birthday || '-'}</td>
+        <td>${customer.gender || '-'}</td>
+        <td>${customer.cccd || '-'}</td>
+        <td>${customer.phone || '-'}</td>
+        <td>${customer.note || 'Ko có ghi chú'}</td>
+        <td class="text-center">
+          <button type="button" class="btn btn-danger btn-sm" onclick="deleteCustomer(${index})">Xóa</button>
+        </td>
+      </tr>
+    `;
+    tbody.innerHTML += row;
+  });
+}
+
+
+function deleteCustomer(index) {
+  if (confirm('Bạn có chắc muốn xóa khách này?')) {
+    listCustomer.splice(index, 1);
+    renderCustomer();
+  }
+}
+
+
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  const jsonData = JSON.stringify(listCustomer);
+  document.getElementById('danhsach_khach').value = jsonData;
 });
 </script>
 

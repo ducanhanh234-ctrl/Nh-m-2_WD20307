@@ -94,7 +94,7 @@ a {
 }
 /* Content */
 .content {
-  /* min-height: 100vh; */
+  min-height: 100vh;
   padding: 24px;
   background-color: rgb(236, 236, 236);
   width: 100%;

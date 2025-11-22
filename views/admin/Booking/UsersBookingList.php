@@ -30,22 +30,22 @@
             <tbody>
                 <?php foreach ($usersBooking as $u): ?>
                     <tr>
-                        <td><?= htmlspecialchars($u['id'] ?? '') ?></td>
+                        <td><?= $u['id'] ?? '' ?></td>
                         <td style="width:80px">
                             <?php if (!empty($u['avatar'])): ?>
-                                <img src="<?= htmlspecialchars($u['avatar']) ?>" alt="avatar" style="width:64px;height:64px;object-fit:cover;border-radius:6px">
+                                <img src="<?= $u['avatar'] ?>" alt="avatar" style="width:64px;height:64px;object-fit:cover;border-radius:6px">
                             <?php endif; ?>
                         </td>
-                        <td><?= htmlspecialchars($u['name'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['ngaysinh'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['sdt'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['email'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['loaihdv_name'] ?? $u['loaihdv_id'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['kinhnghiem'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['lichsudantuor'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['danhgianangluc'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['suckhoe'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($u['chucvu'] ?? '') ?></td>
+                        <td><?= $u['name'] ?? '' ?></td>
+                        <td><?= $u['ngaysinh'] ?? '' ?></td>
+                        <td><?= $u['sdt'] ?? '' ?></td>
+                        <td><?= $u['email'] ?? '' ?></td>
+                        <td><?= $u['loaihdv_name'] ?? $u['loaihdv_id'] ?? '' ?></td>
+                        <td><?= $u['kinhnghiem'] ?? '' ?></td>
+                        <td><?= $u['lichsudantuor'] ?? '' ?></td>
+                        <td><?= $u['danhgianangluc'] ?? '' ?></td>
+                        <td><?= $u['suckhoe'] ?? '' ?></td>
+                        <td><?= $u['chucvu'] ?? '' ?></td>
                         <td>
                             <?php // booking id passed in URL as id ?>
                             <?php $booking_id = $_GET['id'] ?? '';?>

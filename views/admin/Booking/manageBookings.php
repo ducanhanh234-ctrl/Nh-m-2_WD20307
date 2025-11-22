@@ -9,6 +9,20 @@ require_once "views/admin/layout/header.php";
         <a class="sua_style_btn" href="?action=quanlitrangthai">Quản lí trạng thái</a>
     </div>
 
+    <?php if (isset($_SESSION['error_message'])): ?>
+        <div class="alert alert-error" style="background-color: #f8d7da; color: #721c24; padding: 15px; margin: 15px 0; border-radius: 5px; border: 1px solid #f5c6cb;">
+            <?= htmlspecialchars($_SESSION['error_message']) ?>
+            <?php unset($_SESSION['error_message']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; margin: 15px 0; border-radius: 5px; border: 1px solid #c3e6cb;">
+            <?= htmlspecialchars($_SESSION['success_message']) ?>
+            <?php unset($_SESSION['success_message']); ?>
+        </div>
+    <?php endif; ?>
+
     <?php if (!empty($bookings) && is_array($bookings)): ?>
         <div class="table_qlpbt">
         <table class="styled-table">
