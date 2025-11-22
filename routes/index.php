@@ -11,7 +11,11 @@
 // http://localhost/Nh%C3%B3m%202_WD20307/?action=index
 
 
+
 require_once './controllers/Huy/QHcontroller.php';
+require_once './controllers/Huy/PhanhoiController.php';
+
+
 
 
 $action = $_GET['action'] ?? '/';
@@ -76,7 +80,10 @@ match ($action) {
     'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
     'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
 
+
     
+
+
 
     // Quản Lý Users
     'listUsers' => (new QHController)->listUsers(),
@@ -85,6 +92,7 @@ match ($action) {
     'editUsers' => (new QHController)->editUsers($id),
     'updateUsers' => (new QHController)->updateUsers($id),
     'deleteUsers' => (new QHController)->deleteUsers($id),
+
 
 
   
@@ -103,6 +111,25 @@ match ($action) {
     'gia-delete' => (new giacontro)->giasaucung_delete($id),
 
 };
+
+
+    
+    // Quản lý phản hồi đánh giá
+    'phanhoi-list'   => (new PhanHoiController())->index(),
+    'phanhoi-create' => (new PhanHoiController())->create(),
+    'phanhoi-store'  => (new PhanHoiController())->store(),
+    'phanhoi-edit'   => ($id > 0) ? (new PhanHoiController())->edit($id) : die("ID không hợp lệ!"),
+    'phanhoi-update' => ($id > 0) ? (new PhanHoiController())->update($id) : die("ID không hợp lệ!"),
+    'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
+
+};
+    
+
+    
+
+    
+
+
 
 ?>
 
