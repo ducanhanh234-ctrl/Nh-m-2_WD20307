@@ -40,6 +40,7 @@ match ($action) {
     'addNewBooking' => (new BTcontroller) -> addNewBooking(),
     'editBooking' => (new BTcontroller) -> editBooking(),
     'editNewBooking' => (new BTcontroller) -> editNewBooking(),
+    'danhSachKhach' => (new BTcontroller) -> danhSachKhach(),
     // ! Quản lí Trạng thái Booking
     'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
     'changeStatus' => (new BTcontroller) -> changeStatus(),

@@ -41,6 +41,7 @@ require_once "views/admin/layout/header.php";
                     <th>HDV</th>
                     <th>Yêu Cầu</th>
                     <th>Trạng Thái</th>
+                    <th>Danh sách khách đi tour</th>
                     <th>Hành Động</th>
                 </tr>
             </thead>
@@ -72,6 +73,9 @@ require_once "views/admin/layout/header.php";
                         </td>
                         <td><?= $item['yeucaudacbiet'] ?? '' ?></td>
                         <td><?= $item['status_name'] ?? '' ?></td>
+                        <td>
+                            <a class="phanphong_style_btn" href="?action=danhSachKhach&id=<?= $item['id'] ?>">Xem chi tiết</a>
+                        </td>
                         <td class="action">
                             <a class="sua_style_btn cta" href="?action=editBooking&id=<?= $item['id'] ?>">Sửa</a>
                             <a class="xoa_style_btn cta" href="?action=deleteBooking&id=<?= $item['id']?>" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>

@@ -25,6 +25,13 @@ class BookingModel extends BaseModel {
         return $stmt->fetchAll();
     }
     
+    public function GetDanhSachKhach($id) {
+        $sql = "SELECT * FROM bookingchitiet WHERE booking_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     public function deleteBooking($id) {
         // Kiểm tra xem booking đã có thanh toán chưa

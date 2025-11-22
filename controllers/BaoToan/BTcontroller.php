@@ -138,4 +138,10 @@ class BTcontroller {
         exit;
     }
 
+    public function danhSachKhach() {
+        $id = $_GET['id'];
+        $booking = $this -> model -> GetDanhSachKhach($id);
+        include "views/admin/Booking/danhSachKhach.php";
+    }
+
 }
