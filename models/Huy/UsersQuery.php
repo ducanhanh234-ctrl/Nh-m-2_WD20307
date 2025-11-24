@@ -15,21 +15,23 @@ class UsersQuery extends BaseModel {
     public $chungchi;
     public $ngonngu;
     public $kinhnghiem;
-    public $lichsudantuor; // thống nhất tên
+    public $lichsudantuor; 
     public $danhgianangluc;
     public $suckhoe;
     public $loaihdv_id;
     public $chucv;
 
+    // Lấy tất cả user, join với loai_hdv
     public function getAll() {
-       
-        $sql = "SELECT nhansu.*, loai_hdv.name AS loaihdv_name FROM nhansu
+        $sql = "SELECT nhansu.*, loai_hdv.name AS loaihdv_name 
+                FROM nhansu
                 LEFT JOIN loai_hdv ON nhansu.loaihdv_id = loai_hdv.id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Lấy user theo ID
     public function getById($id) {
         $sql = "SELECT * FROM nhansu WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
@@ -37,42 +39,56 @@ class UsersQuery extends BaseModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Lấy danh sách loại HDV
+    public function getLoaiHDV() {
+        $sql = "SELECT * FROM loai_hdv";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Thêm user mới
     public function insert($data) {
         $sql = "INSERT INTO nhansu 
-        (name, ngaysinh, avatar, sdt, email, chungchi, ngonngu, kinhnghiem, 
-         lichsudantuor, danhgianangluc, suckhoe, loaihdv_id, chucvu)
-        VALUES 
-        (:name, :ngaysinh, :avatar, :sdt, :email, :chungchi, :ngonngu, :kinhnghiem,
-         :lichsudantuor, :danhgianangluc, :suckhoe, :loaihdv_id, :chucvu)";
+            (name, ngaysinh, avatar, sdt, email, chungchi, ngonngu, kinhnghiem, 
+             lichsudantuor, danhgianangluc, suckhoe, loaihdv_id, chucvu)
+            VALUES 
+            (:name, :ngaysinh, :avatar, :sdt, :email, :chungchi, :ngonngu, :kinhnghiem,
+             :lichsudantuor, :danhgianangluc, :suckhoe, :loaihdv_id, :chucvu)";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($data);
     }
 
+    // Cập nhật user
     public function update($id, $data) {
         $data['id'] = $id;
         $sql = "UPDATE nhansu SET 
-                name=:name, 
-                ngaysinh=:ngaysinh,
-                avatar=:avatar,
-                sdt=:sdt,
-                email=:email,
-                chungchi=:chungchi,
-                ngonngu=:ngonngu,
-                kinhnghiem=:kinhnghiem,
-                lichsudantuor=:lichsudantuor,
-                danhgianangluc=:danhgianangluc,
-                suckhoe=:suckhoe,
-                loaihdv_id=:loaihdv_id,
-                chucvu=:chucvu
+                    name=:name, 
+                    ngaysinh=:ngaysinh,
+                    avatar=:avatar,
+                    sdt=:sdt,
+                    email=:email,
+                    chungchi=:chungchi,
+                    ngonngu=:ngonngu,
+                    kinhnghiem=:kinhnghiem,
+                    lichsudantuor=:lichsudantuor,
+                    danhgianangluc=:danhgianangluc,
+                    suckhoe=:suckhoe,
+                    loaihdv_id=:loaihdv_id,
+                    chucvu=:chucvu
                 WHERE id=:id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($data);
     }
 
+    // Xóa user
     public function delete($id) {
         $sql = "DELETE FROM nhansu WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
+
+    public function test01(){}
+
 }
 ?>

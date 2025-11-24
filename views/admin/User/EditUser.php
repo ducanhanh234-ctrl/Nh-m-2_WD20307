@@ -1,58 +1,120 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Sửa nhân sự</title>
-    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css">
+
+<?php require_once "views/admin/layout/header.php"; ?>
 
 
-</head>
-<body>
+<style>
+    .form-box {
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        max-width: 700px;
+    }
 
-<h2 style="text-align: center;">Sửa nhân sự</h2>
+    label {
+        font-weight: 500;
+        margin-top: 10px;
+        display: block;
+    }
 
-<form action="?action=updateUsers&id=<?= $user['id'] ?>" method="POST">
-    <label>Họ tên:</label><br>
-    <input type="text" name="name" value="<?= $user['name'] ?>"><br><br>
+    input[type="text"],
+    input[type="date"],
+    input[type="file"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-    <label>Ngày sinh:</label><br>
-    <input type="date" name="ngaysinh" value="<?= $user['ngaysinh'] ?>"><br><br>
+    img.preview {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
 
-    <label>Avatar (URL):</label><br>
-    <input type="text" name="avatar" value="<?= $user['avatar'] ?>"><br><br>
+    .btn {
+        padding: 6px 12px;
+        margin-top: 15px;
+        background: #0099ff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+    }
 
-    <label>Số điện thoại:</label><br>
-    <input type="text" name="sdt" value="<?= $user['sdt'] ?>"><br><br>
+    .btn-red {
+        background: #e53935;
+    }
+</style>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" value="<?= $user['email'] ?>"><br><br>
+<h2>Sửa thông tin nhân sự</h2>
 
-    <label>Chứng chỉ:</label><br>
-    <input type="text" name="chungchi" value="<?= $user['chungchi'] ?>"><br><br>
+<div class="form-box">
 
-    <label>Ngôn ngữ:</label><br>
-    <input type="text" name="ngonngu" value="<?= $user['ngonngu'] ?>"><br><br>
+    <form action="?action=updateUsers&id=<?= $user['id'] ?>" method="POST" enctype="multipart/form-data">
 
-    <label>Kinh nghiệm:</label><br>
-    <textarea name="kinhnghiem"><?= $user['kinhnghiem'] ?></textarea><br><br>
+        <label>Họ tên:</label>
+        <input type="text" name="name" value="<?= $user['name'] ?>" required>
 
-    <label>Lịch sử dẫn tour:</label><br>
-    <textarea name="lichsudantuor"><?= $user['lichsudantuor'] ?></textarea><br><br>
+        <label>Ngày sinh:</label>
+        <input type="date" name="ngaysinh" value="<?= $user['ngaysinh'] ?>" required>
 
-    <label>Đánh giá năng lực:</label><br>
-    <textarea name="danhgianangluc"><?= $user['danhgianangluc'] ?></textarea><br><br>
+        <label>Avatar:</label>
+        <input type="file" name="avatar">
+        <?php if (!empty($user['avatar'])): ?>
+            <img src="<?= $user['avatar'] ?>" class="preview">
+        <?php endif; ?>
 
-    <label>Sức khỏe:</label><br>
-    <textarea name="suckhoe"><?= $user['suckhoe'] ?></textarea><br><br>
+        <label>SĐT:</label>
+        <input type="text" name="sdt" value="<?= $user['sdt'] ?>">
 
-    <label>Loại HDV (ID):</label><br>
-    <input type="number" name="loaihdv_id" value="<?= $user['loaihdv_id'] ?>"><br><br>
+        <label>Email:</label>
+        <input type="text" name="email" value="<?= $user['email'] ?>">
 
-    <label>Chức vụ:</label><br>
-    <input type="text" name="chucvu" value="<?= $user['chucvu'] ?>"><br><br>
+        <label>Chứng chỉ (ảnh):</label>
+        <input type="file" name="chungchi">
+        <?php if (!empty($user['chungchi'])): ?>
+            <img src="<?= $user['chungchi'] ?>" class="preview">
+        <?php endif; ?>
 
-    <button class="btn" type="submit">Cập nhật</button>
-</form>
+        <label>Ngôn ngữ:</label>
+        <input type="text" name="ngonngu" value="<?= $user['ngonngu'] ?>">
 
-</body>
-</html>
+        <label>Kinh nghiệm:</label>
+        <textarea name="kinhnghiem" rows="3"><?= $user['kinhnghiem'] ?></textarea>
+
+        <label>Lịch sử dẫn tour:</label>
+        <textarea name="lichsudantuor" rows="3"><?= $user['lichsudantuor'] ?></textarea>
+
+        <label>Đánh giá năng lực:</label>
+        <textarea name="danhgianangluc" rows="3"><?= $user['danhgianangluc'] ?></textarea>
+
+        <label>Sức khoẻ:</label>
+        <input type="text" name="suckhoe" value="<?= $user['suckhoe'] ?>">
+
+        <label>Loại HDV:</label>
+        <select name="loaihdv_id">
+            <?php foreach ($loaiHDV as $item): ?>
+                <option value="<?= $item['id'] ?>" 
+                    <?= ($item['id'] == $user['loaihdv_id']) ? 'selected' : '' ?>>
+                    <?= $item['name'] ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label>Chức vụ:</label>
+        <input type="text" name="chucvu" value="<?= $user['chucvu'] ?>">
+
+        <br>
+        <button type="submit" class="btn">Cập nhật</button>
+        <a href="?action=listUsers" class="btn btn-red">Huỷ</a>
+    </form>
+
+</div>
+
+<?php require_once "views/admin/layout/footer.php"; ?>
