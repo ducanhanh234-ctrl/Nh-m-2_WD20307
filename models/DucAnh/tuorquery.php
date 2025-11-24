@@ -73,7 +73,7 @@ class tuorquery extends BaseModel{
          return $data;
         }catch(Exception $e){
             echo "Lỗi<br>".$e->getMessage();
-        }
+}
     }
 }
 ?>
