@@ -1,55 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Thêm nhân sự</title>
-    <link rel="stylesheet" href="views/admin/assets/style/LayoutCSS/cssCRUD.css">
-</head>
-<body>
 
-<h2 style="text-align: center;">Thêm nhân sự</h2>
+<?php require_once "views/admin/layout/header.php"; ?>
 
-<form action="?action=storeUsers" method="POST">
-    <label>Họ tên:</label><br>
-    <input type="text" name="name" required><br><br>
 
-    <label>Ngày sinh:</label><br>
-    <input type="date" name="ngaysinh" required><br><br>
+<style>
+.form-box {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    max-width: 700px;
+}
+label { font-weight: 500; margin-top: 10px; display: block; }
+input[type="text"], input[type="date"], input[type="file"], textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+img.preview { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-top: 5px; }
+.btn { padding: 6px 12px; margin-top: 15px; background: #0099ff; color: #fff; text-decoration: none; border-radius: 4px; display: inline-block; }
+.btn-red { background: #e53935; }
+</style>
 
-    <label>Avatar (URL):</label><br>
-    <input type="text" name="avatar"><br><br>
+<h2>Thêm nhân sự mới</h2>
+<div class="form-box">
+<form action="?action=storeUsers" method="POST" enctype="multipart/form-data">
 
-    <label>Số điện thoại:</label><br>
-    <input type="text" name="sdt"><br><br>
+    <label>Họ tên:</label>
+    <input type="text" name="name" required>
 
-    <label>Email:</label><br>
-    <input type="email" name="email"><br><br>
+    <label>Ngày sinh:</label>
+    <input type="date" name="ngaysinh" required>
 
-    <label>Chứng chỉ:</label><br>
-    <input type="text" name="chungchi"><br><br>
+    <label>Avatar:</label>
+    <input type="file" name="avatar">
 
-    <label>Ngôn ngữ:</label><br>
-    <input type="text" name="ngonngu"><br><br>
+    <label>SĐT:</label>
+    <input type="text" name="sdt">
 
-    <label>Kinh nghiệm:</label><br>
-    <textarea name="kinhnghiem"></textarea><br><br>
+    <label>Email:</label>
+    <input type="text" name="email">
 
-    <label>Lịch sử dẫn tour:</label><br>
-    <textarea name="lichsudantuor"></textarea><br><br>
+    <label>Chứng chỉ (ảnh):</label>
+    <input type="file" name="chungchi">
 
-    <label>Đánh giá năng lực:</label><br>
-    <textarea name="danhgianangluc"></textarea><br><br>
+    <label>Ngôn ngữ:</label>
+    <input type="text" name="ngonngu">
 
-    <label>Sức khỏe:</label><br>
-    <textarea name="suckhoe"></textarea><br><br>
+    <label>Kinh nghiệm:</label>
+    <textarea name="kinhnghiem" rows="3"></textarea>
 
-    <label>Loại HDV (ID):</label><br>
-    <input type="number" name="loaihdv_id"><br><br>
-    <label>Chức vụ:</label><br>
-    <input type="text" name="chucvu"><br><br>
+    <label>Lịch sử dẫn tour:</label>
+    <textarea name="lichsudantuor" rows="3"></textarea>
 
-    <button class="btn" type="submit">Lưu</button>
+    <label>Đánh giá năng lực:</label>
+    <textarea name="danhgianangluc" rows="3"></textarea>
+
+    <label>Sức khoẻ:</label>
+    <input type="text" name="suckhoe">
+
+    <label>Loại HDV:</label>
+    <select name="loaihdv_id" required>
+        <?php foreach ($loaiHDV as $item): ?>
+            <option value="<?= $item['id'] ?>"><?= htmlspecialchars($item['name'], ENT_QUOTES) ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <label>Chức vụ:</label>
+    <input type="text" name="chucvu">
+
+    <br>
+    <button type="submit" class="btn">Thêm mới</button>
+    <a href="?action=listUsers" class="btn btn-red">Huỷ</a>
 </form>
+</div>
 
-</body>
-</html>
+<?php require_once "views/admin/layout/footer.php"; ?>
