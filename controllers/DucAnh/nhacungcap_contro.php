@@ -2,13 +2,16 @@
 class nhacungcap_contro{
     public $dichvu_tuorquery;
     public $nhacungcapquery;
+    public $phienbanquery;
+
     public function __construct(){
         $this->dichvu_tuorquery = new dichvu_tuorquery();
         $this->nhacungcapquery = new nhacungcapquery();
+        $this->phienbanquery = new phienbanquery();
     }
     public function nhacungcap_list(){
         $arr_nhacungcap = $this->nhacungcapquery->all();
-        include "views/admin/nhacungcap_list.php";
+        include "views/admin/NhaCungCap/nhacungcap_list.php";
     }
     public function insert_nhacungcap(){
         $arr_dichvu = $this->dichvu_tuorquery->all();
@@ -25,7 +28,7 @@ class nhacungcap_contro{
                 header("Location: ?action=nhacungcap-list");
             }
         }
-     include "views/admin/insert_nhacungcap.php";
+     include "views/admin/NhaCungCap/insert_nhacungcap.php";
     }
     public function update_nhacungcap($id){
         $arr_find = $this->nhacungcapquery->find($id);
@@ -47,9 +50,16 @@ class nhacungcap_contro{
 
             }
         }
-     include "views/admin/update_nhacungcap.php";
+     include "views/admin/NhaCungCap/update_nhacungcap.php";
     }
     public function delete_nhacungcap($id){
+        $arr_phienban = $this->phienbanquery->find($id);
+        if($arr_phienban->nhacungcap_id == $id){
+            echo "<script>
+            alert('Không Xóa Đc nhà cung cấp Này Vì trong phiên bản đã chọn ');
+            window.location.href='?action=nhacungcap-list'; 
+            </script>";
+        }
         $data = $this->nhacungcapquery->delete($id);
         if($data == 1){
             header("Location: ?action=nhacungcap-list");

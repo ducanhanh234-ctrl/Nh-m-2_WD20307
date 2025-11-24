@@ -1,7 +1,7 @@
 <?php
 require_once './models/Huy/UsersQuery.php';
 
-class QHController
+ class QHController
 {
     private $userQuery;
 
@@ -10,18 +10,20 @@ class QHController
         $this->userQuery = new UsersQuery();
     }
 
+
     // Hiển thị danh sách user
     public function listUsers()
     {
         $users = $this->userQuery->getAll();
-        require './views/User/ListUser.php';
+        require './views/admin/User/ListUser.php';
     }
 
     // Hiển thị form thêm mới
     public function createUsers()
     {
         $loaiHDV = $this->userQuery->getLoaiHDV();
-        require './views/User/CreateUser.php';
+        require './views/admin/User/CreateUser.php';
+
     }
 
     // Xử lý lưu user mới
@@ -78,8 +80,10 @@ class QHController
     public function editUsers($id)
     {
         $user = $this->userQuery->getById($id);
+
         $loaiHDV = $this->userQuery->getLoaiHDV();
-        require './views/User/EditUser.php';
+        require './views/admin/User/EditUser.php';
+
     }
 
     // Xử lý update user

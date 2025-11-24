@@ -1,11 +1,16 @@
 <?php
 require_once __DIR__ . '/../BaseModel.php';
 
+
+
 class UsersQuery extends BaseModel {
     public $name;
     public $ngaysinh;
     public $avatar;
+
     public $sdt;    
+  
+
     public $email;
     public $chungchi;
     public $ngonngu;
@@ -14,7 +19,7 @@ class UsersQuery extends BaseModel {
     public $danhgianangluc;
     public $suckhoe;
     public $loaihdv_id;
-    public $chucvu;
+    public $chucv;
 
     // Lấy tất cả user, join với loai_hdv
     public function getAll() {
@@ -82,6 +87,8 @@ class UsersQuery extends BaseModel {
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
+
     public function test01(){}
+
 }
 ?>

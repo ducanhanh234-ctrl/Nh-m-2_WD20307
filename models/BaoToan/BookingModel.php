@@ -2,57 +2,128 @@
 
 class BookingModel extends BaseModel {
     public function GetAllBooking() {
+        // Query lấy tất cả booking với thông tin liên quan
         $sql = "
             SELECT 
                 b.*,
                 t.name AS tour_name,
+                p.phuongtien AS phienban_phuongtien,
+                ncc.ten_don_vi AS nhacungcap_name,
+                h.name AS hdv_name,
                 s.name AS status_name
             FROM booking b
             LEFT JOIN tuor t ON b.tuor_id = t.id
+            LEFT JOIN phienban p ON t.phienban_id = p.id
+            LEFT JOIN nha_cung_cap ncc ON p.nhacungcap_id = ncc.id
+            LEFT JOIN nhansu h ON b.hdv_id = h.id
             LEFT JOIN trangthai_booking s ON b.trangthai_booking = s.id
             ORDER BY b.id DESC
         ";
+        
         $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    public function GetDanhSachKhach($id) {
+        $sql = "SELECT * FROM bookingchitiet WHERE booking_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     public function deleteBooking($id) {
-        $sql = "DELETE FROM booking WHERE `booking`.`id` = :id";
-        $stmt = $this -> pdo -> prepare($sql);
-        $stmt -> bindParam(':id', $id);
-        $stmt -> execute();
+        // Kiểm tra xem booking đã có thanh toán chưa
+        $sqlCheckThanhtoan = "SELECT COUNT(*) FROM thanhtoan WHERE booking_id = :id";
+        $stmtCheck = $this->pdo->prepare($sqlCheckThanhtoan);
+        $stmtCheck->bindParam(':id', $id);
+        $stmtCheck->execute();
+        $countThanhtoan = $stmtCheck->fetchColumn();
+        
+        // Nếu đã có thanh toán thì không cho phép xóa
+        if ($countThanhtoan > 0) {
+            return false;
+        }
+        
+        // Lấy danh sách bookingchitiet_id của booking này
+        $sqlGetBookingChiTiet = "SELECT id FROM bookingchitiet WHERE booking_id = :id";
+        $stmtGet = $this->pdo->prepare($sqlGetBookingChiTiet);
+        $stmtGet->bindParam(':id', $id);
+        $stmtGet->execute();
+        $bookingChiTietIds = $stmtGet->fetchAll(PDO::FETCH_COLUMN);
+        
+        // Xóa các checkin liên quan (nếu có)
+        if (!empty($bookingChiTietIds)) {
+            $placeholders = implode(',', array_fill(0, count($bookingChiTietIds), '?'));
+            $sqlCheckin = "DELETE FROM checkin WHERE bookingct_id IN ($placeholders)";
+            $stmtCheckin = $this->pdo->prepare($sqlCheckin);
+            $stmtCheckin->execute($bookingChiTietIds);
+        }
+        
+        // Xóa các bookingchitiet liên quan
+        $sql1 = "DELETE FROM bookingchitiet WHERE `booking_id` = :id";
+        $stmt1 = $this->pdo->prepare($sql1);
+        $stmt1->bindParam(':id', $id);
+        $stmt1->execute();
+        
+        // Sau đó mới xóa booking (cha)
+        $sql2 = "DELETE FROM booking WHERE `id` = :id";
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->bindParam(':id', $id);
+        $stmt2->execute();
+        
+        return true;
     }
 
     public function addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet) {
-    $sql = "INSERT INTO `booking`
-            (`tenkhach`, `soluong_nguoi`, `tuor_id`, `sdt`, `gioitinh`, `cccd`, `songay`, `yeucaudacbiet`, `email`, `trangthai_booking`, `ngaykhoi_hanh`)
-            VALUES
-            (:tenkhach, :soluong_nguoi, :tuor_id, :sdt, :gioitinh, :cccd, :songay, :yeucaudacbiet, :email, 1, :ngaykhoi_hanh)";
-    
-    $stmt = $this->pdo->prepare($sql);
+        $sql = "INSERT INTO `booking`
+                (`tenkhach`, `soluong_nguoi`, `tuor_id`, `sdt`, `gioitinh`, `cccd`, `songay`, `yeucaudacbiet`, `email`, `trangthai_booking`, `ngaykhoi_hanh`)
+                VALUES
+                (:tenkhach, :soluong_nguoi, :tuor_id, :sdt, :gioitinh, :cccd, :songay, :yeucaudacbiet, :email, 1, :ngaykhoi_hanh)";
+        
+        $stmt = $this->pdo->prepare($sql);
 
-    $stmt->bindParam(':tenkhach', $tenkhach);
-    $stmt->bindParam(':soluong_nguoi', $soluong_nguoi);
-    $stmt->bindParam(':tuor_id', $tuor_id);
-    $stmt->bindParam(':sdt', $sdt);
-    $stmt->bindParam(':gioitinh', $gioitinh);
-    $stmt->bindParam(':cccd', $cccd);
-    $stmt->bindParam(':songay', $songay);
-    $stmt->bindParam(':yeucaudacbiet', $yeucaudacbiet);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':ngaykhoi_hanh', $ngaykhoi_hanh);
+        $stmt->bindParam(':tenkhach', $tenkhach);
+        $stmt->bindParam(':soluong_nguoi', $soluong_nguoi);
+        $stmt->bindParam(':tuor_id', $tuor_id);
+        $stmt->bindParam(':sdt', $sdt);
+        $stmt->bindParam(':gioitinh', $gioitinh);
+        $stmt->bindParam(':cccd', $cccd);
+        $stmt->bindParam(':songay', $songay);
+        $stmt->bindParam(':yeucaudacbiet', $yeucaudacbiet);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':ngaykhoi_hanh', $ngaykhoi_hanh);
 
-    return $stmt->execute();
-}
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
+    }   
+
+    public function addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt) {
+        $sql = "INSERT INTO `bookingchitiet`
+                (`booking_id`, `hovaten`, `ngaysinh`, `gioitinh`, `cccd`, `sdt`)
+                VALUES
+                (:booking_id, :hovaten, :ngaysinh, :gioitinh, :cccd, :sdt)";
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        $stmt->bindParam(':booking_id', $booking_id);
+        $stmt->bindParam(':hovaten', $hovaten);
+        $stmt->bindParam(':ngaysinh', $ngaysinh);
+        $stmt->bindParam(':gioitinh', $gioitinh);
+        $stmt->bindParam(':cccd', $cccd);
+        $stmt->bindParam(':sdt', $sdt);
+        
+        return $stmt->execute();
+    }
 
     public function GetBookingId($id) {
         $sql = 'SELECT * FROM `booking` WHERE `id` = :id';
         $stmt = $this->pdo->prepare($sql);
-        $stmt -> bindParam(':id', $id);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
-    }   
+    } 
 
     public function editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet) {
         $sql = "UPDATE `booking` 
@@ -90,6 +161,13 @@ class BookingModel extends BaseModel {
         $sql = "UPDATE `booking` SET `trangthai_booking` = :status WHERE `id` = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':status' => $statusId, ':id' => $id]);
+    }
+
+    // Gán HDV cho booking (nếu cột hdv_id tồn tại)
+    public function assignHdv($bookingId, $hdvId) {
+        $sql = "UPDATE `booking` SET `hdv_id` = :hdv WHERE `id` = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([':hdv' => $hdvId, ':id' => $bookingId]);
     }
 
 }
