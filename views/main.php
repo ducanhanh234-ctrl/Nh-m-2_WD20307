@@ -20,6 +20,7 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link text-uppercase" href="<?= BASE_URL ?>"><b>Home</b></a>
+                <a class="nav-link text-uppercase" href="?action=login"><b>Đăng Nhập</b></a>
             </li>
         </ul>
     </nav>

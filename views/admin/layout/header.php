@@ -45,6 +45,10 @@ $current_page = $_GET['action'] ?? 'index';
            
           <!-- Quản lý Phản Hồi Đánh Giá -->
           <li class="<?= $current_page === 'phanhoi-list' ? "active" : '' ?>"><a href="?action=phanhoi-list">Danh sách phản hồi đánh giá</a></li>
+           <!-- Quản lý Phản Hồi Đánh Giá -->
+          <li class="<?= $current_page === 'kehoanhkh-list' ? "active" : '' ?>"><a href="?action=kehoachkh-list">Danh sách Kế Hoạch Khởi Hành</a></li>
+           <!-- Quản lý Phản Hồi Đánh Giá -->
+          <li class="<?= $current_page === 'login-list' ? "active" : '' ?>"><a href="?action=login-list">Danh sách Quản Lý Đăng Nhập</a></li>
         </ul>
       </aside>
 
@@ -54,8 +58,18 @@ $current_page = $_GET['action'] ?? 'index';
         <header class="header">
           <h2>LUXTUOR</h2>
           <div class="user-info">
-            <span>Xin chào, Admin</span>
-            <a href="login.html">Đăng Nhập</a>
+            <?php
+            if(isset($_SESSION["name"])){
+              ?>
+              <span>Xin chào, <?=$_SESSION["name"]?></span>
+            <a href="?action=logout">Đăng Xuất</a>
+              <?php
+            }else{
+              ?>
+              <a href="?action=login">Đăng Nhập</a>
+              <?php
+            }
+            ?>
           </div>
         </header>
 

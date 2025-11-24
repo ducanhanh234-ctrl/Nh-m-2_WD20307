@@ -9,16 +9,16 @@
   <body>
     <div class="login-container">
       <h2>Sign In</h2>
-      <form>
+      <form action="" method="post" enctype="multipart/form-data">
         <div class="input-group">
-          <input type="text" placeholder="Username" required />
+          <input type="text" placeholder="Username" name="tentk" required />
         </div>
         <div class="input-group">
-          <input type="password" placeholder="Password" required />
+          <input type="password" placeholder="Password" name="mk"required />
         </div>
-        <button type="submit" class="login-btn">Login</button>
+        <button type="submit" class="login-btn" name="dangnhap">Login</button>
         <div class="links">
-          <a href="logup.html">Sign Up</a>
+          <a href="?action=logup">Sign Up</a>
         </div>
       </form>
     </div>
