@@ -80,8 +80,8 @@ match ($action) {
     // Quản Lý Kế Hoạch Khởi Hành
     'kehoachkh-list' => (new HScontroller)->all_kehoachkh(),
     'kehoachkh-insert' => (new HScontroller)->insert_kehoachkh(),
-    'nhacungcap-update' => (new HScontroller)->update_nhacungcap($id),
-    'nhacungcap-delete' => (new HScontroller)->delete_nhacungcap($id),
+    'kehoachkh-update' => (new HScontroller)->update_kehoachkh($id),
+    'kehoachkh-delete' => (new HScontroller)->delete_kehoachkh($id),
 };
 
 ?>
