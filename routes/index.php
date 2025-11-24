@@ -104,8 +104,6 @@ match ($action) {
     'kehoachkh-update' => (new HScontroller)->update_kehoachkh($id),
     'kehoachkh-delete' => (new HScontroller)->delete_kehoachkh($id),
 
-    'nhacungcap-update' => (new HScontroller)->update_nhacungcap($id),
-    'nhacungcap-delete' => (new HScontroller)->delete_nhacungcap($id),
 
     // Quản Lý Giá
 
