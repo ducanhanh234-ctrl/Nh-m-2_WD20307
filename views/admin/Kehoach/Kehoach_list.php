@@ -29,8 +29,8 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->nhansu_name?></td>
                   <td><?=$a->diemtaptrung?></td>
                   <td class="action">
-                    <a href="?action=kehoachkh_update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
-                    <a href="?action=kehoachkh_delete&id=<?=$a->id?>" class="xoa_style_btn">Xóa</a>
+                    <a href="?action=kehoachkh-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
+                    <a href="?action=kehoachkh-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
                   </td>
                 </tr>
                     <?php

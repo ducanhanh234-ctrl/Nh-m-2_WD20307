@@ -100,6 +100,10 @@ match ($action) {
     // Quản Lý Kế Hoạch Khởi Hành
     'kehoachkh-list' => (new HScontroller)->all_kehoachkh(),
     'kehoachkh-insert' => (new HScontroller)->insert_kehoachkh(),
+
+    'kehoachkh-update' => (new HScontroller)->update_kehoachkh($id),
+    'kehoachkh-delete' => (new HScontroller)->delete_kehoachkh($id),
+
     'nhacungcap-update' => (new HScontroller)->update_nhacungcap($id),
     'nhacungcap-delete' => (new HScontroller)->delete_nhacungcap($id),
 
@@ -121,6 +125,7 @@ match ($action) {
     'phanhoi-edit'   => ($id > 0) ? (new PhanHoiController())->edit($id) : die("ID không hợp lệ!"),
     'phanhoi-update' => ($id > 0) ? (new PhanHoiController())->update($id) : die("ID không hợp lệ!"),
     'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
+
 
 };
     

@@ -84,32 +84,38 @@ class HScontroller{
         include "views/admin/Kehoach/Kehoachkh_insert.php";
     }
     public function update_kehoachkh($id){
+         $arr_phienban=$this->phienbanquery->all();
+        $arr_lichtrinh=$this->lichtrinhquery->all();
+        $arr_nhansu=$this->UsersQuery->getAll();
         $arr_kehoachkh = $this->kehoachkhquery->find($id);
         $kehoachkh = new kehoachkh();
         $kehoachkh->id = $id;
         if(isset($_POST["nut"])){
-            $kehoachkh->name = trim($_POST["name"]);
+            $kehoachkh->phienban_id = trim($_POST["phienban_id"]);
+            $kehoachkh->lichtrinh_id = trim($_POST["lichtrinh_id"]);
+            $kehoachkh->nhansu_id = trim($_POST["nhansu_id"]);
+            $kehoachkh->diemtaptrung = trim($_POST["diemtaptrung"]);
             $data = $this->kehoachkhquery->update($kehoachkh);
             if($data == 1){
-                header("Location: ?action=tuor_kehoachkh");
+                header("Location: ?action=kehoachkh-list");
             }else{
-                header("Location: ?action=tuor_kehoachkh");
+                header("Location: ?action=kehoachkh-list");
             }
         }
-        include "views/admin/kehoachkh/kehoachkh_update.php";
+        include "views/admin/Kehoach/Kehoachkh_update.php";
     }
     public function delete_kehoachkh($id){
         $arr_tuor=$this->tuorquery->find($id);
         if ($arr_tuor->kehoachkh_id == $id){
             echo "<script> 
             alert('Không Thể Xóa');
-            window.location.href='?action=tuor_kehoachkh';
+            window.location.href='?action=kehoachkh-list';
             </script>
             ";
         }
        $a = $this->kehoachkhquery->delete($id);
        if($a == 1){
-        header("LOcation: ?action=tuor_kehoachkh");
+        header("LOcation: ?action=kehoachkh-list");
        }else{
         echo "lỗi";
        }
