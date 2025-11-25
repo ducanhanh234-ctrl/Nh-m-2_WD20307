@@ -9,6 +9,10 @@
   <body>
     <div class="login-container">
       <h2>Sign In</h2>
+      <?php
+      if(isset($_SESSION["role"])){echo $_SESSION["role"];}
+      
+      ?>
       <form action="" method="post" enctype="multipart/form-data">
         <div class="input-group">
           <input type="text" placeholder="Username" name="tentk" required />

@@ -31,6 +31,7 @@ match ($action) {
     '/'         => (new HomeController)->index(),
     // 2 Link Trang Khung Admin
     'index'         => (new DAcontroller)->index(),
+    'index_hdv'         => (new DAcontroller)->index_hdv(),
     // 3 Link Trang Đăng Nhập
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký

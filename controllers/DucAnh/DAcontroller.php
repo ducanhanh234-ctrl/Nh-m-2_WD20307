@@ -29,6 +29,9 @@ class DAcontroller {
     public function index(){
         include "views/admin/index.php";
     }
+    public function index_hdv(){
+        include "views/HDV/index.php";
+    }
     public function login(){
          $arr = $this->loginquery->all();
         if(isset($_POST["dangnhap"])){
@@ -43,7 +46,8 @@ class DAcontroller {
                         exit();
                     }else{
                         $_SESSION['name'] = $a->tentk; 
-                        header("Location: ?action=index");
+                        $_SESSION['role'] = $a->role;
+                        header("Location: ?action=index_hdv");
                         exit();
                     }
                    
