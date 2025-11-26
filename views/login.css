@@ -5,12 +5,14 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 :root {
   --color_main: #f44336;
   --mau1: #ff9966;
   --mau2: #ffcc66;
 }
-/* Nền gradient */
+
+/* Nền */
 body {
   height: 100vh;
   display: flex;
@@ -19,85 +21,97 @@ body {
   background: linear-gradient(135deg, var(--mau1), var(--mau2));
 }
 
-/* Khung đăng nhập */
+/* Khung form */
 .login-container {
   background: #fff;
   padding: 40px 35px;
-  border-radius: 12px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 320px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Tiêu đề */
 .login-container h2 {
   color: var(--color_main);
-  font-size: 28px;
   margin-bottom: 25px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 /* Ô nhập */
 .input-group {
-  position: relative;
   margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 5px;
 }
 
-.input-group input {
+.input-group span {
+  font-size: 14px;
+  color: #444;
+}
+
+/* Style chung cho input và select */
+.input-group input,
+.input-group select {
   width: 100%;
-  padding: 12px 40px 12px 15px;
+  padding: 12px 15px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 15px;
   outline: none;
-  transition: border-color 0.3s;
+  transition: 0.25s ease;
 }
 
-.input-group input:focus {
+/* Hiệu ứng focus */
+.input-group input:focus,
+.input-group select:focus {
   border-color: var(--color_main);
+  box-shadow: 0 0 5px rgba(244, 67, 54, 0.4);
 }
 
-/* Icon con mắt */
-.eye-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+/* Input disabled */
+.input-group input:disabled {
+  background: #f2f2f2;
+  color: #555;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Select */
+.input-group select {
+  background: #fff;
   cursor: pointer;
-  font-size: 16px;
 }
 
-/* Nút đăng nhập */
+/* Button */
 .login-btn {
   width: 100%;
   padding: 12px;
-  background: var(--color_main);
   border: none;
-  color: #fff;
   border-radius: 6px;
-  font-size: 16px;
+  background: var(--color_main);
+  color: #fff;
+  font-size: 17px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .login-btn:hover {
-  background: var(--color_main);
-}
-
-/* Liên kết */
-.links {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.links a {
-  color: var(--color_main);
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.links a:hover {
-  text-decoration: underline;
+  background: #d8342c;
 }

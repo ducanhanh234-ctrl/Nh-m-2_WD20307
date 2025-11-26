@@ -31,6 +31,7 @@ match ($action) {
     '/'         => (new HomeController)->index(),
     // 2 Link Trang Khung Admin
     'index'         => (new DAcontroller)->index(),
+    'index_hdv'         => (new DAcontroller)->index_hdv(),
     // 3 Link Trang Đăng Nhập
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
@@ -104,8 +105,6 @@ match ($action) {
     'kehoachkh-update' => (new HScontroller)->update_kehoachkh($id),
     'kehoachkh-delete' => (new HScontroller)->delete_kehoachkh($id),
 
-    'nhacungcap-update' => (new HScontroller)->update_nhacungcap($id),
-    'nhacungcap-delete' => (new HScontroller)->delete_nhacungcap($id),
 
     // Quản Lý Giá
 
@@ -126,7 +125,11 @@ match ($action) {
     'phanhoi-update' => ($id > 0) ? (new PhanHoiController())->update($id) : die("ID không hợp lệ!"),
     'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
 
+    // Quản Lý đăng nhập
 
+    'login-list' => (new logincontroller)->login_all(),
+    'login-update' => (new logincontroller)->login_update($id),
+    'logout' => (new DAcontroller)->logout(),
 };
     
 
