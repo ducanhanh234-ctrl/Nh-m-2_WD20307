@@ -51,6 +51,8 @@ $current_page = $_GET['action'] ?? 'index';
           <li class="<?= $current_page === 'login-list' ? "active" : '' ?>"><a href="?action=login-list">Danh sách Quản Lý Đăng Nhập</a></li>
           <!-- Quản lý Doanh Thu -->
           <li class="<?= $current_page === 'doanhthu-list' ? "active" : '' ?>"><a href="?action=doanhthu-list">Danh sách Quản Lý Doanh Thu</a></li>
+          <!-- Quản lý Lịch Trình -->
+          <li class="<?= $current_page === 'lichtrinh-list' ? "active" : '' ?>"><a href="?action=lichtrinh-list">Danh sách Quản Lý Lịch Trình</a></li>
         </ul>
       </aside>
 

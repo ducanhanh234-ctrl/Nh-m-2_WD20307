@@ -134,6 +134,13 @@ match ($action) {
     // Quản Lý Doanh Thu
 
     'doanhthu-list' => (new doanhthucontro)->doanhthu_list(),
+
+    // Quản Lý Lịch Trình
+
+    'lichtrinh-list' => (new lichtrinhcontro)->lichtrinh_list(),
+    'lichtrinh-insert' => (new lichtrinhcontro)->lichtrinh_insert(),
+    'lichtrinh-update' => (new lichtrinhcontro)->lichtrinh_update($id),
+    'lichtrinh-delete' => (new lichtrinhcontro)->lichtrinh_delete($id),
 };
     
 

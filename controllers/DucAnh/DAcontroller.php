@@ -155,12 +155,14 @@ class DAcontroller {
     public function insert_tuor(){
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
+        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         if(isset($_POST["nut"])){
             $tuor->name = trim($_POST["name"]);
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->insert($tuor);
             if($data == 1){
                 header("Location: ?action=tuor-list");
@@ -172,6 +174,7 @@ class DAcontroller {
         $arr_find = $this->tuorquery->find($id);
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
+        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         $tuor->id = $id;
         if(isset($_POST["nut"])){
@@ -179,6 +182,7 @@ class DAcontroller {
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->update($tuor);
             if($data == 1){
                 header("Location: ?action=tuor-list");

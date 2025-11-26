@@ -26,6 +26,18 @@
         </select>
       </div>
       <div>
+        <span>Nhập Nhà Cung Cấp:</span>
+        <select name="nhacungcap_id" id="">
+          <?php
+          foreach($arr_nhacungcap as $a){
+            ?>
+          <option value="<?=$a->id?>"><?=$a->ten_don_vi?></option>
+          <?php
+          }
+          ?>
+        </select>
+      </div>
+      <div>
         <span>Nhập Mô Tả:</span>
         <input type="text" name="mota" />
       </div>
