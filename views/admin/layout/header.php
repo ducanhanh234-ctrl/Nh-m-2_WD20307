@@ -45,10 +45,12 @@ $current_page = $_GET['action'] ?? 'index';
            
           <!-- Quản lý Phản Hồi Đánh Giá -->
           <li class="<?= $current_page === 'phanhoi-list' ? "active" : '' ?>"><a href="?action=phanhoi-list">Danh sách phản hồi đánh giá</a></li>
-           <!-- Quản lý Phản Hồi Đánh Giá -->
+           <!-- Quản lý Kế Hoạch Khởi Hành -->
           <li class="<?= $current_page === 'kehoanhkh-list' ? "active" : '' ?>"><a href="?action=kehoachkh-list">Danh sách Kế Hoạch Khởi Hành</a></li>
-           <!-- Quản lý Phản Hồi Đánh Giá -->
+           <!-- Quản lý Đăng Nhập -->
           <li class="<?= $current_page === 'login-list' ? "active" : '' ?>"><a href="?action=login-list">Danh sách Quản Lý Đăng Nhập</a></li>
+          <!-- Quản lý Doanh Thu -->
+          <li class="<?= $current_page === 'doanhthu-list' ? "active" : '' ?>"><a href="?action=doanhthu-list">Danh sách Quản Lý Doanh Thu</a></li>
         </ul>
       </aside>
 

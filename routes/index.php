@@ -100,6 +100,7 @@ match ($action) {
     
     // Quản Lý Kế Hoạch Khởi Hành
     'kehoachkh-list' => (new HScontroller)->all_kehoachkh(),
+    'kehoachkh-hdv' => (new HScontroller)->kehoachkh_hdv(),
     'kehoachkh-insert' => (new HScontroller)->insert_kehoachkh(),
 
     'kehoachkh-update' => (new HScontroller)->update_kehoachkh($id),
@@ -130,6 +131,9 @@ match ($action) {
     'login-list' => (new logincontroller)->login_all(),
     'login-update' => (new logincontroller)->login_update($id),
     'logout' => (new DAcontroller)->logout(),
+    // Quản Lý Doanh Thu
+
+    'doanhthu-list' => (new doanhthucontro)->doanhthu_list(),
 };
     
 

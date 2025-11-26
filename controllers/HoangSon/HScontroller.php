@@ -66,6 +66,10 @@ class HScontroller{
         $arr_kehoachkh=$this->kehoachkhquery->all();
         include "views/admin/Kehoach/Kehoach_list.php";
     }
+    public function kehoachkh_hdv(){
+        $arr_kehoachkh=$this->kehoachkhquery->all();
+        include "views/HDV/Kehoach_list.php";
+    }
      public function insert_kehoachkh(){
         $arr_phienban=$this->phienbanquery->all();
         $arr_lichtrinh=$this->lichtrinhquery->all();
