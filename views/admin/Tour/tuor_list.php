@@ -14,6 +14,7 @@ require_once "views/admin/layout/header.php";
                   <th>danhmuc_id</th>
                   <th>mota</th>
                   <th>phienban_name</th>
+                  <th>nhacungcap_name</th>
                   <th>phienban_price</th>
                   <th>phienban_thoigian</th>
                   <th>phienban_phuongtien</th>
@@ -31,6 +32,7 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->danhmuc_name?></td>
                   <td><?=$a->mota?></td>
                   <td><?=$a->phienban_name?></td>
+                  <td><?=$a->nhacungcap_name?></td>
                   <td><?=$a->phienban_price?></td>
                   <td><?=$a->phienban_thoigian?></td>
                   <td><?=$a->phienban_phuongtien?></td>

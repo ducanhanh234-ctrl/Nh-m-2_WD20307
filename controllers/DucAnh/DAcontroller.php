@@ -10,6 +10,8 @@ class DAcontroller {
     public $danhmucquery;
     public $giasaucungquery;
     public $BookingModel;
+    public $loginquery;
+    public $UsersQuery;
     public function __construct(){
         $this->tuorquery = new tuorquery();
         $this->phienbanquery = new phienbanquery();
@@ -21,18 +23,60 @@ class DAcontroller {
         $this->danhmucquery = new danhmucquery();
         $this->giasaucungquery = new giasaucungquery();
         $this->BookingModel = new BookingModel();
+        $this->loginquery = new loginquery();
+        $this->UsersQuery = new UsersQuery();
     }
     public function index(){
         include "views/admin/index.php";
     }
+    public function index_hdv(){
+        include "views/HDV/index.php";
+    }
     public function login(){
+         $arr = $this->loginquery->all();
+        if(isset($_POST["dangnhap"])){
+            $tentk = trim($_POST["tentk"]);
+            $mk = $_POST["mk"];
+            foreach($arr as $a){
+                if($tentk == $a->tentk && $mk == $a->mk){
+                    if($a->role == "ADMIN"){
+                        $_SESSION['name'] = $a->tentk; 
+                        $_SESSION['role'] = $a->role;
+                        header("Location: ?action=index");
+                        exit();
+                    }else{
+                        $_SESSION['name'] = $a->tentk; 
+                        $_SESSION['role'] = $a->role;
+                        header("Location: ?action=index_hdv");
+                        exit();
+                    }
+                   
+                }
+            }
+        }
         include "views/login.php";
     }
     public function logup(){
+        $arr_nhansu = $this->UsersQuery->getAll();
+        $login = new login();
+        if(isset($_POST["nut"])){
+            $login->nhansu_id = trim($_POST["nhansu_id"]);
+            $login->tentk = trim($_POST["tentk"]);
+            $login->mk = trim($_POST["mk"]);
+            $data = $this->loginquery->insert($login);
+            if($data == 1){
+                header("Location: ?action=login");
+            }
+        }
         include "views/logup.php";
     }
+
     public function DashboardHDV() {
         include "views/HDV/HDV.php";
+
+    public function logout(){
+        include "views/logout.php";
+
     }
     public function tuor(){
        $arr_tuor = $this->tuorquery->all();
@@ -116,12 +160,14 @@ class DAcontroller {
     public function insert_tuor(){
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
+        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         if(isset($_POST["nut"])){
             $tuor->name = trim($_POST["name"]);
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->insert($tuor);
             if($data == 1){
                 header("Location: ?action=tuor-list");
@@ -133,6 +179,7 @@ class DAcontroller {
         $arr_find = $this->tuorquery->find($id);
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
+        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         $tuor->id = $id;
         if(isset($_POST["nut"])){
@@ -140,6 +187,7 @@ class DAcontroller {
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
+            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->update($tuor);
             if($data == 1){
                 header("Location: ?action=tuor-list");

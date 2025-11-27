@@ -14,6 +14,7 @@ class PhanHoiModel {
                 p.noidung,
                 p.muc_do_hai_long,
                 p.ngay_tao,
+                p.nguoi_gui,
                 t.name AS ten_tour,
                 d.loai_dichvu_tuor AS ten_dichvu,
                 n.ten_don_vi AS ten_nhacungcap
@@ -57,22 +58,23 @@ class PhanHoiModel {
     // Thêm phản hồi
     public function insert($data) {
         $sql = "INSERT INTO phanhoidanhgia 
-                (noidung, tuor_id, dichvu_tuor_id, nhacungcap_id, muc_do_hai_long, ngay_tao)
-                VALUES (?, ?, ?, ?, ?, NOW())";
+                (noidung, tuor_id, dichvu_tuor_id, nhacungcap_id, muc_do_hai_long, ngay_tao, nguoi_gui)
+                VALUES (?, ?, ?, ?, ?, NOW(),?)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             $data['noidung'],
             $data['tuor_id'],
             $data['dichvu_tuor_id'],
             $data['nhacungcap_id'],
-            $data['muc_do_hai_long']
+            $data['muc_do_hai_long'],
+            $data['nguoi_gui'],
         ]);
     }
 
     // Cập nhật phản hồi
     public function update($id, $data) {
         $sql = "UPDATE phanhoidanhgia 
-                SET noidung = ?, tuor_id = ?, dichvu_tuor_id = ?, nhacungcap_id = ?, muc_do_hai_long = ? 
+                SET noidung = ?, tuor_id = ?, dichvu_tuor_id = ?, nhacungcap_id = ?, muc_do_hai_long = ?, nguoi_gui = ?
                 WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
@@ -81,6 +83,7 @@ class PhanHoiModel {
             $data['dichvu_tuor_id'],
             $data['nhacungcap_id'],
             $data['muc_do_hai_long'],
+            $data['nguoi_gui'],
             $id
         ]);
     }

@@ -2,7 +2,18 @@
 class kehoachkhquery extends BaseModel{
     public function all(){
         try{
-          $sql = "SELECT kẹhoachkhoihanh.*, phienban.name as phienban_name, lichtrinh.ngay as lichtrinh_name, nhansu.name as nhansu_name FROM kẹhoachkhoihanh JOIN phienban ON kẹhoachkhoihanh.phienban_id = phienban.id JOIN lichtrinh ON kẹhoachkhoihanh.lichtrinh_id = lichtrinh.id JOIN nhansu ON kẹhoachkhoihanh.nhansu_id = nhansu.id;";
+          $sql = "SELECT kẹhoachkhoihanh.*, 
+phienban.name as phienban_name, 
+lichtrinh.ngay as lichtrinh_name, 
+lichtrinh.diadiem as lichtrinh_diadiem, 
+lichtrinh.hoatdongcuthe as lichtrinh_hoatdong, 
+tuor.name as tuor_name,
+nhansu.name as nhansu_name 
+FROM kẹhoachkhoihanh 
+JOIN phienban ON kẹhoachkhoihanh.phienban_id = phienban.id 
+JOIN lichtrinh ON kẹhoachkhoihanh.lichtrinh_id = lichtrinh.id 
+JOIN tuor ON lichtrinh.tuor_id = tuor.id 
+JOIN nhansu ON kẹhoachkhoihanh.nhansu_id = nhansu.id;";
         $data = $this->pdo->query($sql)->fetchAll();
         $arr = [];
         foreach($data as $a){
@@ -10,8 +21,11 @@ class kehoachkhquery extends BaseModel{
             $kehoachkh->id = $a["id"];
             $kehoachkh->phienban_id = $a["phienban_id"];
             $kehoachkh->phienban_name = $a["phienban_name"];
+            $kehoachkh->tuor_name = $a["tuor_name"];
             $kehoachkh->lichtrinh_id = $a["lichtrinh_id"];
             $kehoachkh->lichtrinh_name = $a["lichtrinh_name"];
+            $kehoachkh->lichtrinh_diadiem = $a["lichtrinh_diadiem"];
+            $kehoachkh->lichtrinh_hoatdong = $a["lichtrinh_hoatdong"];
             $kehoachkh->nhansu_id = $a["nhansu_id"];
             $kehoachkh->nhansu_name = $a["nhansu_name"];
             $kehoachkh->diemtaptrung = $a["diemtaptrung"];

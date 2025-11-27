@@ -25,6 +25,7 @@ require_once "views/admin/layout/header.php";
             <th>Nhà cung cấp</th>
             <th>Mức độ hài lòng</th>
             <th>Ngày tạo</th>
+            <th>Người Gửi</th>
             <th>Hành động</th>
         </tr>
 
@@ -37,6 +38,7 @@ require_once "views/admin/layout/header.php";
             <td><?= htmlspecialchars($row['ten_nhacungcap']) ?></td>
             <td><?= $row['muc_do_hai_long'] ?>/5</td>
             <td><?= $row['ngay_tao'] ?></td>
+            <td><?= htmlspecialchars($row['nguoi_gui']) ?></td>
             <td>
                 <a class="btn" href="index.php?action=phanhoi-edit&id=<?= $row['id'] ?>">Sửa</a>
                 <a class="btn-red" href="index.php?action=phanhoi-delete&id=<?= $row['id'] ?>"
