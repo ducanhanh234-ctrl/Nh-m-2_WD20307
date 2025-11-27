@@ -21,6 +21,11 @@ $current_page = $_GET['action'] ?? 'index';
         <div class="logo">LUXTUOR</div>
         <ul class="menu">
 
+          <li class="<?= $current_page === 'listUserHDV' ? "active" : '' ?>"><a href="?action=listUserHDV">Danh sách khách</a></li>
+          <li class="<?= $current_page === 'nhatKiTour' ? "active" : '' ?>"><a href="?action=nhatKiTour">Nhật kí tour</a></li>
+
+
+
           <li class="<?= $current_page === 'index_hdv' ? "active" : '' ?>"><a href="?action=index_hdv">Index</a></li>
   
            
@@ -28,6 +33,7 @@ $current_page = $_GET['action'] ?? 'index';
           <li class="<?= $current_page === 'phanhoi-create' ? "active" : '' ?>"><a href="?action=phanhoi-create">Gửi phản hồi đánh giá</a></li>
             <!-- Quản lý Phản Hồi Đánh Giá -->
           <li class="<?= $current_page === 'kehoachkh-hdv' ? "active" : '' ?>"><a href="?action=kehoachkh-hdv">Xem Lịch Trình Làm Việc</a></li>
+
         </ul>
       </aside>
 
@@ -37,6 +43,9 @@ $current_page = $_GET['action'] ?? 'index';
         <header class="header">
           <h2>LUXTUOR</h2>
           <div class="user-info">
+
+          
+
             <?php
             if(isset($_SESSION["name"])){
               ?>
@@ -49,6 +58,7 @@ $current_page = $_GET['action'] ?? 'index';
               <?php
             }
             ?>
+
           </div>
         </header>
 

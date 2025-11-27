@@ -36,6 +36,10 @@ match ($action) {
     'login'         => (new DAcontroller)->login(),
     // 4 Link Trang Đăng Ký
     'logup'         => (new DAcontroller)->logup(),
+
+    // ! 5 Link Trang HDV
+    "HDV" =>  (new DAcontroller) -> DashboardHDV(),
+
     // ! Quản lí booking
     'manageBookings' => (new BTcontroller) -> manageBookings(),
     'UsersBookingList' => (new BTcontroller) -> UsersBookingList(),
@@ -81,11 +85,6 @@ match ($action) {
     'nhacungcap-update' => (new nhacungcap_contro)->update_nhacungcap($id),
     'nhacungcap-delete' => (new nhacungcap_contro)->delete_nhacungcap($id),
 
-
-    
-
-
-
     // Quản Lý Users
     'listUsers' => (new QHController)->listUsers(),
     'createUsers' => (new QHController)->createUsers(),
@@ -113,10 +112,6 @@ match ($action) {
     'gia-insert' => (new giacontro)->giasaucung_insert(),
     'gia-update' => (new giacontro)->giasaucung_update($id),
     'gia-delete' => (new giacontro)->giasaucung_delete($id),
-
-
-
-
     
     // Quản lý phản hồi đánh giá
     'phanhoi-list'   => (new PhanHoiController())->index(),
@@ -125,6 +120,15 @@ match ($action) {
     'phanhoi-edit'   => ($id > 0) ? (new PhanHoiController())->edit($id) : die("ID không hợp lệ!"),
     'phanhoi-update' => ($id > 0) ? (new PhanHoiController())->update($id) : die("ID không hợp lệ!"),
     'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
+
+
+    // ! chức năng HDV
+    'listUserHDV' => (new BTcontroller) -> listUserHDV(),
+    'danhSachDoanHDV' => (new BTcontroller) -> danhSachDoanHDV(),
+    'nhatKiTour' => (new BTcontroller) -> nhatKiTour(),
+    'themNhatKiTour' => (new BTcontroller) -> themNhatKiTour(),
+    'updateXuLy' => (new BTcontroller) -> updateXuLy(),
+    'addNhatKy' => (new BTcontroller) -> addNhatKy(),
 
     // Quản Lý đăng nhập
 
@@ -141,6 +145,7 @@ match ($action) {
     'lichtrinh-insert' => (new lichtrinhcontro)->lichtrinh_insert(),
     'lichtrinh-update' => (new lichtrinhcontro)->lichtrinh_update($id),
     'lichtrinh-delete' => (new lichtrinhcontro)->lichtrinh_delete($id),
+
 };
     
 

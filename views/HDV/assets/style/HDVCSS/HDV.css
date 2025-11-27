@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.action {
+  display: flex;
+}
+
+.cta {
+  display: inline-block;
+}

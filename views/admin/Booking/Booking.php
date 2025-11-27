@@ -1,5 +1,4 @@
 <?php
-// Aggregator for Booking admin views - optional entry point
 require_once "views/admin/layout/header.php";
 ?>
 

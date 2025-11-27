@@ -70,8 +70,13 @@ class DAcontroller {
         }
         include "views/logup.php";
     }
+
+    public function DashboardHDV() {
+        include "views/HDV/HDV.php";
+
     public function logout(){
         include "views/logout.php";
+
     }
     public function tuor(){
        $arr_tuor = $this->tuorquery->all();
