@@ -14,6 +14,7 @@
 
 require_once './controllers/Huy/QHcontroller.php';
 require_once './controllers/Huy/PhanhoiController.php';
+require_once './controllers/Huy/CheckinController.php';
 
 
 
@@ -125,6 +126,16 @@ match ($action) {
     'phanhoi-edit'   => ($id > 0) ? (new PhanHoiController())->edit($id) : die("ID không hợp lệ!"),
     'phanhoi-update' => ($id > 0) ? (new PhanHoiController())->update($id) : die("ID không hợp lệ!"),
     'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
+
+
+
+
+    //checkin hdv
+    'hdv'           => (new CheckinController)->index(),       // Trang chủ HDV
+    'hdv-checkin'   => (new CheckinController)->checkin(),     // Điểm danh đoàn
+    'hdv-save'      => (new CheckinController)->save(),        // Lưu điểm danh
+    'hdv-logout'    => (new CheckinController)->logout(),      // Đăng xuất
+    
 
 
 };
