@@ -5,6 +5,9 @@ class kehoachkh{
     public $phienban_name;
     public $lichtrinh_id;
     public $lichtrinh_name;
+    public $lichtrinh_diadiem;
+    public $lichtrinh_hoatdong;
+    public $tuor_name;
     public $nhansu_id;
     public $nhansu_name;
     public $diemtaptrung;

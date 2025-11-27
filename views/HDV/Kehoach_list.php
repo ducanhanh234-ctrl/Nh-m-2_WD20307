@@ -1,10 +1,8 @@
 <?php
-require_once "views/admin/layout/header.php";
+require_once "views/HDV/layout/header.php";
 ?>
-  <h3>Quản Lý Kế Hoạch Khởi Hành</h3>
-  <div class="button-group">
-    <a href="?action=kehoachkh-insert" class="them_style_btn">Thêm Mới Kế Hoạch Khởi Hành</a>
-  </div>
+  <h3>Lich Làm Việc Của HDV</h3>
+  
 
 <div class="table_qlpbt">
   <table class="styled-table">
@@ -12,13 +10,13 @@ require_once "views/admin/layout/header.php";
                 <tr>
                   <th>id</th>
                   <th>tên phiên bản</th>
-                  <th>tên Tuor</th>
+                  <th>tên tuor</th>
                   <th>Ngày</th>
                   <th>Địa Điểm Tham Quan</th>
                   <th>Hoạt Động Cụ Thể</th>
                   <th>nhân sự</th>
                   <th>điểm tập chung</th>
-                  <th>Active</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -34,10 +32,7 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->lichtrinh_hoatdong?></td>
                   <td><?=$a->nhansu_name?></td>
                   <td><?=$a->diemtaptrung?></td>
-                  <td class="action">
-                    <a href="?action=kehoachkh-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
-                    <a href="?action=kehoachkh-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>
-                  </td>
+                  
                 </tr>
                     <?php
                 }

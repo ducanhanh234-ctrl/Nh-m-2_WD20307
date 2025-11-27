@@ -23,7 +23,7 @@ class PhanHoiController {
         $dichvus = $this->model->getDichVu();
         $nhacungcaps = $this->model->getNhaCungCap();
 
-        include "views/phanhoidanhgia/create.php";
+        include "views/HDV/create.php";
     }
 
     // Lưu phản hồi
@@ -34,13 +34,14 @@ class PhanHoiController {
                 'tuor_id'         => $_POST['tuor_id'] ?? '',
                 'dichvu_tuor_id'  => $_POST['dichvu_tuor_id'] ?? '',
                 'nhacungcap_id'   => $_POST['nhacungcap_id'] ?? '',
-                'muc_do_hai_long' => $_POST['muc_do_hai_long'] ?? ''
+                'muc_do_hai_long' => $_POST['muc_do_hai_long'] ?? '',
+                'nguoi_gui' => $_POST['nguoi_gui'] ?? '',
             ];
 
             $this->model->insert($data);
         }
 
-        header("Location: index.php?action=phanhoi-list");
+        header("Location: index.php?action=index_hdv");
         exit;
     }
 
@@ -62,7 +63,8 @@ class PhanHoiController {
                 'tuor_id'         => $_POST['tuor_id'] ?? '',
                 'dichvu_tuor_id'  => $_POST['dichvu_tuor_id'] ?? '',
                 'nhacungcap_id'   => $_POST['nhacungcap_id'] ?? '',
-                'muc_do_hai_long' => $_POST['muc_do_hai_long'] ?? ''
+                'muc_do_hai_long' => $_POST['muc_do_hai_long'] ?? '',
+                'nguoi_gui' => $_POST['nguoi_gui'] ?? ''
             ];
 
             $this->model->update($id, $data); // cần thêm hàm update trong model
