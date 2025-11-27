@@ -170,7 +170,6 @@
                     </tr>
                   </thead>
                   <tbody id="customerTable">
-                    <!-- JS render vào đây -->
                   </tbody>
                 </table>
               </div>

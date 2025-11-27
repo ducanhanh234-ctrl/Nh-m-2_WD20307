@@ -3,12 +3,14 @@ class BTcontroller {
     protected $model;
     protected $tour;
     protected $user;
+    protected $BtHdv;
 
     public function __construct(){
         // Kết nối model ở constructor để controller có thể tái sử dụng
         $this->model = new BookingModel();
         $this->tour = new TourModel();
         $this ->user = new UsersQuery();
+        $this ->BtHdv = new BaoToanHDV();
     }
 
     public function manageBookings(){
@@ -144,4 +146,83 @@ class BTcontroller {
         include "views/admin/Booking/danhSachKhach.php";
     }
 
+    public function listUserHDV() {
+        $id = $_GET['id'] ?? 1;
+        $bookingById = $this -> BtHdv -> listUserHDV($id);
+        include 'views/HDV/listUserHDV.php';
+    }
+
+    public function danhSachDoanHDV() {
+        $id = $_GET['id'];
+        $booking = $this -> model -> GetDanhSachKhach($id);
+        include "views/HDV/danhSachDoanHDV.php";
+    }
+
+    public function nhatKiTour() {
+        $nhatKiTour = $this -> BtHdv -> nhatKiTour();
+        include 'views/HDV/nhatKiTour.php';
+    }
+
+    public function themNhatKiTour() {
+        // Lấy danh sách booking để chọn trong form thêm nhật ký
+        $id = $_GET['id'] ?? 1;
+        $listBooking = $this -> BtHdv -> listUserHDV($id);
+        include 'views/HDV/themNhatKiTour.php';
+    }
+
+    public function updateXuLy() {
+        $id = $_GET['id'];
+        $cach_xu_ly = $_POST['cach_xu_ly'] ?? '';
+        
+        if ($id && !empty($cach_xu_ly)) {
+            $result = $this->BtHdv->updateXuLy($id, $cach_xu_ly);
+            if ($result) {
+                $_SESSION['success_message'] = "Cập nhật cách xử lý thành công!";
+            } 
+        }
+        
+        header('location: index.php?action=nhatKiTour');
+        exit;
+    }
+
+    public function addNhatKy() {
+        $booking_id = $_POST['booking_id'] ?? '';
+        $ngay_thu = $_POST['ngay_thu'] ?? '';
+        $su_co = trim($_POST['su_co'] ?? '');
+        $hoat_dong_noi_bat = trim($_POST['hoat_dong_noi_bat'] ?? '');
+        $cach_xu_ly = trim($_POST['cach_xu_ly'] ?? '');
+        
+        // Xử lý upload ảnh
+        $image = '';
+        if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'nhatky/';
+            $uploadPath = PATH_ASSETS_UPLOADS . $uploadDir;
+            
+            // Tạo tên file unique
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $_FILES['image']['name']);
+            $targetFile = $uploadPath . $filename;
+            
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                $image = 'assets/uploads/' . $uploadDir . $filename;
+            } else {
+                $_SESSION['error_message'] = "Lỗi khi upload ảnh!";
+                header('location: index.php?action=themNhatKiTour');
+                exit;   
+            }
+        }
+        
+        if (!empty($booking_id) && !empty($ngay_thu)) {
+            $result = $this->BtHdv->addNhatKy($booking_id, $ngay_thu, $image, $su_co, $hoat_dong_noi_bat, $cach_xu_ly);
+            if ($result) {
+                $_SESSION['success_message'] = "Thêm nhật ký thành công!";
+            } else {
+                $_SESSION['error_message'] = "Có lỗi xảy ra khi thêm nhật ký!";
+            }
+        } else {
+            $_SESSION['error_message'] = "Vui lòng nhập đầy đủ thông tin!";
+        }
+        
+        header('location: index.php?action=nhatKiTour');
+        exit;
+    }
 }

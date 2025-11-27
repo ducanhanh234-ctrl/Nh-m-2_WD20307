@@ -31,6 +31,9 @@ class DAcontroller {
     public function logup(){
         include "views/logup.php";
     }
+    public function DashboardHDV() {
+        include "views/HDV/HDV.php";
+    }
     public function tuor(){
        $arr_tuor = $this->tuorquery->all();
        include "views/admin/Tour/tuor_list.php";

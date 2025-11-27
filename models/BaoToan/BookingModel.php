@@ -167,7 +167,9 @@ class BookingModel extends BaseModel {
     public function assignHdv($bookingId, $hdvId) {
         $sql = "UPDATE `booking` SET `hdv_id` = :hdv WHERE `id` = :id";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':hdv' => $hdvId, ':id' => $bookingId]);
+        $stmt->bindParam(':hdv', $hdvId);
+        $stmt->bindParam(':id', $bookingId);
+        return $stmt->execute();
     }
 
 }
