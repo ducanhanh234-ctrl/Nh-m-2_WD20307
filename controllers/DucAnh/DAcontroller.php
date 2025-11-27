@@ -73,7 +73,7 @@ class DAcontroller {
 
     public function DashboardHDV() {
         include "views/HDV/HDV.php";
-
+    }
     public function logout(){
         include "views/logout.php";
 
