@@ -1,3 +1,6 @@
+<?php
+require_once "views/HDV/layout/header.php";
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -107,3 +110,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php
+require_once "views/admin/layout/footer.php";
+?>

@@ -33,7 +33,8 @@ $current_page = $_GET['action'] ?? 'index';
           <li class="<?= $current_page === 'phanhoi-create' ? "active" : '' ?>"><a href="?action=phanhoi-create">Gửi phản hồi đánh giá</a></li>
             <!-- Quản lý Phản Hồi Đánh Giá -->
           <li class="<?= $current_page === 'kehoachkh-hdv' ? "active" : '' ?>"><a href="?action=kehoachkh-hdv">Xem Lịch Trình Làm Việc</a></li>
-
+<!-- Quản lý Phản Hồi Đánh Giá -->
+          <li class="<?= $current_page === 'hdv' ? "active" : '' ?>"><a href="?action=hdv">CheckIN HDV</a></li>
         </ul>
       </aside>
 

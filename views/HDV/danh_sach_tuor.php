@@ -1,3 +1,6 @@
+<?php
+require_once "views/HDV/layout/header.php";
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -33,3 +36,6 @@
 </div>
 </body>
 </html>
+<?php
+require_once "views/admin/layout/footer.php";
+?>
