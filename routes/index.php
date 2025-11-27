@@ -14,6 +14,7 @@
 
 require_once './controllers/Huy/QHcontroller.php';
 require_once './controllers/Huy/PhanhoiController.php';
+require_once './controllers/Huy/CheckinController.php';
 
 
 
@@ -122,6 +123,7 @@ match ($action) {
     'phanhoi-delete' => ($id > 0) ? (new PhanHoiController())->delete($id) : die("ID không hợp lệ!"),
 
 
+
     // ! chức năng HDV
     'listUserHDV' => (new BTcontroller) -> listUserHDV(),
     'danhSachDoanHDV' => (new BTcontroller) -> danhSachDoanHDV(),
@@ -145,6 +147,17 @@ match ($action) {
     'lichtrinh-insert' => (new lichtrinhcontro)->lichtrinh_insert(),
     'lichtrinh-update' => (new lichtrinhcontro)->lichtrinh_update($id),
     'lichtrinh-delete' => (new lichtrinhcontro)->lichtrinh_delete($id),
+
+
+
+    //checkin hdv
+    'hdv'           => (new CheckinController)->index(),       // Trang chủ HDV
+    'hdv-checkin'   => (new CheckinController)->checkin(),     // Điểm danh đoàn
+    'hdv-save'      => (new CheckinController)->save(),        // Lưu điểm danh
+    'hdv-logout'    => (new CheckinController)->logout(),      // Đăng xuất
+    
+
+
 
 };
     
