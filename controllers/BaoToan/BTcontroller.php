@@ -195,7 +195,7 @@ class BTcontroller {
         // Xử lý upload ảnh
         $image = '';
         if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'nhatky/';
+            $uploadDir = 'image_upload/';
             $uploadPath = PATH_ASSETS_UPLOADS . $uploadDir;
             
             // Tạo tên file unique

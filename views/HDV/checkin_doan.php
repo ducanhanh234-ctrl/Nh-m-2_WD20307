@@ -31,7 +31,7 @@ require_once "views/HDV/layout/header.php";
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="index.php?action=hdv-save" class="bg-white p-4 rounded shadow mb-5">
+    <form method="POST" action="index.php?action=hdv-save" class="bg-white p-4 rounded  mb-5">
         <div class="mb-4">
             <label class="form-label fw-bold fs-5">ĐIỂM TẬP TRUNG / CHẶNG HIỆN TẠI</label>
             <input type="text" name="diem_taptrung" class="form-control form-control-lg" 
