@@ -58,7 +58,6 @@ class BTcontroller {
 
     public function addBooking() {
         $listTour = $this -> tour -> GetAllTour();
-
         include "views/admin/Booking/addBooking.php";
     }
     

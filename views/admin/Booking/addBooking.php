@@ -79,7 +79,7 @@
                   <select name="tuor_id" id="tourSelect" class="form-select" required>
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($listTour as $item) : ?>
-                      <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" data-phuongtien="<?= ($item['phienban_phuongtien']) ?>"><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
+                      <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" data-phuongtien="<?= ($item['phienban_phuongtien']) ?>" data-nhacungcap="<?= $item['nhacungcap_name'] ?>"><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
                     <?php endforeach ; ?>
                   </select>
                 </div>
@@ -98,6 +98,10 @@
                 <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
                   <input type="text" id="phuongtien" name="phuongtien" class="form-control" placeholder="VD: Máy bay, Ô tô">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Nhà cung cấp</label>
+                  <input type="text" id="nhacungcap" name="nhacungcap" class="form-control" placeholder="VD: Máy bay, Ô tô">
                 </div>
               </div>
             </div>
@@ -212,8 +216,10 @@ document.getElementById('tourSelect').addEventListener('change', function() {
   const selectedOption = this.options[this.selectedIndex];
   const thoigian = selectedOption.getAttribute('data-thoigian');
   const phuongtien = selectedOption.getAttribute('data-phuongtien');
+  const nhacungcap = selectedOption.getAttribute('data-nhacungcap');
   document.getElementById('songay').value = thoigian || '';
   document.getElementById('phuongtien').value = phuongtien || '';
+  document.getElementById('nhacungcap').value = nhacungcap || '';
 });
 
 // Quản lý danh sách khách hàng
