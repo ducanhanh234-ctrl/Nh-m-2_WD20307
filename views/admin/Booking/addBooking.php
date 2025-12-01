@@ -35,28 +35,28 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Tên Khách <span class="text-danger">*</span></label>
-                  <input type="text" name="tenkhach" class="form-control" required>
+                  <input type="text" name="tenkhach" class="form-control" value="<?= htmlspecialchars($_GET['tenkhach'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Giới Tính</label>
                   <select name="gioitinh" class="form-select">
                     <option value="">-- Chọn giới tính --</option>
-                    <option value="nam">Nam</option>
-                    <option value="nữ">Nữ</option>
-                    <option value="khác">Khác</option>
+                    <option value="nam" <?= (($_GET['gioitinh'] ?? '') === 'nam') ? 'selected' : '' ?>>Nam</option>
+                    <option value="nữ" <?= (($_GET['gioitinh'] ?? '') === 'nữ') ? 'selected' : '' ?>>Nữ</option>
+                    <option value="khác" <?= (($_GET['gioitinh'] ?? '') === 'khác') ? 'selected' : '' ?>>Khác</option>
                   </select>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">SĐT <span class="text-danger">*</span></label>
-                  <input type="number" name="sdt" class="form-control" required>
+                  <input type="number" name="sdt" class="form-control" value="<?= htmlspecialchars($_GET['sdt'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Email <span class="text-danger">*</span></label>
-                  <input type="email" name="email" class="form-control" required>
+                  <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($_GET['email'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">CCCD / Số CMND</label>
-                  <input type="text" name="cccd" class="form-control" placeholder="0123456789">
+                  <input type="text" name="cccd" class="form-control" value="<?= htmlspecialchars($_GET['cccd'] ?? '') ?>" placeholder="0123456789">
                 </div>
               </div>
             </div>
@@ -79,29 +79,53 @@
                   <select name="tuor_id" id="tourSelect" class="form-select" required>
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($listTour as $item) : ?>
-                      <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" data-phuongtien="<?= ($item['phienban_phuongtien']) ?>" data-nhacungcap="<?= $item['nhacungcap_name'] ?>"><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
+                      <option 
+                        value="<?= $item['id'] ?>" 
+                        data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>"  
+                        <?= (isset($_GET['tuor_id']) && $_GET['tuor_id'] == $item['id']) ? 'selected' : '' ?>
+                      >
+                        <?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)
+                      </option>
                     <?php endforeach ; ?>
                   </select>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Số Người <span class="text-danger">*</span></label>
-                  <input type="number" name="soluong_nguoi" class="form-control" min="1" required>
+                  <input type="number" name="soluong_nguoi" class="form-control" min="1" value="<?= htmlspecialchars($_GET['soluong_nguoi'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Ngày khởi hành (dự kiến)</label>
-                  <input type="date" name="ngaykhoi_hanh" class="form-control">
+                  <input type="date" name="ngaykhoi_hanh" class="form-control" value="<?= htmlspecialchars($_GET['ngaykhoi_hanh'] ?? '') ?>">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Số ngày</label>
-                  <input type="text" id="songay" name="songay" class="form-control" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm">
+                  <input type="text" id="songay" name="songay" class="form-control" value="<?= htmlspecialchars($_GET['songay'] ?? '') ?>" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
-                  <input type="text" id="phuongtien" name="phuongtien" class="form-control" placeholder="VD: Máy bay, Ô tô">
+                  <select name="phuongtien_id" class="form-select">
+                    <option value="">-- Chọn phương tiện --</option>
+                    <?php if (!empty($listPhuongTien)): ?>
+                      <?php foreach ($listPhuongTien as $pt): ?>
+                        <option value="<?= $pt['id'] ?>" <?= (isset($_GET['phuongtien_id']) && $_GET['phuongtien_id'] == $pt['id']) ? 'selected' : '' ?>>
+                          <?= ($pt['name'] ?? '') ?> - <?= ($pt['ten_don_vi'] ?? '') ?> (<?= ($pt['nang_luc_cung_cap'] ?? '') ?>)
+                        </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Nhà cung cấp</label>
-                  <input type="text" id="nhacungcap" name="nhacungcap" class="form-control" placeholder="VD: Máy bay, Ô tô">
+                  <label class="form-label">Khách sạn</label>
+                  <select name="khachsan_id" class="form-select">
+                    <option value="">-- Chọn khách sạn --</option>
+                    <?php if (!empty($listKhachSan)): ?>
+                      <?php foreach ($listKhachSan as $ks): ?>
+                        <option value="<?= $ks['id'] ?>" <?= (isset($_GET['khachsan_id']) && $_GET['khachsan_id'] == $ks['id']) ? 'selected' : '' ?>>
+                          <?= ($ks['ten_ks'] ?? '') ?> - <?= ($ks['ten_don_vi'] ?? '') ?> (<?= ($ks['nang_luc_cung_cap'] ?? '') ?>)
+                        </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
                 </div>
               </div>
             </div>
@@ -193,7 +217,7 @@
               <div class="row g-3">
                 <div class="col-12">
                   <label class="form-label">Yêu Cầu Đặc Biệt</label>
-                  <textarea name="yeucaudacbiet" class="form-control" rows="4" placeholder="Các bệnh lí, dị ứng, yêu cầu về phòng, ăn uống, v.v"></textarea>
+                  <textarea name="yeucaudacbiet" class="form-control" rows="4" placeholder="Các bệnh lí, dị ứng, yêu cầu về phòng, ăn uống, v.v"><?= htmlspecialchars($_GET['yeucaudacbiet'] ?? '') ?></textarea>
                 </div>
               </div>
             </div>
@@ -215,11 +239,7 @@
 document.getElementById('tourSelect').addEventListener('change', function() {
   const selectedOption = this.options[this.selectedIndex];
   const thoigian = selectedOption.getAttribute('data-thoigian');
-  const phuongtien = selectedOption.getAttribute('data-phuongtien');
-  const nhacungcap = selectedOption.getAttribute('data-nhacungcap');
   document.getElementById('songay').value = thoigian || '';
-  document.getElementById('phuongtien').value = phuongtien || '';
-  document.getElementById('nhacungcap').value = nhacungcap || '';
 });
 
 // Quản lý danh sách khách hàng

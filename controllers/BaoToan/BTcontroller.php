@@ -19,6 +19,57 @@ class BTcontroller {
         include  './views/admin/Booking/manageBookings.php';
     }
 
+    // Trang form thêm danh sách khách cho một booking
+    public function themDanhSachKhach() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: index.php?action=manageBookings');
+            exit;
+        }
+        $booking = $this->model->GetBookingId($id);
+        $dsKhach = $this->model->GetDanhSachKhach($id);
+        include './views/admin/Booking/themDanhSachKhach.php';
+    }
+
+    // Lưu danh sách khách mới thêm cho booking
+    public function storeDanhSachKhach() {
+        $booking_id = $_GET['id'] ?? null;
+        $danhsach_khach = $_POST['danhsach_khach'] ?? '';
+
+        if ($booking_id && !empty($danhsach_khach)) {
+            $danhsach_khach = json_decode($danhsach_khach, true);
+            if (is_array($danhsach_khach)) {
+                foreach($danhsach_khach as $khach) {
+                    $hovaten = $khach['name'] ?? '';
+                    $ngaysinh = $khach['birthday'] ?? null;
+                    $gioitinh = $khach['gender'] ?? '';
+                    $cccd = $khach['cccd'] ?? '';
+                    $sdt = $khach['phone'] ?? '';
+
+                    if (!empty($hovaten)) {
+                        $this->model->addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt);
+                    }
+                }
+            }
+        }
+
+        header('Location: index.php?action=xemChiTietBooking&id=' . urlencode($booking_id));
+        exit;
+    }
+
+    // Trang xem chi tiết một booking
+    public function xemChiTietBooking() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: index.php?action=manageBookings');
+            exit;
+        }
+
+        $booking = $this->model->GetBookingDetail($id);
+        $dsKhach = $this->model->GetDanhSachKhach($id);
+        include './views/admin/Booking/xemChiTietBooking.php';
+    }
+
     public function deleteBooking() {
         $id = $_GET['id'];
         $result = $this -> model -> deleteBooking($id);
@@ -58,6 +109,9 @@ class BTcontroller {
 
     public function addBooking() {
         $listTour = $this -> tour -> GetAllTour();
+        // Danh sách phương tiện và khách sạn cho select
+        $listPhuongTien = $this->model->getAllPhuongTienWithNcc();
+        $listKhachSan = $this->model->getAllKhachSanWithNcc();
         include "views/admin/Booking/addBooking.php";
     }
     
@@ -72,8 +126,10 @@ class BTcontroller {
         $ngaykhoi_hanh = $_POST['ngaykhoi_hanh']; 
         $songay = $_POST['songay']; 
         $yeucaudacbiet = $_POST['yeucaudacbiet']; 
+        $phuongtien_id = $_POST['phuongtien_id'] ?? null;
+        $khachsan_id = $_POST['khachsan_id'] ?? null;
         //! Thêm booking mới
-        $booking_id = $this->model->addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet);
+        $booking_id = $this->model->addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
 
 
         $danhsach_khach = $_POST['danhsach_khach'];
@@ -100,6 +156,10 @@ class BTcontroller {
         $id = $_GET['id'];
         $getBookingId = $this -> model -> GetBookingId($id);
         $listTour = $this -> tour -> GetAllTour();
+        // Danh sách phương tiện và khách sạn cho select
+        $listPhuongTien = $this->model->getAllPhuongTienWithNcc();
+        $listKhachSan = $this->model->getAllKhachSanWithNcc();
+
         include "views/admin/Booking/editBooking.php";
     }
     
@@ -115,8 +175,10 @@ class BTcontroller {
         $ngaykhoi_hanh = $_POST['ngaykhoi_hanh'];
         $songay = $_POST['songay'];
         $yeucaudacbiet = $_POST['yeucaudacbiet'];
+        $phuongtien_id = $_POST['phuongtien_id'] ?? null;
+        $khachsan_id = $_POST['khachsan_id'] ?? null;
         
-        $this->model->editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet);
+        $this->model->editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
         header('location: index.php?action=manageBookings');
     }
 
@@ -137,12 +199,6 @@ class BTcontroller {
         }
         header('Location: index.php?action=quanlitrangthai');
         exit;
-    }
-
-    public function danhSachKhach() {
-        $id = $_GET['id'];
-        $booking = $this -> model -> GetDanhSachKhach($id);
-        include "views/admin/Booking/danhSachKhach.php";
     }
 
     public function listUserHDV() {

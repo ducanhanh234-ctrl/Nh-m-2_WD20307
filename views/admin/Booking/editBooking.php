@@ -48,15 +48,15 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">SĐT <span class="text-danger">*</span></label>
-                  <input type="number" name="sdt" class="form-control" value="<?= htmlspecialchars($getBookingId['sdt']) ?>" required>
+                  <input type="number" name="sdt" class="form-control" value="<?= ($getBookingId['sdt']) ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Email <span class="text-danger">*</span></label>
-                  <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($getBookingId['email']) ?>" required>
+                  <input type="email" name="email" class="form-control" value="<?= ($getBookingId['email']) ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">CCCD / Số CMND</label>
-                  <input type="text" name="cccd" class="form-control" value="<?= htmlspecialchars($getBookingId['cccd'] ?? '') ?>" placeholder="0123456789">
+                  <input type="text" name="cccd" class="form-control" value="<?= ($getBookingId['cccd'] ?? '') ?>" placeholder="0123456789">
                 </div>
               </div>
             </div>
@@ -81,7 +81,6 @@
                     <?php foreach ($listTour as $item) : ?>
                       <option value="<?= $item['id'] ?>" 
                               data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" 
-                              data-phuongtien="<?= ($item['phienban_phuongtien']) ?>"
                               <?= ($item['id'] == $getBookingId['tuor_id']) ? 'selected' : '' ?>>
                         <?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)
                       </option>
@@ -102,7 +101,29 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
-                  <input type="text" id="phuongtien" name="phuongtien" class="form-control" placeholder="VD: Máy bay, Ô tô">
+                  <select name="phuongtien_id" class="form-select">
+                    <option value="">-- Chọn phương tiện --</option>
+                    <?php if (!empty($listPhuongTien)): ?>
+                      <?php foreach ($listPhuongTien as $pt): ?>
+                        <option value="<?= $pt['id'] ?>" <?= (!empty($getBookingId['phuongtien_id']) && $getBookingId['phuongtien_id'] == $pt['id']) ? 'selected' : '' ?>>
+                          <?= ($pt['name'] ?? '') ?> - <?= ($pt['ten_don_vi'] ?? '') ?> (<?= ($pt['nang_luc_cung_cap'] ?? '') ?>)
+                        </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Khách sạn</label>
+                  <select name="khachsan_id" class="form-select">
+                    <option value="">-- Chọn khách sạn --</option>
+                    <?php if (!empty($listKhachSan)): ?>
+                      <?php foreach ($listKhachSan as $ks): ?>
+                        <option value="<?= $ks['id'] ?>" <?= (!empty($getBookingId['khachsan_id']) && $getBookingId['khachsan_id'] == $ks['id']) ? 'selected' : '' ?>>
+                          <?= ($ks['ten_ks'] ?? '') ?> - <?= ($ks['ten_don_vi'] ?? '') ?> (<?= ($ks['nang_luc_cung_cap'] ?? '') ?>)
+                        </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
                 </div>
               </div>
             </div>
@@ -143,9 +164,7 @@
 document.getElementById('tourSelect').addEventListener('change', function() {
   const selectedOption = this.options[this.selectedIndex];
   const thoigian = selectedOption.getAttribute('data-thoigian');
-  const phuongtien = selectedOption.getAttribute('data-phuongtien');
   document.getElementById('songay').value = thoigian || '';
-  document.getElementById('phuongtien').value = phuongtien || '';
 });
 </script>
 

@@ -43,6 +43,9 @@ match ($action) {
 
     // ! Quản lí booking
     'manageBookings' => (new BTcontroller) -> manageBookings(),
+    'xemChiTietBooking' => (new BTcontroller) -> xemChiTietBooking(),
+    'themDanhSachKhach' => (new BTcontroller) -> themDanhSachKhach(),
+    'storeDanhSachKhach' => (new BTcontroller) -> storeDanhSachKhach(),
     'UsersBookingList' => (new BTcontroller) -> UsersBookingList(),
     'assignHdv' => (new BTcontroller) -> assignHdv(),
     'addBooking' => (new BTcontroller) -> addBooking(),
@@ -50,7 +53,7 @@ match ($action) {
     'addNewBooking' => (new BTcontroller) -> addNewBooking(),
     'editBooking' => (new BTcontroller) -> editBooking(),
     'editNewBooking' => (new BTcontroller) -> editNewBooking(),
-    'danhSachKhach' => (new BTcontroller) -> danhSachKhach(),
+    
     // ! Quản lí Trạng thái Booking
     'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
     'changeStatus' => (new BTcontroller) -> changeStatus(),
