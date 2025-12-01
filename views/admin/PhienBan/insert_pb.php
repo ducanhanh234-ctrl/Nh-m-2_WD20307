@@ -69,25 +69,10 @@
         <span>Nhập Thời Gian:</span>
         <input type="text" name="thoigian" />
       </div>
-      <div>
-        <span>Nhập phương tiện:</span>
-        <input type="text" name="phuongtien" />
-      </div>
+      
       <div>
         <span>Nhập Khởi Hành:</span>
         <input type="text" name="khoihanh" />
-      </div>
-      <div>
-        <span>Nhập Khách Sạn:</span>
-        <select name="khachsan_id" id="">
-          <?php
-          foreach($arr_khachsan as $e){
-            ?>
-          <option value="<?=$e->id?>"><?=$e->ten_ks?></option>
-          <?php
-          }
-          ?>
-        </select>
       </div>
       <div>
         <button type="submit" name="nut">OK</button>

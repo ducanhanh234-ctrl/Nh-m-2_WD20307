@@ -36,7 +36,6 @@ require_once "views/admin/layout/header.php";
                     <th>Số Người</th>
                     <th>Giới Tính</th>
                     <th>Số ngày</th>
-                    <th>Phương tiện</th>
                     <th>Nhà cung cấp</th>
                     <th>HDV</th>
                     <th>Yêu Cầu</th>
@@ -56,7 +55,6 @@ require_once "views/admin/layout/header.php";
                         <td><?= $item['soluong_nguoi'] ?? $item['soluongnguoi'] ?? $item['soluong_nguoi'] ?? '' ?></td>
                         <td><?= $item['gioitinh'] ?? '' ?></td>
                         <td><?= $item['songay'] ?? '' ?></td>
-                        <td><?= $item['phienban_phuongtien'] ?? '' ?></td>
                         <td>
                             <?php if (!empty($item['nhacungcap_name'])): ?>
                                 <?= htmlspecialchars($item['nhacungcap_name']) ?>

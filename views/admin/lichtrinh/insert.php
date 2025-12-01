@@ -14,16 +14,23 @@
             <select name="tuor_id" id="">
                 <?php
                 foreach($arr_tuor as $a){
+                  if($a->id == $_GET["tuor_id"]){
                     ?>
-                <option value="<?=$a->id?>"><?=$a->name?></option>
+                <option value="<?=$a->id?>" selected><?=$a->name?></option>
                     <?php
+                }else{
+                  ?>
+                <option value="<?=$a->id?>"><?=$a->name?></option>
+
+                  <?php
+                }
                 }
                 ?>
             </select>
         </div>
       <div>
         <span>Nhập ngày:</span>
-        <input type="text" name="ngay" />
+        <input type="text" name="ngay" value="<?=$lichtrinh->ngay?>"/>
       </div>
       <div>
         <span>Nhập Địa Điểm:</span>

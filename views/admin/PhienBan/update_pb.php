@@ -94,30 +94,8 @@
         <input type="text" name="thoigian" value="<?=$arr_find->thoigian?>"/>
       </div>
       <div>
-        <span>Nhập phương tiện:</span>
-        <input type="text" name="phuongtien" value="<?=$arr_find->phuongtien?>"/>
-      </div>
-      <div>
         <span>Nhập Khởi Hành:</span>
         <input type="text" name="khoihanh" value="<?=$arr_find->khoihanh?>"/>
-      </div>
-      <div>
-        <span>Nhập Khách Sạn:</span>
-        <select name="khachsan_id" id="">
-          <?php
-          foreach($arr_khachsan as $e){
-            if($e->id == $arr_find->khachsan_id){
-            ?>
-            <option value="<?=$e->id?>" selected><?=$e->ten_ks?></option>
-            <?php
-          }else{
-            ?>
-            <option value="<?=$e->id?>"><?=$e->ten_ks?></option>
-            <?php
-          }
-          }
-          ?>
-        </select>
       </div>
       <div>
         <button type="submit" name="nut">OK</button>

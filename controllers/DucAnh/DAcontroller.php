@@ -8,7 +8,7 @@ class DAcontroller {
     public $nhacungcapquery;
     public $khachsanquery;
     public $danhmucquery;
-    public $giasaucungquery;
+    
     public $BookingModel;
     public $loginquery;
     public $UsersQuery;
@@ -21,7 +21,7 @@ class DAcontroller {
         $this->nhacungcapquery = new nhacungcapquery();
         $this->khachsanquery = new khachsanquery();
         $this->danhmucquery = new danhmucquery();
-        $this->giasaucungquery = new giasaucungquery();
+       
         $this->BookingModel = new BookingModel();
         $this->loginquery = new loginquery();
         $this->UsersQuery = new UsersQuery();
@@ -84,7 +84,6 @@ class DAcontroller {
     }
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
-       $arr_gia = $this->giasaucungquery->all();
        include "views/admin/PhienBan/phienban_list.php";
     }
     public function insert_phienban(){
@@ -92,7 +91,6 @@ class DAcontroller {
         $arr_anhtuor = $this->anh_tuorquery->all();
         $arr_chinhsach = $this->chinhsach_tuorquery->all();
         $arr_nhacungcap = $this->nhacungcapquery->all();
-        $arr_khachsan = $this->khachsanquery->all();
         $phienban = new phienban();
         if(isset($_POST["nut"])){
             $phienban->name = trim($_POST["name"]);
@@ -102,9 +100,7 @@ class DAcontroller {
             $phienban->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $phienban->price = trim($_POST["price"]);
             $phienban->thoigian = trim($_POST["thoigian"]);
-            $phienban->phuongtien = trim($_POST["phuongtien"]);
             $phienban->khoihanh = trim($_POST["khoihanh"]);
-            $phienban->khachsan_id = trim($_POST["khachsan_id"]);
             $data = $this->phienbanquery->insert($phienban);
             if($data == 1){
                 header("Location: ?action=phienban-list");
@@ -118,8 +114,8 @@ class DAcontroller {
         $arr_anhtuor = $this->anh_tuorquery->all();
         $arr_chinhsach = $this->chinhsach_tuorquery->all();
         $arr_nhacungcap = $this->nhacungcapquery->all();
-        $arr_khachsan = $this->khachsanquery->all();
         $phienban = new phienban();
+        $phienban->id = $id;
         if(isset($_POST["nut"])){
             $phienban->name = trim($_POST["name"]);
             $phienban->loaipb_id = trim($_POST["loaipb_id"]);
@@ -128,10 +124,8 @@ class DAcontroller {
             $phienban->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $phienban->price = trim($_POST["price"]);
             $phienban->thoigian = trim($_POST["thoigian"]);
-            $phienban->phuongtien = trim($_POST["phuongtien"]);
             $phienban->khoihanh = trim($_POST["khoihanh"]);
-            $phienban->khachsan_id = trim($_POST["khachsan_id"]);
-            $data = $this->phienbanquery->insert($phienban);
+            $data = $this->phienbanquery->update($phienban);
             if($data == 1){
                 header("Location: ?action=phienban-list");
             }else{
@@ -160,17 +154,21 @@ class DAcontroller {
     public function insert_tuor(){
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
-        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         if(isset($_POST["nut"])){
             $tuor->name = trim($_POST["name"]);
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
-            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->insert($tuor);
-            if($data == 1){
-                header("Location: ?action=tuor-list");
+            if($data){
+                 $phienban = $this->phienbanquery->find($tuor->phienban_id);
+                 $thoigian =  $phienban->thoigian;
+                 $songay = (int)explode(' ',$thoigian)[0];
+                 $_SESSION["songay"] = $songay;
+                 $_SESSION["ngay_hien_tai"] = 1; 
+                 $_SESSION["tuor_id"] = $data;
+                header("Location: ?action=lichtrinh-insert&tuor_id=".$data);
             }
         }
      include "views/admin/Tour/insert_tuor.php";
@@ -179,7 +177,6 @@ class DAcontroller {
         $arr_find = $this->tuorquery->find($id);
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
-        $arr_nhacungcap = $this->nhacungcapquery->all();
         $tuor = new tuor();
         $tuor->id = $id;
         if(isset($_POST["nut"])){
@@ -187,7 +184,6 @@ class DAcontroller {
             $tuor->danhmuc_id = trim($_POST["danhmuc_id"]);
             $tuor->mota = trim($_POST["mota"]);
             $tuor->phienban_id = trim($_POST["phienban_id"]);
-            $tuor->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $data = $this->tuorquery->update($tuor);
             if($data == 1){
                 header("Location: ?action=tuor-list");

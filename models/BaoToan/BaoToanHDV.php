@@ -6,7 +6,6 @@ class BaoToanHDV extends BaseModel {
             SELECT 
                 b.*,
                 t.name AS tour_name,
-                p.phuongtien AS phienban_phuongtien,
                 ncc.ten_don_vi AS nhacungcap_name,
                 s.name AS status_name,
                 h.name AS hdv_name

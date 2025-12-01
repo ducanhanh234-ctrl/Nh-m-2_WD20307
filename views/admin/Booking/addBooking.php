@@ -79,7 +79,7 @@
                   <select name="tuor_id" id="tourSelect" class="form-select" required>
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($listTour as $item) : ?>
-                      <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>" data-phuongtien="<?= ($item['phienban_phuongtien']) ?>" data-nhacungcap="<?= $item['nhacungcap_name'] ?>"><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
+                      <option value="<?= $item['id'] ?>" data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>"  ><?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)</option>
                     <?php endforeach ; ?>
                   </select>
                 </div>
@@ -95,14 +95,14 @@
                   <label class="form-label">Số ngày</label>
                   <input type="text" id="songay" name="songay" class="form-control" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm">
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
                   <input type="text" id="phuongtien" name="phuongtien" class="form-control" placeholder="VD: Máy bay, Ô tô">
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                   <label class="form-label">Nhà cung cấp</label>
                   <input type="text" id="nhacungcap" name="nhacungcap" class="form-control" placeholder="VD: Máy bay, Ô tô">
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

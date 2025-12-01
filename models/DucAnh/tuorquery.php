@@ -6,14 +6,11 @@ class tuorquery extends BaseModel{
 danhmuc_tuor.name as danhmuc_name , 
 phienban.name as phienban_name , 
 phienban.price as phienban_price , 
-phienban.thoigian as phienban_thoigian , 
-phienban.phuongtien as phienban_phuongtien , 
-phienban.khoihanh as phienban_khoihanh ,
-nha_cung_cap.ten_don_vi as nhacungcap_name
+phienban.thoigian as phienban_thoigian ,  
+phienban.khoihanh as phienban_khoihanh
 FROM tuor
 JOIN danhmuc_tuor ON tuor.danhmuc_id = danhmuc_tuor.id 
-JOIN phienban ON tuor.phienban_id = phienban.id
-JOIN nha_cung_cap ON tuor.nhacungcap_id = nha_cung_cap.id";
+JOIN phienban ON tuor.phienban_id = phienban.id";
         $data = $this->pdo->query($sql)->fetchAll();
         $arr = [];
         foreach($data as $a){
@@ -27,10 +24,7 @@ JOIN nha_cung_cap ON tuor.nhacungcap_id = nha_cung_cap.id";
             $tuor->phienban_name = $a["phienban_name"];
             $tuor->phienban_price = $a["phienban_price"];
             $tuor->phienban_thoigian = $a["phienban_thoigian"];
-            $tuor->phienban_phuongtien = $a["phienban_phuongtien"];
             $tuor->phienban_khoihanh = $a["phienban_khoihanh"];
-            $tuor->nhacungcap_id = $a["nhacungcap_id"];
-            $tuor->nhacungcap_name = $a["nhacungcap_name"];
             $arr[]=$tuor;
         }
         return $arr;
@@ -53,7 +47,6 @@ JOIN nha_cung_cap ON tuor.nhacungcap_id = nha_cung_cap.id";
             $tuor->danhmuc_id = $data["danhmuc_id"];
             $tuor->mota = $data["mota"];
             $tuor->phienban_id = $data["phienban_id"];
-            $tuor->nhacungcap_id = $data["nhacungcap_id"];
            return $tuor;
         }
         
@@ -64,16 +57,16 @@ JOIN nha_cung_cap ON tuor.nhacungcap_id = nha_cung_cap.id";
     }
     public function insert(tuor $tuor){
         try{
-         $sql = "INSERT INTO `tuor`( `name`, `danhmuc_id`, `mota`, `phienban_id`, `nhacungcap_id`) VALUES ('".$tuor->name."','".$tuor->danhmuc_id."','".$tuor->mota."','".$tuor->phienban_id."','".$tuor->nhacungcap_id."')";
+         $sql = "INSERT INTO `tuor`( `name`, `danhmuc_id`, `mota`, `phienban_id`) VALUES ('".$tuor->name."','".$tuor->danhmuc_id."','".$tuor->mota."','".$tuor->phienban_id."')";
          $data = $this->pdo->exec($sql);
-         return $data;
+         return $this->pdo->lastInsertId();
         }catch(Exception $e){
             echo "Lỗi<br>".$e->getMessage();
         }
     }
     public function update(tuor $tuor){
         try{
-         $sql = "UPDATE `tuor` SET `name`='".$tuor->name."',`danhmuc_id`='".$tuor->danhmuc_id."',`mota`='".$tuor->mota."',`phienban_id`='".$tuor->phienban_id."',`nhacungcap_id`='".$tuor->nhacungcap_id."' WHERE `id`='".$tuor->id."'";
+         $sql = "UPDATE `tuor` SET `name`='".$tuor->name."',`danhmuc_id`='".$tuor->danhmuc_id."',`mota`='".$tuor->mota."',`phienban_id`='".$tuor->phienban_id."' WHERE `id`='".$tuor->id."'";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){

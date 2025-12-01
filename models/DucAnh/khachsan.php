@@ -6,4 +6,6 @@ class khachsan{
     public $so_giuong;
     public $trangthai_phongks_id;
     public $trangthai_phongks_name;
+    public $nhacungcap_id;
+    public $nhacungcap_name;
 }

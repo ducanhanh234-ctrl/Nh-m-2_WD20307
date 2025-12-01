@@ -7,13 +7,13 @@ class BookingModel extends BaseModel {
             SELECT 
                 b.*,
                 t.name AS tour_name,
-                p.phuongtien AS phienban_phuongtien,
+                
                 ncc.ten_don_vi AS nhacungcap_name,
                 h.name AS hdv_name,
                 s.name AS status_name
             FROM booking b
             LEFT JOIN tuor t ON b.tuor_id = t.id
-            LEFT JOIN phienban p ON t.phienban_id = p.id
+            LEFT JOIN phienban p ON t.phienban_id = p.id 
             LEFT JOIN nha_cung_cap ncc ON p.nhacungcap_id = ncc.id
             LEFT JOIN nhansu h ON b.hdv_id = h.id
             LEFT JOIN trangthai_booking s ON b.trangthai_booking = s.id
