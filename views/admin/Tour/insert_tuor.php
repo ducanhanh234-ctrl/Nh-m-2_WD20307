@@ -26,18 +26,6 @@
         </select>
       </div>
       <div>
-        <span>Nhập Nhà Cung Cấp:</span>
-        <select name="nhacungcap_id" id="">
-          <?php
-          foreach($arr_nhacungcap as $a){
-            ?>
-          <option value="<?=$a->id?>"><?=$a->ten_don_vi?></option>
-          <?php
-          }
-          ?>
-        </select>
-      </div>
-      <div>
         <span>Nhập Mô Tả:</span>
         <input type="text" name="mota" />
       </div>
@@ -64,10 +52,6 @@
         <input type="text" id="phienban_thoigian" disabled/>
       </div>
       <div>
-        <span>Phương Tiện:</span>
-        <input type="text" id="phienban_phuongtien" disabled/>
-      </div>
-      <div>
         <span>Khởi Hành:</span>
         <input type="text" id="phienban_khoihanh" disabled/>
       </div>
@@ -84,12 +68,10 @@
         if (pb) {
             document.getElementById("phienban_price").value = pb.price;
             document.getElementById("phienban_thoigian").value = pb.thoigian;
-            document.getElementById("phienban_phuongtien").value = pb.phuongtien;
             document.getElementById("phienban_khoihanh").value = pb.khoihanh;
         } else {
             document.getElementById("phienban_price").value = "";
             document.getElementById("phienban_thoigian").value = "";
-            document.getElementById("phienban_phuongtien").value = "";
             document.getElementById("phienban_khoihanh").value = "";
         }
     });

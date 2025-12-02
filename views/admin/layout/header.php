@@ -40,8 +40,7 @@ $current_page = $_GET['action'] ?? 'index';
           <!-- Quản lý Nhân Sự -->
           <li class="<?= $current_page === 'listUsers' ? "active" : '' ?>"><a href="?action=listUsers">Quản lí Nhân Sự</a></li>
           
-          <!-- Quản lý Giá -->
-          <li class="<?= $current_page === 'gia-list' ? "active" : '' ?>"><a href="?action=gia-list">Quản lí Giá</a></li>
+          
            
           <!-- Quản lý Phản Hồi Đánh Giá -->
           <li class="<?= $current_page === 'phanhoi-list' ? "active" : '' ?>"><a href="?action=phanhoi-list">Danh sách phản hồi đánh giá</a></li>

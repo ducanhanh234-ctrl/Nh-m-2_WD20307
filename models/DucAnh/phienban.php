@@ -12,8 +12,5 @@ class phienban{
     public $nhacungcap_name;
     public $price;
     public $thoigian;
-    public $phuongtien;
     public $khoihanh;
-    public $khachsan_id;
-    public $khachsan_name;
 }

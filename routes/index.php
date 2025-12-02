@@ -110,12 +110,7 @@ match ($action) {
     'kehoachkh-delete' => (new HScontroller)->delete_kehoachkh($id),
 
 
-    // Quản Lý Giá
-
-    'gia-list' => (new giacontro)->giasaucung_list(),
-    'gia-insert' => (new giacontro)->giasaucung_insert(),
-    'gia-update' => (new giacontro)->giasaucung_update($id),
-    'gia-delete' => (new giacontro)->giasaucung_delete($id),
+    
     
     // Quản lý phản hồi đánh giá
     'phanhoi-list'   => (new PhanHoiController())->index(),

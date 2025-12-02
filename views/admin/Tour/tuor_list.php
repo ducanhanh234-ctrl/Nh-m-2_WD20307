@@ -14,10 +14,8 @@ require_once "views/admin/layout/header.php";
                   <th>danhmuc_id</th>
                   <th>mota</th>
                   <th>phienban_name</th>
-                  <th>nhacungcap_name</th>
                   <th>phienban_price</th>
                   <th>phienban_thoigian</th>
-                  <th>phienban_phuongtien</th>
                   <th>phienban_khoihanh</th>
                   <th>Active</th>
                 </tr>
@@ -32,10 +30,8 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->danhmuc_name?></td>
                   <td><?=$a->mota?></td>
                   <td><?=$a->phienban_name?></td>
-                  <td><?=$a->nhacungcap_name?></td>
                   <td><?=$a->phienban_price?></td>
                   <td><?=$a->phienban_thoigian?></td>
-                  <td><?=$a->phienban_phuongtien?></td>
                   <td><?=$a->phienban_khoihanh?></td>
                   <td>
                     <a href="?action=tuor-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>

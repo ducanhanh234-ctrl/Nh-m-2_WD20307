@@ -18,11 +18,8 @@ require_once "views/admin/layout/header.php";
                   <th>chinhsach_tuor_id</th>
                   <th>nhacungcap_id</th>
                   <th>price</th>
-                  <th>price sau cùng</th>
                   <th>thoigian</th>
-                  <th>phuongtien</th>
                   <th>khoihanh</th>
-                  <th>khachsan_id</th>
                   <th>Active</th>
                 </tr>
               </thead>
@@ -38,17 +35,8 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->chinhsach_tuor_name?></td>
                   <td><?=$a->nhacungcap_name?></td>
                   <td><?= number_format($a->price)?></td>
-                  <td><?php 
-                  foreach($arr_gia as $b){
-                    if($b->phienban_id == $a->id){
-                    echo number_format($b->tong_gia) ."VND<br>";
-                  }
-                  }
-                  ?></td>
                   <td><?=$a->thoigian?></td>
-                  <td><?=$a->phuongtien?></td>
                   <td><?=$a->khoihanh?></td>
-                  <td><?=$a->khachsan_name?></td>
                   <td class="action">
                     <a href="?action=phienban-update&id=<?=$a->id?>" class="sua_style_btn">Sửa</a>
                     <a href="?action=phienban-delete&id=<?=$a->id?>" class="xoa_style_btn" onclick="return confirm('Bạn có chắc muốn xóa ko')">Xóa</a>

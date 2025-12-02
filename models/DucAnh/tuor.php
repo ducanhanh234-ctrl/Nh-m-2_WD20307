@@ -11,6 +11,4 @@ class tuor{
     public $phienban_thoigian;
     public $phienban_phuongtien;
     public $phienban_khoihanh;
-    public $nhacungcap_id;
-    public $nhacungcap_name;
 }

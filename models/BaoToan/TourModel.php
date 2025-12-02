@@ -2,6 +2,7 @@
 
 class TourModel extends BaseModel {
     public function GetAllTour() {
+
         $sql = "SELECT 
                 tuor.*, 
                 danhmuc_tuor.name as danhmuc_name,
@@ -14,6 +15,7 @@ class TourModel extends BaseModel {
             JOIN phienban ON tuor.phienban_id = phienban.id
             ORDER BY tuor.id DESC";;
          
+
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();

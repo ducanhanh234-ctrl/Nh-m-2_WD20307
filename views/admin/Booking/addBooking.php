@@ -79,6 +79,7 @@
                   <select name="tuor_id" id="tourSelect" class="form-select" required>
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($listTour as $item) : ?>
+
                       <option 
                         value="<?= $item['id'] ?>" 
                         data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>"  
@@ -86,6 +87,7 @@
                       >
                         <?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)
                       </option>
+
                     <?php endforeach ; ?>
                   </select>
                 </div>
@@ -101,8 +103,9 @@
                   <label class="form-label">Số ngày</label>
                   <input type="text" id="songay" name="songay" class="form-control" value="<?= htmlspecialchars($_GET['songay'] ?? '') ?>" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm">
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
+
                   <select name="phuongtien_id" class="form-select">
                     <option value="">-- Chọn phương tiện --</option>
                     <?php if (!empty($listPhuongTien)): ?>
@@ -127,6 +130,7 @@
                     <?php endif; ?>
                   </select>
                 </div>
+
               </div>
             </div>
           </div>

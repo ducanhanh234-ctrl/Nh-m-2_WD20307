@@ -31,6 +31,8 @@ require_once "views/admin/layout/header.php";
                     <th>ID</th>
                     <th>Tên Khách</th>
                     <th>Số Người</th>
+
+
                     <th>HDV</th>
                     <th>Trạng Thái</th>
                     <th>Chi tiết</th>
@@ -43,6 +45,8 @@ require_once "views/admin/layout/header.php";
                         <td><?= $item['id'] ?? '' ?></td>
                         <td><?= $item['tenkhach'] ?? '' ?></td>
                         <td><?= $item['soluong_nguoi'] ?? $item['soluongnguoi'] ?? $item['soluong_nguoi'] ?? '' ?></td>
+
+
                         <td>
                             <?php if (!empty($item['hdv_name']) || !empty($item['hdv_id'])): ?>
                                 <?= htmlspecialchars($item['hdv_name'] ?? $item['hdv_id']) ?>
