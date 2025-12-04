@@ -184,10 +184,27 @@ class BookingModel extends BaseModel {
     }
 
     public function addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id = null, $khachsan_id = null) {
+        // Lấy giá tour từ bảng phienban thông qua tuor
+        $price = 0;
+        if (!empty($tuor_id)) {
+            $sqlPrice = "SELECT pb.price 
+                         FROM tuor t 
+                         JOIN phienban pb ON t.phienban_id = pb.id 
+                         WHERE t.id = :tuor_id 
+                         LIMIT 1";
+            $stmtPrice = $this->pdo->prepare($sqlPrice);
+            $stmtPrice->bindParam(':tuor_id', $tuor_id, PDO::PARAM_INT);
+            $stmtPrice->execute();
+            $price = (int)($stmtPrice->fetchColumn() ?? 0);
+        }
+
+        $soNguoi = (int)$soluong_nguoi;
+        $tongTienTour = $price > 0 && $soNguoi > 0 ? $price * $soNguoi : 0;
+
         $sql = "INSERT INTO `booking`
-                (`tenkhach`, `soluong_nguoi`, `tuor_id`, `sdt`, `gioitinh`, `cccd`, `songay`, `yeucaudacbiet`, `email`, `trangthai_booking`, `ngaykhoi_hanh`, `phuongtien_id`, `khachsan_id`)
+                (`tenkhach`, `soluong_nguoi`, `tuor_id`, `sdt`, `gioitinh`, `cccd`, `songay`, `yeucaudacbiet`, `email`, `trangthai_booking`, `ngaykhoi_hanh`, `phuongtien_id`, `khachsan_id`, `tong_tien_tour`)
                 VALUES
-                (:tenkhach, :soluong_nguoi, :tuor_id, :sdt, :gioitinh, :cccd, :songay, :yeucaudacbiet, :email, 1, :ngaykhoi_hanh, :phuongtien_id, :khachsan_id)";
+                (:tenkhach, :soluong_nguoi, :tuor_id, :sdt, :gioitinh, :cccd, :songay, :yeucaudacbiet, :email, 1, :ngaykhoi_hanh, :phuongtien_id, :khachsan_id, :tong_tien_tour)";
         
         $stmt = $this->pdo->prepare($sql);
 
@@ -203,6 +220,7 @@ class BookingModel extends BaseModel {
         $stmt->bindParam(':ngaykhoi_hanh', $ngaykhoi_hanh);
         $stmt->bindParam(':phuongtien_id', $phuongtien_id);
         $stmt->bindParam(':khachsan_id', $khachsan_id);
+        $stmt->bindParam(':tong_tien_tour', $tongTienTour, PDO::PARAM_INT);
 
         $stmt->execute();
         return $this->pdo->lastInsertId();
@@ -273,7 +291,9 @@ class BookingModel extends BaseModel {
     public function updateStatus($id, $statusId) {
         $sql = "UPDATE `booking` SET `trangthai_booking` = :status WHERE `id` = :id";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':status' => $statusId, ':id' => $id]);
+        $stmt->bindParam(':status', $statusId, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     // Gán HDV cho booking (nếu cột hdv_id tồn tại)
@@ -285,4 +305,76 @@ class BookingModel extends BaseModel {
         return $stmt->execute();
     }
 
+    // Lấy danh sách tất cả trạng thái booking
+    public function getAllStatuses() {
+        $sql = "SELECT * FROM trangthai_booking ORDER BY id ASC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Lấy lịch sử thanh toán của một booking
+    public function getPaymentHistory($bookingId) {
+        $sql = "SELECT * FROM thanhtoan WHERE booking_id = :booking_id ORDER BY ngay_thanh_toan DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':booking_id', $bookingId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Thêm thanh toán mới
+    public function addPayment($bookingId, $soTien, $phuongThuc, $ghiChu = null) {
+        $sql = "INSERT INTO thanhtoan (booking_id, so_tien, phuong_thuc, ghi_chu, ngay_thanh_toan) 
+                VALUES (:booking_id, :so_tien, :phuong_thuc, :ghi_chu, NOW())";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':booking_id', $bookingId, PDO::PARAM_INT);
+        $stmt->bindParam(':so_tien', $soTien, PDO::PARAM_INT);
+        $stmt->bindParam(':phuong_thuc', $phuongThuc);
+        $stmt->bindParam(':ghi_chu', $ghiChu);
+        
+        if ($stmt->execute()) {
+            // Cập nhật tổng tiền đã trả trong bảng booking
+            $this->updateBookingPayment($bookingId);
+            return true;
+        }
+        return false;
+    }
+
+    // Cập nhật tổng tiền đã trả trong booking
+    public function updateBookingPayment($bookingId) {
+        // Tính tổng tiền đã trả
+        $sqlSum = "SELECT COALESCE(SUM(so_tien), 0) as total FROM thanhtoan WHERE booking_id = :booking_id";
+        $stmtSum = $this->pdo->prepare($sqlSum);
+        $stmtSum->bindParam(':booking_id', $bookingId, PDO::PARAM_INT);
+        $stmtSum->execute();
+        $totalPaid = $stmtSum->fetchColumn();
+
+        // Cập nhật vào bảng booking
+        $sqlUpdate = "UPDATE booking SET da_thanh_toan = :da_thanh_toan WHERE id = :booking_id";
+        $stmtUpdate = $this->pdo->prepare($sqlUpdate);
+        $stmtUpdate->bindParam(':da_thanh_toan', $totalPaid, PDO::PARAM_INT);
+        $stmtUpdate->bindParam(':booking_id', $bookingId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
+
+        // Tự động cập nhật trạng thái dựa trên thanh toán
+        $this->autoUpdateStatusByPayment($bookingId, $totalPaid);
+    }
+
+    // Tự động cập nhật trạng thái dựa trên thanh toán
+    private function autoUpdateStatusByPayment($bookingId, $totalPaid) {
+        // Lấy thông tin booking
+        $booking = $this->GetBookingId($bookingId);
+        if (!$booking) return;
+
+        $tongTienTour = $booking['tong_tien_tour'] ?? 0;
+        $currentStatus = $booking['trangthai_booking'] ?? 1;
+        // Nếu đã thanh toán đủ hoặc vượt quá -> trạng thái 3 (Hoàn tất)
+        if ($tongTienTour > 0 && $totalPaid >= $tongTienTour && $currentStatus != 3) {
+            $this->updateStatus($bookingId, 3);
+        }
+        // Nếu đã thanh toán một phần và đang ở trạng thái 1 (Chờ thanh toán) -> chuyển sang 2 (Đã đặt cọc)
+        elseif ($totalPaid > 0 && $totalPaid < $tongTienTour && $currentStatus == 1) {
+            $this->updateStatus($bookingId, 2);
+        }
+    }
 }

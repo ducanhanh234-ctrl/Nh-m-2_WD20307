@@ -37,9 +37,22 @@ class BTcontroller {
         $danhsach_khach = $_POST['danhsach_khach'] ?? '';
 
         if ($booking_id && !empty($danhsach_khach)) {
+            $booking = $this->model->GetBookingId($booking_id);
+            $dsKhachDaCo = $this->model->GetDanhSachKhach($booking_id);
+
+            $tongNguoi = (int)($booking['soluong_nguoi'] ?? 0);
+            $soDaCo = is_array($dsKhachDaCo) ? count($dsKhachDaCo) : 0;
+            $soCanChiTiet = max($tongNguoi - 1, 0);
+            $soConThieu = max($soCanChiTiet - $soDaCo, 0);
+
             $danhsach_khach = json_decode($danhsach_khach, true);
             if (is_array($danhsach_khach)) {
-                foreach($danhsach_khach as $khach) {
+                if ($soConThieu > 0 && count($danhsach_khach) != $soConThieu) {
+                    header('Location: index.php?action=xemChiTietBooking&id=' . urlencode($booking_id));
+                    exit;
+                }
+
+                foreach ($danhsach_khach as $khach) {
                     $hovaten = $khach['name'] ?? '';
                     $ngaysinh = $khach['birthday'] ?? null;
                     $gioitinh = $khach['gender'] ?? '';
@@ -67,6 +80,9 @@ class BTcontroller {
 
         $booking = $this->model->GetBookingDetail($id);
         $dsKhach = $this->model->GetDanhSachKhach($id);
+        $listStatus = $this->model->getAllStatuses();
+        $paymentHistory = $this->model->getPaymentHistory($id);
+        
         include './views/admin/Booking/xemChiTietBooking.php';
     }
 
@@ -132,19 +148,30 @@ class BTcontroller {
         $booking_id = $this->model->addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
 
 
-        $danhsach_khach = $_POST['danhsach_khach'];
+        $danhsach_khach = $_POST['danhsach_khach'] ?? '';
 
-        if(!empty($danhsach_khach)) {
+        if (!empty($danhsach_khach)) {
             $danhsach_khach = json_decode($danhsach_khach, true);
 
-            foreach($danhsach_khach as $khach) {
-                $hovaten = $khach['name'];
-                $ngaysinh = $khach['birthday'];
-                $gioitinh = $khach['gender'];
-                $cccd = $khach['cccd'];
-                $sdt = $khach['phone'];
+            if (is_array($danhsach_khach)) {
+                $expectedDetail = max(((int)$soluong_nguoi) - 1, 0);
+                if ($expectedDetail > 0 && count($danhsach_khach) != $expectedDetail) {
+                    // Nếu số lượng chi tiết không khớp, bỏ qua việc lưu chi tiết để tránh sai lệch
+                    header('location: index.php?action=manageBookings');
+                    return;
+                }
 
-                $this -> model -> addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt);
+                foreach ($danhsach_khach as $khach) {
+                    $hovaten = $khach['name'] ?? '';
+                    $ngaysinh = $khach['birthday'] ?? null;
+                    $gioitinh = $khach['gender'] ?? '';
+                    $cccd = $khach['cccd'] ?? '';
+                    $sdt = $khach['phone'] ?? '';
+
+                    if (!empty($hovaten)) {
+                        $this->model->addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt);
+                    }
+                }
             }
         }
         header('location: index.php?action=manageBookings');
@@ -278,6 +305,49 @@ class BTcontroller {
         }
         
         header('location: index.php?action=nhatKiTour');
+        exit;
+    }
+
+    // Thêm thanh toán mới
+    public function addPayment() {
+        $booking_id = $_POST['booking_id'] ?? null;
+        $so_tien = $_POST['so_tien'] ?? 0;
+        $phuong_thuc = $_POST['phuong_thuc'] ?? '';
+        $ghi_chu = $_POST['ghi_chu'] ?? null;
+
+        if ($booking_id && $so_tien > 0 && !empty($phuong_thuc)) {
+            $result = $this->model->addPayment($booking_id, $so_tien, $phuong_thuc, $ghi_chu);
+            if ($result) {
+                $_SESSION['success_message'] = "Thêm thanh toán thành công!";
+            } else {
+                $_SESSION['error_message'] = "Có lỗi xảy ra khi thêm thanh toán!";
+            }
+        } else {
+            $_SESSION['error_message'] = "Vui lòng nhập đầy đủ thông tin!";
+        }
+
+        header('Location: index.php?action=xemChiTietBooking&id=' . urlencode($booking_id));
+        exit;
+    }
+
+    // Cập nhật trạng thái booking từ trang chi tiết
+    public function updateStatusBooking() {
+        $id = $_POST['id'] ?? $_GET['id'] ?? null;
+        $status = $_POST['status'] ?? $_GET['status'] ?? null;
+        
+        if ($id !== null && $status !== null) {
+            $id = (int)$id;
+            $status = (int)$status;
+            $result = $this->model->updateStatus($id, $status);
+            
+            if ($result) {
+                $_SESSION['success_message'] = "Cập nhật trạng thái thành công!";
+            } else {
+                $_SESSION['error_message'] = "Có lỗi xảy ra khi cập nhật trạng thái!";
+            }
+        }
+        
+        header('Location: index.php?action=xemChiTietBooking&id=' . urlencode($id));
         exit;
     }
 }

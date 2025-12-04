@@ -9,7 +9,7 @@
     <div class="d-flex justify-content-between align-items-center mb-2">
       <div>
         <h2 class="mb-1">Thêm booking mới</h2>
-        <p class="text-muted mb-0">Nhập đầy đủ thông tin tin booking, lịch trình, giá và hình ảnh</p>
+        <p class="text-muted mb-0">Nhập đầy đủ thông tin booking</p>
       </div>
       <div class="d-flex gap-2">
         <a href="?action=manageBookings" class="btn btn-outline-secondary">← Quay lại</a>
@@ -35,7 +35,7 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Tên Khách <span class="text-danger">*</span></label>
-                  <input type="text" name="tenkhach" class="form-control" value="<?= htmlspecialchars($_GET['tenkhach'] ?? '') ?>" required>
+                  <input type="text" name="tenkhach" class="form-control" value="<?= ($_GET['tenkhach'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Giới Tính</label>
@@ -103,7 +103,7 @@
                   <label class="form-label">Số ngày</label>
                   <input type="text" id="songay" name="songay" class="form-control" value="<?= htmlspecialchars($_GET['songay'] ?? '') ?>" placeholder="Số ngày sẽ đi Vd: 3 ngày 2 đêm">
                 </div>
-                <!-- <div class="col-md-6">
+                <div class="col-md-6">
                   <label class="form-label">Phương tiện di chuyển</label>
 
                   <select name="phuongtien_id" class="form-select">
@@ -169,11 +169,11 @@
                   </div>
                   <div class="col-md-2">
                     <label class="form-label form-label-sm">Số CMND/CCCD:</label>
-                    <input type="text" id="c_cccd" class="form-control form-control-sm" placeholder="Số CMND/CCCD">
+                    <input type="number" id="c_cccd" class="form-control form-control-sm" placeholder="Số CMND/CCCD">
                   </div>
                   <div class="col-md-2">
                     <label class="form-label form-label-sm">Số điện thoại:</label>
-                    <input type="text" id="c_phone" class="form-control form-control-sm" placeholder="Số ĐT">
+                    <input type="number" id="c_phone" class="form-control form-control-sm" placeholder="Số ĐT">
                   </div>
                   <div class="col-md-2">
                     <label class="form-label form-label-sm">Ghi chú:</label>
@@ -249,6 +249,15 @@ document.getElementById('tourSelect').addEventListener('change', function() {
 // Quản lý danh sách khách hàng
 const listCustomer = [];
 
+function getRequiredDetailCount() {
+  const inputSoNguoi = document.querySelector('input[name="soluong_nguoi"]');
+  const total = inputSoNguoi ? parseInt(inputSoNguoi.value, 10) : 0;
+  if (isNaN(total) || total <= 0) {
+    return 0;
+  }
+  return Math.max(total - 1, 0);
+}
+
 function addCustomer() {
   const name = document.getElementById('c_name').value;
   const birthday = document.getElementById('c_birthday').value;
@@ -256,6 +265,17 @@ function addCustomer() {
   const cccd = document.getElementById('c_cccd').value;
   const phone = document.getElementById('c_phone').value;
   const note = document.getElementById('c_note').value;
+
+  const requiredDetail = getRequiredDetailCount();
+  if (requiredDetail === 0) {
+    alert('Vui lòng nhập Số Người trước khi thêm khách chi tiết.');
+    return;
+  }
+
+  if (listCustomer.length >= requiredDetail) {
+    alert('Tổng số người đi là ' + (requiredDetail + 1) + ' nên chỉ cần nhập tối đa ' + requiredDetail + ' khách chi tiết (tính cả người đặt tour).');
+    return;
+  }
   
   // Kiểm tra validation cơ bản
   if (!name.trim()) {
@@ -311,6 +331,13 @@ function deleteCustomer(index) {
 
 
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  const requiredDetail = getRequiredDetailCount();
+  if (requiredDetail > 0 && listCustomer.length !== requiredDetail) {
+    alert('Số khách chi tiết phải đúng bằng Số Người - 1.\nVí dụ: Nếu Số Người = ' + (requiredDetail + 1) + ' thì phải nhập đúng ' + requiredDetail + ' khách chi tiết (không tính người đặt tour).');
+    e.preventDefault();
+    return;
+  }
+
   const jsonData = JSON.stringify(listCustomer);
   document.getElementById('danhsach_khach').value = jsonData;
 });
