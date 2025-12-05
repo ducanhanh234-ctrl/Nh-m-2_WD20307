@@ -83,6 +83,7 @@
                       <option 
                         value="<?= $item['id'] ?>" 
                         data-thoigian="<?= ($item['phienban_thoigian'] ?? '') ?>"  
+                        data-price="<?= ($item['phienban_price'] ?? 0) ?>"
                         <?= (isset($_GET['tuor_id']) && $_GET['tuor_id'] == $item['id']) ? 'selected' : '' ?>
                       >
                         <?= ($item['name']) ?> (<?= ($item['danhmuc_name']) ?>)
@@ -91,9 +92,17 @@
                     <?php endforeach ; ?>
                   </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label class="form-label">Số Người <span class="text-danger">*</span></label>
-                  <input type="number" name="soluong_nguoi" class="form-control" min="1" value="<?= htmlspecialchars($_GET['soluong_nguoi'] ?? '') ?>" required>
+                  <input type="number" name="soluong_nguoi" id="soluongNguoi" class="form-control" min="1" value="<?= htmlspecialchars($_GET['soluong_nguoi'] ?? '') ?>" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Giá tour / 1 người</label>
+                  <input type="text" id="giaTour" class="form-control" value="" readonly>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Tổng tiền tour (ước tính)</label>
+                  <input type="text" id="tongTienTour" class="form-control" value="" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Ngày khởi hành (dự kiến)</label>
@@ -239,12 +248,67 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Auto-fill tour data
-document.getElementById('tourSelect').addEventListener('change', function() {
-  const selectedOption = this.options[this.selectedIndex];
+// Auto-fill tour data & price
+const tourSelect = document.getElementById('tourSelect');
+const inputSongay = document.getElementById('songay');
+const inputSoNguoi = document.getElementById('soluongNguoi');
+const inputGiaTour = document.getElementById('giaTour');
+const inputTongTienTour = document.getElementById('tongTienTour');
+
+function formatVnd(value) {
+  if (!value || isNaN(value)) return '';
+  return Number(value).toLocaleString('vi-VN') + ' VND';
+}
+
+function updateTourInfo() {
+  if (!tourSelect) return;
+  const selectedOption = tourSelect.options[tourSelect.selectedIndex];
+  if (!selectedOption) return;
+
   const thoigian = selectedOption.getAttribute('data-thoigian');
-  document.getElementById('songay').value = thoigian || '';
-});
+  const price = parseInt(selectedOption.getAttribute('data-price') || '0', 10);
+
+  if (inputSongay) {
+    inputSongay.value = thoigian || '';
+  }
+
+  if (inputGiaTour) {
+    inputGiaTour.value = price > 0 ? formatVnd(price) : '';
+  }
+
+  updateTongTien();
+}
+
+function updateTongTien() {
+  if (!inputTongTienTour || !inputSoNguoi || !tourSelect) return;
+  const selectedOption = tourSelect.options[tourSelect.selectedIndex];
+  if (!selectedOption) {
+    inputTongTienTour.value = '';
+    return;
+  }
+
+  const price = parseInt(selectedOption.getAttribute('data-price') || '0', 10);
+  const soNguoi = parseInt(inputSoNguoi.value || '0', 10);
+
+  if (!price || !soNguoi || price <= 0 || soNguoi <= 0) {
+    inputTongTienTour.value = '';
+    return;
+  }
+
+  const tong = price * soNguoi;
+  inputTongTienTour.value = formatVnd(tong);
+}
+
+if (tourSelect) {
+  tourSelect.addEventListener('change', updateTourInfo);
+}
+
+if (inputSoNguoi) {
+  inputSoNguoi.addEventListener('input', updateTongTien);
+}
+
+// Khởi tạo lại thông tin nếu đã có sẵn tour và số người (khi reload form)
+updateTourInfo();
 
 // Quản lý danh sách khách hàng
 const listCustomer = [];
