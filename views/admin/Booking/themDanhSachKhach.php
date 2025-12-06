@@ -57,6 +57,18 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="mb-3">Danh sách khách sẽ thêm</h4>
+                <?php
+                    $tongNguoi = (int)($booking['soluong_nguoi'] ?? 0);
+                    $soDaCo = !empty($dsKhach) && is_array($dsKhach) ? count($dsKhach) : 0;
+                    $soCanChiTiet = max($tongNguoi - 1, 0);
+                    $soConThieu = max($soCanChiTiet - $soDaCo, 0);
+                ?>
+                <p class="text-muted mb-2">
+                    Tổng số người trong booking: <strong><?= $tongNguoi ?></strong><br>
+                    Số khách chi tiết cần có (không tính người đặt tour): <strong><?= $soCanChiTiet ?></strong><br>
+                    Số khách chi tiết đã có: <strong><?= $soDaCo ?></strong><br>
+                    Số khách chi tiết còn cần thêm: <strong id="soConThieuText" data-conthieu="<?= $soConThieu ?>"><?= $soConThieu ?></strong>
+                </p>
                 <div class="table-responsive">
                 <table class="table table-bordered table-sm mb-0">
                     <thead class="table-light">
@@ -122,12 +134,32 @@
 <script>
 const listCustomer = [];
 
+function getSoConThieu() {
+  const el = document.getElementById('soConThieuText');
+  if (!el) return 0;
+  const valueAttr = el.getAttribute('data-conthieu');
+  const num = parseInt(valueAttr, 10);
+  if (isNaN(num) || num < 0) return 0;
+  return num;
+}
+
 function addCustomer() {
   const name = document.getElementById('c_name').value;
   const birthday = document.getElementById('c_birthday').value;
   const gender = document.getElementById('c_gender').value;
   const cccd = document.getElementById('c_cccd').value;
   const phone = document.getElementById('c_phone').value;
+
+  const soConThieu = getSoConThieu();
+  if (soConThieu === 0) {
+    alert('Đã đủ số khách chi tiết cần thêm cho booking này.');
+    return;
+  }
+
+  if (listCustomer.length >= soConThieu) {
+    alert('Bạn chỉ được thêm tối đa ' + soConThieu + ' khách chi tiết cho booking này.');
+    return;
+  }
 
   if (!name.trim()) {
     alert('Vui lòng nhập họ và tên!');
@@ -174,12 +206,20 @@ function deleteCustomer(index) {
 }
 
 document.getElementById('formThemKhach').addEventListener('submit', function(e) {
-  if (listCustomer.length === 0) {
-    if (!confirm('Chưa có khách nào trong danh sách tạm, bạn có chắc muốn lưu không?')) {
-      e.preventDefault();
-      return;
-    }
+  const soConThieu = getSoConThieu();
+
+  if (soConThieu > 0 && listCustomer.length !== soConThieu) {
+    alert('Bạn cần thêm đúng ' + soConThieu + ' khách chi tiết cho booking này (không tính người đặt tour).\nVui lòng kiểm tra lại danh sách khách sẽ thêm.');
+    e.preventDefault();
+    return;
   }
+
+  if (soConThieu === 0 && listCustomer.length > 0) {
+    alert('Booking này đã đủ số khách chi tiết, không cần thêm nữa.');
+    e.preventDefault();
+    return;
+  }
+
   const jsonData = JSON.stringify(listCustomer);
   document.getElementById('danhsach_khach').value = jsonData;
 });

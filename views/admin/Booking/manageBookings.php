@@ -6,7 +6,6 @@ require_once "views/admin/layout/header.php";
 <div class="chart">
     <div class="button-group">
         <a class="phanphong_style_btn" href="?action=addBooking">Thêm Booking</a>
-        <a class="sua_style_btn" href="?action=quanlitrangthai">Quản lí trạng thái</a>
     </div>
 
     <?php if (isset($_SESSION['error_message'])): ?>

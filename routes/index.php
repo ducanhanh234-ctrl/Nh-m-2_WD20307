@@ -57,6 +57,8 @@ match ($action) {
     // ! Quản lí Trạng thái Booking
     'quanlitrangthai' => (new BTcontroller) -> quanlitrangthai(),
     'changeStatus' => (new BTcontroller) -> changeStatus(),
+    'updateStatusBooking' => (new BTcontroller) -> updateStatusBooking(),
+    'addPayment' => (new BTcontroller) -> addPayment(),
 
     // 5 Linh Trang Quản Lý Danh Mục Tuor
     'tuor_danhmuc'  => (new HScontroller)->all_danhmuc(),

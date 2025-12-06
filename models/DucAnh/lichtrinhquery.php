@@ -18,7 +18,7 @@ JOIN tuor ON lichtrinh.tuor_id = tuor.id";
             $arr[]=$lichtrinh;
         }
         return $arr;
-        }catch(Exception $e){
+        }catch(Exception $e){   
             echo "Lỗi<br>".$e->getMessage();
         }
         
