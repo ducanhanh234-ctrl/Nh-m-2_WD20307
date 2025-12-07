@@ -31,10 +31,11 @@ class HScontroller{
         }
         include "views/admin/DanhMuc/danhmuc_insert.php";
     }
+    // hàm update sp
     public function update_danhmuc($id){
         $arr_danhmuc = $this->danhmucquery->find($id);
         $danhmuc = new danhmuc();
-        $danhmuc->id = $id;
+      $danhmuc->id = $id;
         if(isset($_POST["nut"])){
             $danhmuc->name = trim($_POST["name"]);
             $data = $this->danhmucquery->update($danhmuc);
@@ -46,7 +47,8 @@ class HScontroller{
         }
         include "views/admin/DanhMuc/danhmuc_update.php";
     }
-    public function delete_danhmuc($id){
+   //hàm xóa
+   public function delete_danhmuc($id){
         $arr_tuor=$this->tuorquery->find($id);
         if ($arr_tuor->danhmuc_id == $id){
             echo "<script> 
