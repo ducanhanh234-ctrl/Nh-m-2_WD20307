@@ -14,10 +14,12 @@ class HScontroller{
         $this->UsersQuery = new UsersQuery();
         $this->tuorquery = new tuorquery();
     }
+    // hàm danh mục
     public function all_danhmuc(){
         $arr_danhmuc = $this->danhmucquery->all();
         include "views/admin/Tour/tuor_danhmuc.php";
     }
+    // hàm insert
     public function insert_danhmuc(){
         $danhmuc = new danhmuc();
         if(isset($_POST["nut"])){
@@ -29,10 +31,11 @@ class HScontroller{
         }
         include "views/admin/DanhMuc/danhmuc_insert.php";
     }
+    // hàm update sp
     public function update_danhmuc($id){
         $arr_danhmuc = $this->danhmucquery->find($id);
         $danhmuc = new danhmuc();
-        $danhmuc->id = $id;
+      $danhmuc->id = $id;
         if(isset($_POST["nut"])){
             $danhmuc->name = trim($_POST["name"]);
             $data = $this->danhmucquery->update($danhmuc);
@@ -44,7 +47,8 @@ class HScontroller{
         }
         include "views/admin/DanhMuc/danhmuc_update.php";
     }
-    public function delete_danhmuc($id){
+   //hàm xóa
+   public function delete_danhmuc($id){
         $arr_tuor=$this->tuorquery->find($id);
         if ($arr_tuor->danhmuc_id == $id){
             echo "<script> 
@@ -61,15 +65,17 @@ class HScontroller{
        }
     }
 
-
+    // hàm all
     public function all_kehoachkh(){
         $arr_kehoachkh=$this->kehoachkhquery->all();
         include "views/admin/Kehoach/Kehoach_list.php";
     }
+    //hàm kehoach_hdv
     public function kehoachkh_hdv(){
         $arr_kehoachkh=$this->kehoachkhquery->all();
         include "views/HDV/Kehoach_list.php";
     }
+    //hàm taomoi kehoachkh
      public function insert_kehoachkh(){
         $arr_phienban=$this->phienbanquery->all();
         $arr_lichtrinh=$this->lichtrinhquery->all();
@@ -87,6 +93,7 @@ class HScontroller{
         }
         include "views/admin/Kehoach/Kehoachkh_insert.php";
     }
+    // hàm capnhat kehoachkh
     public function update_kehoachkh($id){
          $arr_phienban=$this->phienbanquery->all();
         $arr_lichtrinh=$this->lichtrinhquery->all();
@@ -108,6 +115,7 @@ class HScontroller{
         }
         include "views/admin/Kehoach/Kehoachkh_update.php";
     }
+    //hàm xóa khkh
     public function delete_kehoachkh($id){
         $arr_tuor=$this->tuorquery->find($id);
         if ($arr_tuor->kehoachkh_id == $id){
