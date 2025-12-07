@@ -14,10 +14,12 @@ class HScontroller{
         $this->UsersQuery = new UsersQuery();
         $this->tuorquery = new tuorquery();
     }
+    // hàm danh mục
     public function all_danhmuc(){
         $arr_danhmuc = $this->danhmucquery->all();
         include "views/admin/Tour/tuor_danhmuc.php";
     }
+    // hàm insert
     public function insert_danhmuc(){
         $danhmuc = new danhmuc();
         if(isset($_POST["nut"])){
