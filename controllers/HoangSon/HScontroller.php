@@ -65,15 +65,17 @@ class HScontroller{
        }
     }
 
-
+    // hàm all
     public function all_kehoachkh(){
         $arr_kehoachkh=$this->kehoachkhquery->all();
         include "views/admin/Kehoach/Kehoach_list.php";
     }
+    //hàm kehoach_hdv
     public function kehoachkh_hdv(){
         $arr_kehoachkh=$this->kehoachkhquery->all();
         include "views/HDV/Kehoach_list.php";
     }
+    //hàm taomoi kehoachkh
      public function insert_kehoachkh(){
         $arr_phienban=$this->phienbanquery->all();
         $arr_lichtrinh=$this->lichtrinhquery->all();
@@ -91,6 +93,7 @@ class HScontroller{
         }
         include "views/admin/Kehoach/Kehoachkh_insert.php";
     }
+    // hàm capnhat kehoachkh
     public function update_kehoachkh($id){
          $arr_phienban=$this->phienbanquery->all();
         $arr_lichtrinh=$this->lichtrinhquery->all();
@@ -112,6 +115,7 @@ class HScontroller{
         }
         include "views/admin/Kehoach/Kehoachkh_update.php";
     }
+    //hàm xóa khkh
     public function delete_kehoachkh($id){
         $arr_tuor=$this->tuorquery->find($id);
         if ($arr_tuor->kehoachkh_id == $id){
