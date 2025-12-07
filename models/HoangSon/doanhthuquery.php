@@ -2,7 +2,7 @@
 class doanhthuquery extends BaseModel{
     public function all(){
         try{
-        $sql = "SELECT doanhthu.* , tuor.name as tuor_name , thanhtoan.sotiendathanhtoan as thanhtoan_name
+        $sql = "SELECT doanhthu.* , tuor.name as tuor_name , thanhtoan.so_tien as thanhtoan_name
 FROM doanhthu
 JOIN tuor ON doanhthu.tuor_id = tuor.id
 JOIN thanhtoan ON doanhthu.thanhtoan_id = thanhtoan.id";
