@@ -26,12 +26,15 @@ class DAcontroller {
         $this->loginquery = new loginquery();
         $this->UsersQuery = new UsersQuery();
     }
+    //hàm index
     public function index(){
         include "views/admin/index.php";
     }
+    //hàm index hdv
     public function index_hdv(){
         include "views/HDV/index.php";
     }
+    //hàm đăng nhập
     public function login(){
          $arr = $this->loginquery->all();
         if(isset($_POST["dangnhap"])){
@@ -56,6 +59,7 @@ class DAcontroller {
         }
         include "views/login.php";
     }
+    //hàm đăng xuất
     public function logup(){
         $arr_nhansu = $this->UsersQuery->getAll();
         $login = new login();
@@ -78,14 +82,18 @@ class DAcontroller {
         include "views/logout.php";
 
     }
+    //hàm tour
     public function tuor(){
        $arr_tuor = $this->tuorquery->all();
        include "views/admin/Tour/tuor_list.php";
     }
+    //hàm phiên bản
     public function phienban(){
        $arr_phienban = $this->phienbanquery->all();
        include "views/admin/PhienBan/phienban_list.php";
     }
+    //hàm tạo mới
+    //phiên bản
     public function insert_phienban(){
         $arr_loaipb = $this->loaipbquery->all();
         $arr_anhtuor = $this->anh_tuorquery->all();
@@ -108,6 +116,8 @@ class DAcontroller {
         }
      include "views/admin/PhienBan/insert_pb.php";
     }
+    //hàm cập nhật
+    //phiên bản
     public function update_phienban($id){
         $arr_find = $this->phienbanquery->find($id);
         $arr_loaipb = $this->loaipbquery->all();
@@ -134,6 +144,7 @@ class DAcontroller {
         }
      include "views/admin/PhienBan/update_pb.php";
     }
+    //hàm xóa phiên bản
     public function delete_phienban($id){
         $arr_tuor = $this->tuorquery->find($id);
         $arr_phienban = $this->phienbanquery->find($id);
@@ -151,6 +162,7 @@ class DAcontroller {
             echo "Lỗi";
         }
     }
+    //hàm tạo mới tour
     public function insert_tuor(){
         $arr_danhmuc = $this->danhmucquery->all();
         $arr_phienban = $this->phienbanquery->all();
