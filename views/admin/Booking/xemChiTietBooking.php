@@ -68,11 +68,10 @@
                     </div>
                 </div>
 
-                <!-- Danh sách thành viên đoàn -->
+                <!-- Danh sách thành viên đoàn (chỉ xem) -->
                 <div class="card mb-4">
-                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0"><i class="bi bi-people me-2"></i>Danh sách thành viên đoàn</h5>
-                        <a href="?action=themDanhSachKhach&id=<?= $booking['id'] ?>" class="btn btn-light btn-sm">+ Thêm khách</a>
                     </div>
                     <div class="card-body">
                         <?php if (!empty($dsKhach) && is_array($dsKhach)): ?>
@@ -110,7 +109,7 @@
 
                 <!-- Thông tin Tour & Dịch vụ -->
                 <div class="card mb-4">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-map me-2"></i>Thông tin Tour & Dịch vụ</h5>
                     </div>
                     <div class="card-body">
@@ -145,7 +144,7 @@
 
                 <!-- Yêu cầu đặc biệt -->
                 <div class="card mb-4">
-                    <div class="card-header bg-warning text-dark">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Yêu cầu đặc biệt</h5>
                     </div>
                     <div class="card-body">
@@ -159,7 +158,7 @@
                 <div class="sticky-sidebar">
                     <!-- Box 1: Tài chính -->
                     <div class="card mb-4 border-danger">
-                        <div class="card-header bg-danger text-white">
+                        <div class="card-header">
                             <h5 class="mb-0"><i class="bi bi-cash-coin me-2"></i>Tài chính</h5>
                         </div>
                         <div class="card-body">
@@ -187,7 +186,7 @@
 
                     <!-- Box 2: Hành động -->
                     <div class="card mb-4">
-                        <div class="card-header bg-secondary text-white">
+                        <div class="card-header">
                             <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Hành động</h5>
                         </div>
                         <div class="card-body">
@@ -199,7 +198,7 @@
 
                     <!-- Box 3: Trạng thái -->
                     <div class="card mb-4">
-                        <div class="card-header bg-info text-white">
+                        <div class="card-header">
                             <h5 class="mb-0"><i class="bi bi-flag me-2"></i>Trạng thái</h5>
                         </div>
                         <div class="card-body">
@@ -230,7 +229,7 @@
 
                     <!-- Box 4: Lịch sử thanh toán -->
                     <div class="card mb-4">
-                        <div class="card-header bg-dark text-white">
+                        <div class="card-header">
                             <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Lịch sử thanh toán</h5>
                         </div>
                         <div class="card-body" style="max-height: 400px; overflow-y: auto;">
@@ -263,7 +262,15 @@
                                                 <span class="badge bg-primary"><?= htmlspecialchars($payment['phuong_thuc'] ?? '') ?></span>
                                             </div>
                                             <?php if (!empty($payment['ghi_chu'])): ?>
-                                                <p class="mb-0 small text-muted"><?= htmlspecialchars($payment['ghi_chu']) ?></p>
+                                                <p class="mb-1 small text-muted"><?= htmlspecialchars($payment['ghi_chu']) ?></p>
+                                            <?php endif; ?>
+
+                                            <?php if (!empty($payment['anh_thanh_toan'])): ?>
+                                                <div class="mt-1">
+                                                    <a href="<?= htmlspecialchars($payment['anh_thanh_toan']) ?>" target="_blank">
+                                                        <img src="<?= htmlspecialchars($payment['anh_thanh_toan']) ?>" alt="Ảnh thanh toán" class="img-thumbnail payment-proof-thumb">
+                                                    </a>
+                                                </div>
                                             <?php endif; ?>
                                         </div>
                                     <?php endforeach; ?>
@@ -285,7 +292,7 @@
 
 <!-- Modal Thêm thanh toán -->
 <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog payment-modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="addPaymentModalLabel">
@@ -293,7 +300,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="?action=addPayment">
+            <form method="POST" action="?action=addPayment" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input type="hidden" name="booking_id" value="<?= $booking['id'] ?? '' ?>">
                     
@@ -314,6 +321,16 @@
                             <option value="The">Thẻ</option>
                             <option value="Khac">Khác</option>
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh minh chứng thanh toán</label>
+                        <input type="file" name="anh_thanh_toan" id="anh_thanh_toan_input" class="form-control" accept="image/*">
+                        <small class="form-text text-muted">Tùy chọn, có thể upload biên lai/chụp màn hình thanh toán.</small>
+                        <div class="mt-2" id="anh_thanh_toan_preview_wrapper" style="display:none;">
+                            <span class="form-text d-block mb-1">Xem thử ảnh đã chọn:</span>
+                            <img id="anh_thanh_toan_preview" src="" alt="Preview ảnh thanh toán" class="img-thumbnail payment-proof-thumb">
+                        </div>
                     </div>
                     
                     <div class="mb-3">
@@ -390,6 +407,39 @@
     }
 
     inputReal.value = value;
+  });
+})();
+
+// Preview ảnh thanh toán trước khi upload
+(function() {
+  const inputFile = document.getElementById('anh_thanh_toan_input');
+  const previewImg = document.getElementById('anh_thanh_toan_preview');
+  const wrapper = document.getElementById('anh_thanh_toan_preview_wrapper');
+
+  if (!inputFile || !previewImg || !wrapper) return;
+
+  inputFile.addEventListener('change', function() {
+    const file = this.files && this.files[0] ? this.files[0] : null;
+    if (!file) {
+      wrapper.style.display = 'none';
+      previewImg.src = '';
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      alert('Vui lòng chọn file hình ảnh hợp lệ.');
+      this.value = '';
+      wrapper.style.display = 'none';
+      previewImg.src = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImg.src = e.target.result;
+      wrapper.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
   });
 })();
 </script>

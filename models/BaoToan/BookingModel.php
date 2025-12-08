@@ -227,6 +227,10 @@ class BookingModel extends BaseModel {
     }   
 
     public function addBookingChiTiet($booking_id, $hovaten, $ngaysinh, $gioitinh, $cccd, $sdt) {
+        // Đảm bảo không insert NULL vào cột ngaysinh (tránh lỗi ràng buộc NOT NULL)
+        if (empty($ngaysinh)) {
+            $ngaysinh = date('Y-m-d');
+        }
         $sql = "INSERT INTO `bookingchitiet`
                 (`booking_id`, `hovaten`, `ngaysinh`, `gioitinh`, `cccd`, `sdt`)
                 VALUES
@@ -323,14 +327,18 @@ class BookingModel extends BaseModel {
     }
 
     // Thêm thanh toán mới
-    public function addPayment($bookingId, $soTien, $phuongThuc, $ghiChu = null) {
-        $sql = "INSERT INTO thanhtoan (booking_id, so_tien, phuong_thuc, ghi_chu, ngay_thanh_toan) 
-                VALUES (:booking_id, :so_tien, :phuong_thuc, :ghi_chu, NOW())";
+    public function addPayment($bookingId, $soTien, $phuongThuc, $ghiChu = null, $anhThanhToan = null) {
+        if ($anhThanhToan === null) {
+            $anhThanhToan = '';
+        }
+        $sql = "INSERT INTO thanhtoan (booking_id, so_tien, phuong_thuc, ghi_chu, anh_thanh_toan, ngay_thanh_toan) 
+                VALUES (:booking_id, :so_tien, :phuong_thuc, :ghi_chu, :anh_thanh_toan, NOW())";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':booking_id', $bookingId, PDO::PARAM_INT);
         $stmt->bindParam(':so_tien', $soTien, PDO::PARAM_INT);
         $stmt->bindParam(':phuong_thuc', $phuongThuc);
         $stmt->bindParam(':ghi_chu', $ghiChu);
+        $stmt->bindParam(':anh_thanh_toan', $anhThanhToan);
         
         if ($stmt->execute()) {
             // Cập nhật tổng tiền đã trả trong bảng booking
