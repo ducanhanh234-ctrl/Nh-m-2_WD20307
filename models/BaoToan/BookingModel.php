@@ -257,6 +257,23 @@ class BookingModel extends BaseModel {
     } 
 
     public function editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id = null, $khachsan_id = null) {
+        // Tính lại tổng tiền tour dựa trên giá hiện tại của tour và số lượng người
+        $price = 0;
+        if (!empty($tuor_id)) {
+            $sqlPrice = "SELECT pb.price 
+                         FROM tuor t 
+                         JOIN phienban pb ON t.phienban_id = pb.id 
+                         WHERE t.id = :tuor_id 
+                         LIMIT 1";
+            $stmtPrice = $this->pdo->prepare($sqlPrice);
+            $stmtPrice->bindParam(':tuor_id', $tuor_id, PDO::PARAM_INT);
+            $stmtPrice->execute();
+            $price = (int)($stmtPrice->fetchColumn() ?? 0);
+        }
+
+        $soNguoi = (int)$soluong_nguoi;
+        $tongTienTour = $price > 0 && $soNguoi > 0 ? $price * $soNguoi : 0;
+
         $sql = "UPDATE `booking` 
                 SET `tenkhach` = :tenkhach, 
                     `soluong_nguoi` = :soluong_nguoi, 
@@ -269,7 +286,8 @@ class BookingModel extends BaseModel {
                     `email` = :email, 
                     `ngaykhoi_hanh` = :ngaykhoi_hanh,
                     `phuongtien_id` = :phuongtien_id,
-                    `khachsan_id` = :khachsan_id
+                    `khachsan_id` = :khachsan_id,
+                    `tong_tien_tour` = :tong_tien_tour
                 WHERE `booking`.`id` = :id";
         
         $stmt = $this->pdo->prepare($sql);
@@ -287,6 +305,7 @@ class BookingModel extends BaseModel {
         $stmt->bindParam(':ngaykhoi_hanh', $ngaykhoi_hanh);
         $stmt->bindParam(':phuongtien_id', $phuongtien_id);
         $stmt->bindParam(':khachsan_id', $khachsan_id);
+        $stmt->bindParam(':tong_tien_tour', $tongTienTour, PDO::PARAM_INT);
         
         return $stmt->execute();
     }

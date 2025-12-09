@@ -186,11 +186,13 @@ class BTcontroller {
     
     public function editBooking() {
         $id = $_GET['id'];
-        $getBookingId = $this -> model -> GetBookingId($id);
-        $listTour = $this -> tour -> GetAllTour();
+        $getBookingId = $this->model->GetBookingId($id);
+        $listTour = $this->tour->GetAllTour();
         // Danh sách phương tiện và khách sạn cho select
         $listPhuongTien = $this->model->getAllPhuongTienWithNcc();
         $listKhachSan = $this->model->getAllKhachSanWithNcc();
+        // Danh sách khách chi tiết hiện tại của booking
+        $dsKhach = $this->model->GetDanhSachKhach($id);
 
         include "views/admin/Booking/editBooking.php";
     }
@@ -211,6 +213,48 @@ class BTcontroller {
         $khachsan_id = $_POST['khachsan_id'] ?? null;
         
         $this->model->editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
+        
+        // Xử lý danh sách khách mới thêm (nếu có)
+        $danhsach_khach = $_POST['danhsach_khach'] ?? '';
+
+        // Lấy số khách chi tiết đã có
+        $dsKhachDaCo = $this->model->GetDanhSachKhach($id);
+        $soDaCo = is_array($dsKhachDaCo) ? count($dsKhachDaCo) : 0;
+        $tongNguoi = (int)$soluong_nguoi;
+
+        $soMoiGuiLen = 0;
+        $dsMoi = [];
+
+        if (!empty($danhsach_khach)) {
+            $dsMoi = json_decode($danhsach_khach, true);
+            if (is_array($dsMoi)) {
+                $soMoiGuiLen = count($dsMoi);
+            } else {
+                $dsMoi = [];
+            }
+        }
+
+        // Tổng khách chi tiết sau cập nhật phải đúng bằng Số Người
+        if ($tongNguoi !== ($soDaCo + $soMoiGuiLen)) {
+            header('location: index.php?action=manageBookings');
+            return;
+        }
+
+        // Chỉ khi số lượng hợp lệ mới thêm khách mới
+        if (!empty($dsMoi)) {
+            foreach ($dsMoi as $khach) {
+                $hovaten = $khach['name'] ?? '';
+                $ngaysinh = $khach['birthday'] ?? null;
+                $gioitinh_khach = $khach['gender'] ?? '';
+                $cccd_khach = $khach['cccd'] ?? '';
+                $sdt_khach = $khach['phone'] ?? '';
+
+                if (!empty($hovaten)) {
+                    $this->model->addBookingChiTiet($id, $hovaten, $ngaysinh, $gioitinh_khach, $cccd_khach, $sdt_khach);
+                }
+            }
+        }
+
         header('location: index.php?action=manageBookings');
     }
 
