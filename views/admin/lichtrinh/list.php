@@ -21,6 +21,7 @@ require_once "views/admin/layout/header.php";
                   <th>id</th>
                   <th>tuor_name</th>
                   <th>ngay</th>
+                  <th>gio</th>
                   <th>diadiem</th>
                   <th>hoatdongcuthe</th>
                   <th>Active</th>
@@ -34,6 +35,7 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->id?></td>
                   <td><?=$a->tuor_name?></td>
                   <td><?=$a->ngay?></td>
+                  <td><?=$a->gio?></td>
                   <td><?=$a->diadiem?></td>
                   <td><?=$a->hoatdongcuthe?></td>
                   <td class="action">

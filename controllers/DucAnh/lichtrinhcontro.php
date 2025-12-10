@@ -16,26 +16,19 @@ class lichtrinhcontro {
     public function lichtrinh_insert(){
         $arr_tuor = $this->tuorquery->all();
         $lichtrinh = new lichtrinh();
-        $ngay_hientai = $_SESSION["ngay_hien_tai"];
         $so_ngay = $_SESSION["songay"];
         $tuor_id = $_SESSION["tuor_id"];
-        $lichtrinh->ngay = $ngay_hientai;
+       
         if(isset($_POST["nut"])){
             $lichtrinh->tuor_id = trim($_POST["tuor_id"]);
             $lichtrinh->diadiem = trim($_POST["diadiem"]);
             $lichtrinh->hoatdongcuthe = trim($_POST["hoatdongcuthe"]);
+            $lichtrinh->gio = trim($_POST["gio"]);
+             $lichtrinh->ngay = trim($_POST["ngay"]);
             $data = $this->lichtrinhquery->insert($lichtrinh);
             if($data == 1){
-            if($ngay_hientai < $so_ngay){
-            $_SESSION["ngay_hien_tai"]++;
             header("Location: ?action=lichtrinh-insert&tuor_id=$tuor_id");
             exit();
-            } else {
-            unset($_SESSION["so_ngay"]);
-            unset($_SESSION["ngay_hien_tai"]);
-            header("Location: ?action=lichtrinh-list");
-            exit();
-            }
             }
             }
             include "views/admin/lichtrinh/insert.php";
@@ -53,6 +46,7 @@ class lichtrinhcontro {
             $lichtrinh->ngay = trim($_POST["ngay"]);
             $lichtrinh->diadiem = trim($_POST["diadiem"]);
             $lichtrinh->hoatdongcuthe = trim($_POST["hoatdongcuthe"]);
+            $lichtrinh->gio = trim($_POST["gio"]);
             $data = $this->lichtrinhquery->update($lichtrinh);
             if($data == 1){
                 header("Location: ?action=lichtrinh-list");
