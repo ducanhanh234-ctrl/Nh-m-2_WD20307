@@ -15,6 +15,7 @@ JOIN tuor ON lichtrinh.tuor_id = tuor.id";
             $lichtrinh->ngay = $a["ngay"];
             $lichtrinh->diadiem = $a["diadiem"];
             $lichtrinh->hoatdongcuthe = $a["hoatdongcuthe"];
+            $lichtrinh->gio = $a["gio"];
             $arr[]=$lichtrinh;
         }
         return $arr;
@@ -37,6 +38,7 @@ JOIN tuor ON lichtrinh.tuor_id = tuor.id";
             $lichtrinh->ngay = $data["ngay"];
             $lichtrinh->diadiem = $data["diadiem"];
             $lichtrinh->hoatdongcuthe = $data["hoatdongcuthe"];
+            $lichtrinh->gio = $data["gio"];
            return $lichtrinh;
         }
         
@@ -47,8 +49,8 @@ JOIN tuor ON lichtrinh.tuor_id = tuor.id";
     }
     public function insert(lichtrinh $lichtrinh){
         try{
-         $sql = "INSERT INTO `lichtrinh`(`tuor_id`, `ngay`, `diadiem`, `hoatdongcuthe`) VALUES 
-         ('".$lichtrinh->tuor_id."','".$lichtrinh->ngay."','".$lichtrinh->diadiem."','".$lichtrinh->hoatdongcuthe."')";
+         $sql = "INSERT INTO `lichtrinh`(`tuor_id`, `ngay`, `diadiem`, `hoatdongcuthe`, `gio`) VALUES 
+         ('".$lichtrinh->tuor_id."','".$lichtrinh->ngay."','".$lichtrinh->diadiem."','".$lichtrinh->hoatdongcuthe."','".$lichtrinh->gio."')";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
@@ -60,7 +62,9 @@ JOIN tuor ON lichtrinh.tuor_id = tuor.id";
          $sql = "UPDATE `lichtrinh` SET `tuor_id`='".$lichtrinh->tuor_id."',
          `ngay`='".$lichtrinh->ngay."',
          `diadiem`='".$lichtrinh->diadiem."',
-         `hoatdongcuthe`='".$lichtrinh->hoatdongcuthe."' WHERE `id`='".$lichtrinh->id."'";
+         `hoatdongcuthe`='".$lichtrinh->hoatdongcuthe."',
+         `gio`='".$lichtrinh->gio."'
+         WHERE `id`='".$lichtrinh->id."'";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){

@@ -6,4 +6,5 @@ class lichtrinh {
     public $ngay;
     public $diadiem;
     public $hoatdongcuthe;
+    public $gio;
 }
