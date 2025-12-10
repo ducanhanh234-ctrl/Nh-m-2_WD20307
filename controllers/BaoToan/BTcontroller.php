@@ -42,8 +42,8 @@ class BTcontroller {
 
             $tongNguoi = (int)($booking['soluong_nguoi'] ?? 0);
             $soDaCo = is_array($dsKhachDaCo) ? count($dsKhachDaCo) : 0;
-            $soCanChiTiet = max($tongNguoi - 1, 0);
-            $soConThieu = max($soCanChiTiet - $soDaCo, 0);
+            $soCanChiTiet = max($tongNguoi - $soDaCo, 0);
+            $soConThieu = $soCanChiTiet;
 
             $danhsach_khach = json_decode($danhsach_khach, true);
             if (is_array($danhsach_khach)) {
@@ -147,6 +147,11 @@ class BTcontroller {
         //! Thêm booking mới
         $booking_id = $this->model->addNewBooking($tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
 
+        // Thêm người đặt tour vào danh sách khách đi tour
+        if (!empty($booking_id)) {
+            $this->model->addBookingChiTiet($booking_id, $tenkhach, null, $gioitinh, $cccd, $sdt);
+        }
+
 
         $danhsach_khach = $_POST['danhsach_khach'] ?? '';
 
@@ -181,11 +186,13 @@ class BTcontroller {
     
     public function editBooking() {
         $id = $_GET['id'];
-        $getBookingId = $this -> model -> GetBookingId($id);
-        $listTour = $this -> tour -> GetAllTour();
+        $getBookingId = $this->model->GetBookingId($id);
+        $listTour = $this->tour->GetAllTour();
         // Danh sách phương tiện và khách sạn cho select
         $listPhuongTien = $this->model->getAllPhuongTienWithNcc();
         $listKhachSan = $this->model->getAllKhachSanWithNcc();
+        // Danh sách khách chi tiết hiện tại của booking
+        $dsKhach = $this->model->GetDanhSachKhach($id);
 
         include "views/admin/Booking/editBooking.php";
     }
@@ -206,6 +213,48 @@ class BTcontroller {
         $khachsan_id = $_POST['khachsan_id'] ?? null;
         
         $this->model->editNewBooking($id, $tenkhach, $sdt, $email, $cccd, $tuor_id, $soluong_nguoi, $gioitinh, $ngaykhoi_hanh, $songay, $yeucaudacbiet, $phuongtien_id, $khachsan_id);
+        
+        // Xử lý danh sách khách mới thêm (nếu có)
+        $danhsach_khach = $_POST['danhsach_khach'] ?? '';
+
+        // Lấy số khách chi tiết đã có
+        $dsKhachDaCo = $this->model->GetDanhSachKhach($id);
+        $soDaCo = is_array($dsKhachDaCo) ? count($dsKhachDaCo) : 0;
+        $tongNguoi = (int)$soluong_nguoi;
+
+        $soMoiGuiLen = 0;
+        $dsMoi = [];
+
+        if (!empty($danhsach_khach)) {
+            $dsMoi = json_decode($danhsach_khach, true);
+            if (is_array($dsMoi)) {
+                $soMoiGuiLen = count($dsMoi);
+            } else {
+                $dsMoi = [];
+            }
+        }
+
+        // Tổng khách chi tiết sau cập nhật phải đúng bằng Số Người
+        if ($tongNguoi !== ($soDaCo + $soMoiGuiLen)) {
+            header('location: index.php?action=manageBookings');
+            return;
+        }
+
+        // Chỉ khi số lượng hợp lệ mới thêm khách mới
+        if (!empty($dsMoi)) {
+            foreach ($dsMoi as $khach) {
+                $hovaten = $khach['name'] ?? '';
+                $ngaysinh = $khach['birthday'] ?? null;
+                $gioitinh_khach = $khach['gender'] ?? '';
+                $cccd_khach = $khach['cccd'] ?? '';
+                $sdt_khach = $khach['phone'] ?? '';
+
+                if (!empty($hovaten)) {
+                    $this->model->addBookingChiTiet($id, $hovaten, $ngaysinh, $gioitinh_khach, $cccd_khach, $sdt_khach);
+                }
+            }
+        }
+
         header('location: index.php?action=manageBookings');
     }
 
@@ -314,9 +363,36 @@ class BTcontroller {
         $so_tien = $_POST['so_tien'] ?? 0;
         $phuong_thuc = $_POST['phuong_thuc'] ?? '';
         $ghi_chu = $_POST['ghi_chu'] ?? null;
+        $anh_thanh_toan = null;
+
+        // Xử lý upload ảnh thanh toán (nếu có)
+        if (!empty($_FILES['anh_thanh_toan']['name']) && $_FILES['anh_thanh_toan']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'anh_thanh_toan/';
+            $uploadPath = PATH_ASSETS_UPLOADS . $uploadDir;
+
+            // Tạo thư mục nếu chưa tồn tại
+            if (!is_dir($uploadPath)) {
+                @mkdir($uploadPath, 0777, true);
+            }
+
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $_FILES['anh_thanh_toan']['name']);
+            $targetFile = $uploadPath . $filename;
+
+            if (move_uploaded_file($_FILES['anh_thanh_toan']['tmp_name'], $targetFile)) {
+                $anh_thanh_toan = 'assets/uploads/' . $uploadDir . $filename;
+            } else {
+                $_SESSION['error_message'] = "Lỗi khi upload ảnh thanh toán!";
+                header('Location: index.php?action=xemChiTietBooking&id=' . urlencode($booking_id));
+                exit;
+            }
+        }
 
         if ($booking_id && $so_tien > 0 && !empty($phuong_thuc)) {
-            $result = $this->model->addPayment($booking_id, $so_tien, $phuong_thuc, $ghi_chu);
+            // Nếu không có ảnh, lưu chuỗi rỗng để không vi phạm NOT NULL
+            if ($anh_thanh_toan === null) {
+                $anh_thanh_toan = '';
+            }
+            $result = $this->model->addPayment($booking_id, $so_tien, $phuong_thuc, $ghi_chu, $anh_thanh_toan);
             if ($result) {
                 $_SESSION['success_message'] = "Thêm thanh toán thành công!";
             } else {

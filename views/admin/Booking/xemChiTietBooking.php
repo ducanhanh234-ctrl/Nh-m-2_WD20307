@@ -31,12 +31,17 @@
                 <h2 class="mb-1">Chi tiết Booking Của Khách: <?= htmlspecialchars($booking['tenkhach'] ?? '') ?></h2>
                 <p class="text-muted mb-0">Xem đầy đủ thông tin booking, tour, khách sạn và khách tham gia.</p>
             </div>
-            <a href="?action=manageBookings" class="btn btn-outline-secondary">← Quay lại danh sách</a>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-primary" id="btn-download-booking-pdf">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>Tải PDF cho HDV
+                </button>
+                <a href="?action=manageBookings" class="btn btn-outline-secondary">← Quay lại danh sách</a>
+            </div>
         </div>
     </div>
 
     <?php if (!empty($booking)): ?>
-        <div class="row g-4">
+        <div class="row g-4" id="booking-detail-content">
             <!-- Cột Trái (70%) -->
             <div class="col-lg-8">
                 <!-- Thông tin người đặt -->
@@ -64,15 +69,22 @@
                             <div class="col-md-6">
                                 <p class="mb-2"><strong>Số người:</strong> <?= htmlspecialchars($booking['soluong_nguoi'] ?? '') ?></p>
                             </div>
+                            <div class="col-md-6">
+                                <p class="mb-2">
+                                    <strong>Trạng thái booking:</strong>
+                                    <span class="badge bg-primary ms-1">
+                                        <?= htmlspecialchars($booking['status_name'] ?? 'Chưa xác định') ?>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Danh sách thành viên đoàn -->
+                <!-- Danh sách thành viên đoàn (chỉ xem) -->
                 <div class="card mb-4">
-                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0"><i class="bi bi-people me-2"></i>Danh sách thành viên đoàn</h5>
-                        <a href="?action=themDanhSachKhach&id=<?= $booking['id'] ?>" class="btn btn-light btn-sm">+ Thêm khách</a>
                     </div>
                     <div class="card-body">
                         <?php if (!empty($dsKhach) && is_array($dsKhach)): ?>
@@ -110,7 +122,7 @@
 
                 <!-- Thông tin Tour & Dịch vụ -->
                 <div class="card mb-4">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-map me-2"></i>Thông tin Tour & Dịch vụ</h5>
                     </div>
                     <div class="card-body">
@@ -145,11 +157,68 @@
 
                 <!-- Yêu cầu đặc biệt -->
                 <div class="card mb-4">
-                    <div class="card-header bg-warning text-dark">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Yêu cầu đặc biệt</h5>
                     </div>
                     <div class="card-body">
                         <p class="mb-0"><?= nl2br(htmlspecialchars($booking['yeucaudacbiet'] ?? 'Không có yêu cầu đặc biệt.')) ?></p>
+                    </div>
+                </div>
+
+                <!-- Lịch sử thanh toán (trung tâm) -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Lịch sử thanh toán</h5>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPaymentModal">
+                            <i class="bi bi-plus-circle me-1"></i>Thêm thanh toán
+                        </button>
+                    </div>
+                    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                        <?php if (!empty($paymentHistory) && is_array($paymentHistory)): ?>
+                            <div class="list-group list-group-flush">
+                                <?php foreach ($paymentHistory as $payment): ?>
+                                    <?php
+                                        $soTien = (int)($payment['so_tien'] ?? 0);
+                                        if ($soTien <= 0) {
+                                            continue;
+                                        }
+
+                                        $ngayThanhToanRaw = $payment['ngay_thanh_toan'] ?? null;
+                                        $ngayThanhToanText = '';
+                                        if (!empty($ngayThanhToanRaw)) {
+                                            $timestamp = strtotime($ngayThanhToanRaw);
+                                            if ($timestamp !== false) {
+                                                $ngayThanhToanText = date('d/m/Y H:i', $timestamp);
+                                            }
+                                        }
+                                    ?>
+                                    <div class="list-group-item px-0 py-3 border-bottom">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-success"><?= number_format($soTien, 0, ',', '.') ?> đ</strong>
+                                                <?php if (!empty($ngayThanhToanText)): ?>
+                                                    <small class="text-muted d-block"><?= $ngayThanhToanText ?></small>
+                                                <?php endif; ?>
+                                            </div>
+                                            <span class="badge bg-primary"><?= htmlspecialchars($payment['phuong_thuc'] ?? '') ?></span>
+                                        </div>
+                                        <?php if (!empty($payment['ghi_chu'])): ?>
+                                            <p class="mb-1 small text-muted"><?= htmlspecialchars($payment['ghi_chu']) ?></p>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($payment['anh_thanh_toan'])): ?>
+                                            <div class="mt-1">
+                                                <a href="<?= htmlspecialchars($payment['anh_thanh_toan']) ?>" target="_blank">
+                                                    <img src="<?= htmlspecialchars($payment['anh_thanh_toan']) ?>" alt="Ảnh thanh toán" class="img-thumbnail payment-proof-thumb">
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-muted mb-0 text-center">Chưa có lịch sử thanh toán</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -159,7 +228,7 @@
                 <div class="sticky-sidebar">
                     <!-- Box 1: Tài chính -->
                     <div class="card mb-4 border-danger">
-                        <div class="card-header bg-danger text-white">
+                        <div class="card-header">
                             <h5 class="mb-0"><i class="bi bi-cash-coin me-2"></i>Tài chính</h5>
                         </div>
                         <div class="card-body">
@@ -185,94 +254,7 @@
                         </div>
                     </div>
 
-                    <!-- Box 2: Hành động -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-secondary text-white">
-                            <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Hành động</h5>
-                        </div>
-                        <div class="card-body">
-                            <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">
-                                <i class="bi bi-plus-circle me-2"></i>Thêm thanh toán
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Box 3: Trạng thái -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0"><i class="bi bi-flag me-2"></i>Trạng thái</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label">Trạng thái hiện tại</label>
-                                <div class="alert alert-info mb-0">
-                                    <strong><?= htmlspecialchars($booking['status_name'] ?? 'Chưa xác định') ?></strong>
-                                </div>
-                            </div>
-                            <form method="POST" action="?action=updateStatusBooking">
-                                <input type="hidden" name="id" value="<?= $booking['id'] ?>">
-                                <div class="mb-3">
-                                    <label class="form-label">Thay đổi trạng thái</label>
-                                    <select name="status" class="form-select" required>
-                                        <?php foreach ($listStatus as $status): ?>
-                                            <option value="<?= $status['id'] ?>" <?= ($status['id'] == $booking['trangthai_booking']) ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($status['name']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-warning w-100">
-                                    <i class="bi bi-check-circle me-2"></i>Cập nhật
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Box 4: Lịch sử thanh toán -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-dark text-white">
-                            <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Lịch sử thanh toán</h5>
-                        </div>
-                        <div class="card-body" style="max-height: 400px; overflow-y: auto;">
-                            <?php if (!empty($paymentHistory) && is_array($paymentHistory)): ?>
-                                <div class="list-group list-group-flush">
-                                    <?php foreach ($paymentHistory as $payment): ?>
-                                        <?php
-                                            $soTien = (int)($payment['so_tien'] ?? 0);
-                                            if ($soTien <= 0) {
-                                                continue;
-                                            }
-
-                                            $ngayThanhToanRaw = $payment['ngay_thanh_toan'] ?? null;
-                                            $ngayThanhToanText = '';
-                                            if (!empty($ngayThanhToanRaw)) {
-                                                $timestamp = strtotime($ngayThanhToanRaw);
-                                                if ($timestamp !== false) {
-                                                    $ngayThanhToanText = date('d/m/Y H:i', $timestamp);
-                                                }
-                                            }
-                                        ?>
-                                        <div class="list-group-item px-0 py-3 border-bottom">
-                                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                                <div>
-                                                    <strong class="text-success"><?= number_format($soTien, 0, ',', '.') ?> đ</strong>
-                                                    <?php if (!empty($ngayThanhToanText)): ?>
-                                                        <small class="text-muted d-block"><?= $ngayThanhToanText ?></small>
-                                                    <?php endif; ?>
-                                                </div>
-                                                <span class="badge bg-primary"><?= htmlspecialchars($payment['phuong_thuc'] ?? '') ?></span>
-                                            </div>
-                                            <?php if (!empty($payment['ghi_chu'])): ?>
-                                                <p class="mb-0 small text-muted"><?= htmlspecialchars($payment['ghi_chu']) ?></p>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php else: ?>
-                                <p class="text-muted mb-0 text-center">Chưa có lịch sử thanh toán</p>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+                    <!-- Box 2: (để trống cho các hành động khác nếu cần trong tương lai) -->
                 </div>
             </div>
         </div>
@@ -285,7 +267,7 @@
 
 <!-- Modal Thêm thanh toán -->
 <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog payment-modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="addPaymentModalLabel">
@@ -293,7 +275,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="?action=addPayment">
+            <form method="POST" action="?action=addPayment" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input type="hidden" name="booking_id" value="<?= $booking['id'] ?? '' ?>">
                     
@@ -315,6 +297,16 @@
                             <option value="Khac">Khác</option>
                         </select>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh minh chứng thanh toán</label>
+                        <input type="file" name="anh_thanh_toan" id="anh_thanh_toan_input" class="form-control" accept="image/*">
+                        <small class="form-text text-muted">Tùy chọn, có thể upload biên lai/chụp màn hình thanh toán.</small>
+                        <div class="mt-2" id="anh_thanh_toan_preview_wrapper" style="display:none;">
+                            <span class="form-text d-block mb-1">Xem thử ảnh đã chọn:</span>
+                            <img id="anh_thanh_toan_preview" src="" alt="Preview ảnh thanh toán" class="img-thumbnail payment-proof-thumb">
+                        </div>
+                    </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Ghi chú</label>
@@ -332,6 +324,9 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- html2canvas & jsPDF for PDF export -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <script>
 // Định dạng số tiền trong modal Thêm thanh toán và kiểm tra không vượt quá số tiền còn nợ
@@ -390,6 +385,96 @@
     }
 
     inputReal.value = value;
+  });
+})();
+
+// Preview ảnh thanh toán trước khi upload
+(function() {
+  const inputFile = document.getElementById('anh_thanh_toan_input');
+  const previewImg = document.getElementById('anh_thanh_toan_preview');
+  const wrapper = document.getElementById('anh_thanh_toan_preview_wrapper');
+
+  if (!inputFile || !previewImg || !wrapper) return;
+
+  inputFile.addEventListener('change', function() {
+    const file = this.files && this.files[0] ? this.files[0] : null;
+    if (!file) {
+      wrapper.style.display = 'none';
+      previewImg.src = '';
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      alert('Vui lòng chọn file hình ảnh hợp lệ.');
+      this.value = '';
+      wrapper.style.display = 'none';
+      previewImg.src = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImg.src = e.target.result;
+      wrapper.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+})();
+
+// Export booking detail to PDF for HDV
+(function() {
+  const btnPdf = document.getElementById('btn-download-booking-pdf');
+  const content = document.getElementById('booking-detail-content');
+
+  if (!btnPdf || !content) return;
+
+  btnPdf.addEventListener('click', async function() {
+    try {
+      btnPdf.disabled = true;
+      btnPdf.innerText = 'Đang tạo PDF...';
+
+      // Sử dụng html2canvas để chụp lại khu vực chi tiết booking
+      const canvas = await html2canvas(content, {
+        scale: 2,
+        useCORS: true,
+        scrollY: -window.scrollY
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pageWidth - 20; // lề hai bên 10mm
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      let position = 10;
+      let heightLeft = imgHeight;
+
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 20;
+
+      while (heightLeft > 0) {
+        pdf.addPage();
+        position = 10;
+        pdf.addImage(imgData, 'PNG', 10, position - (imgHeight - heightLeft), imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+      }
+
+      const tenKhach = <?= json_encode($booking['tenkhach'] ?? 'booking'); ?>;
+      const bookingId = <?= json_encode($booking['id'] ?? ''); ?>;
+      const fileName = `booking_${bookingId || ''}_${tenKhach}.pdf`;
+
+      pdf.save(fileName);
+    } catch (e) {
+      console.error(e);
+      alert('Có lỗi xảy ra khi tạo PDF. Vui lòng thử lại.');
+    } finally {
+      btnPdf.disabled = false;
+      btnPdf.innerHTML = '<i class="bi bi-file-earmark-pdf me-1"></i>Tải PDF cho HDV';
+    }
   });
 })();
 </script>

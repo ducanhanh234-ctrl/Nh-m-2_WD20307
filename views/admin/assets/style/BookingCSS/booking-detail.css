@@ -95,13 +95,13 @@
 }
 
 .btn-primary {
-    background-color: rgb(44, 219, 102);
-    border-color: rgb(44, 219, 102);
+    background-color: #4b5563;
+    border-color: #4b5563;
 }
 
 .btn-primary:hover {
-    background-color: rgb(35, 180, 85);
-    border-color: rgb(35, 180, 85);
+    background-color: #374151;
+    border-color: #374151;
 }
 
 .btn-warning {
@@ -144,17 +144,7 @@
 
 /* Text Styling */
 .text-danger.fw-bold {
-    font-size: 1.25rem;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.8;
-    }
+    font-size: 1.1rem;
 }
 
 /* Responsive */
@@ -205,32 +195,28 @@ h4 {
     font-style: italic;
 }
 
-/* Card Header Colors */
-.bg-primary {
-    background-color: #0d6efd !important;
-}
-
-.bg-info {
-    background-color: #0dcaf0 !important;
-}
-
-.bg-success {
-    background-color: #198754 !important;
-}
-
-.bg-warning {
-    background-color: #ffc107 !important;
-}
-
-.bg-danger {
-    background-color: #dc3545 !important;
-}
-
-.bg-secondary {
-    background-color: #6c757d !important;
-}
-
+/* Card Header Colors - neutral tones for detail page */
+.bg-primary,
+.bg-info,
+.bg-success,
+.bg-warning,
+.bg-danger,
+.bg-secondary,
 .bg-dark {
-    background-color: #212529 !important;
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+/* Thumbnail for payment proof images */
+.payment-proof-thumb {
+    max-width: 100%;
+    min-width: 300px;
+    max-height: 260px;
+    object-fit: cover;
+}
+
+/* Wider modal for payment form */
+.payment-modal-dialog {
+    max-width: 700px;
 }
 
