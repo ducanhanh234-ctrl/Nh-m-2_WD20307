@@ -2,12 +2,11 @@
 class phienbanquery extends BaseModel{
     public function all(){
         try{
-          $sql = "SELECT pb.*, loaipb.name as loaipb_name , anh_tuor.img_main as anh_tuor_name, chinhsach_tuor.name as chinhsach_tuor_name ,
-nha_cung_cap.ten_don_vi as nhacungcap_name  FROM phienban as pb
+          $sql = "SELECT pb.*, loaipb.name as loaipb_name , anh_tuor.img_main as anh_tuor_name, chinhsach_tuor.name as chinhsach_tuor_name   FROM phienban as pb
 JOIN loai_phienban_tuor as loaipb ON pb.loaipb_id = loaipb.id
 JOIN anh_tuor ON pb.anh_tuor_id = anh_tuor.id
 JOIN chinhsach_tuor ON pb.chinhsach_tuor_id = chinhsach_tuor.id
-JOIN nha_cung_cap ON pb.nhacungcap_id = nha_cung_cap.id";
+";
         $data = $this->pdo->query($sql)->fetchAll();
         $arr = [];
         foreach($data as $a){
@@ -21,7 +20,6 @@ JOIN nha_cung_cap ON pb.nhacungcap_id = nha_cung_cap.id";
             $phienban->chinhsach_tuor_id = $a["chinhsach_tuor_id"];
             $phienban->chinhsach_tuor_name = $a["chinhsach_tuor_name"];
             $phienban->nhacungcap_id = $a["nhacungcap_id"];
-            $phienban->nhacungcap_name = $a["nhacungcap_name"];
             $phienban->price = $a["price"];
             $phienban->thoigian = $a["thoigian"];
             $phienban->khoihanh = $a["khoihanh"];
@@ -62,7 +60,7 @@ JOIN nha_cung_cap ON pb.nhacungcap_id = nha_cung_cap.id";
     public function insert(phienban $phienban){
         try{
          $sql = "INSERT INTO `phienban`( `name`, `loaipb_id`, `anh_tuor_id`, `chinhsach_tuor_id`, `nhacungcap_id`, `price`, `thoigian`, `khoihanh`) VALUES 
-         ('".$phienban->name."','".$phienban->loaipb_id."','".$phienban->anh_tuor_id."','".$phienban->chinhsach_tuor_id."','".$phienban->nhacungcap_id."','".$phienban->price."','".$phienban->thoigian."','".$phienban->khoihanh."')";
+         ('".$phienban->name."','".$phienban->loaipb_id."','".$phienban->anh_tuor_id."','".$phienban->chinhsach_tuor_id."',NULL,'".$phienban->price."','".$phienban->thoigian."','".$phienban->khoihanh."')";
          $data = $this->pdo->exec($sql);
          return $data;
         }catch(Exception $e){
