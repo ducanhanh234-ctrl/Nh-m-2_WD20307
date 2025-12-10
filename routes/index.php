@@ -25,7 +25,7 @@ require_once './controllers/BaoToan/BTcontroller.php';
 require_once './controllers/Huy/QHcontroller.php';
 require_once './controllers/DucAnh/DAcontroller.php';
 require_once './controllers/HoangSon/HScontroller.php';
-require_once './controllers/DucAnh/nhacungcap_contro.php';
+require_once './controllers/HoangSon/nhacungcap_contro.php';
 $id = $_GET['id'] ?? '/';
 match ($action) {
     // 1 Link Trang Mặc Định

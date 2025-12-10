@@ -10,7 +10,6 @@ require_once "views/HDV/layout/header.php";
     button:hover { background-color: #007acc; }
 </style>
 
-<h1>Thêm phản hồi mới</h1>
 
 <h1>Thêm phản hồi đánh giá</h1>
 
