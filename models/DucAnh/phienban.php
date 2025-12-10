@@ -9,7 +9,7 @@ class phienban{
     public $chinhsach_tuor_id;
     public $chinhsach_tuor_name;
     public $nhacungcap_id;
-    public $nhacungcap_name;
+  
     public $price;
     public $thoigian;
     public $khoihanh;

@@ -16,7 +16,6 @@ require_once "views/admin/layout/header.php";
                   <th>loaipb_name</th>
                   <th>anh_tuor_id</th>
                   <th>chinhsach_tuor_id</th>
-                  <th>nhacungcap_id</th>
                   <th>price</th>
                   <th>thoigian</th>
                   <th>khoihanh</th>
@@ -31,9 +30,8 @@ require_once "views/admin/layout/header.php";
                   <td><?=$a->id?></td>
                   <td><?=$a->name?></td>
                   <td><?=$a->loaipb_name?></td>
-                  <td><img src="<?= $a->anh_tuor_name?>" alt="" wifth="10px"></td>
+                  <td><img src="<?= $a->anh_tuor_name?>" alt="" width="100px"></td>
                   <td><?=$a->chinhsach_tuor_name?></td>
-                  <td><?=$a->nhacungcap_name?></td>
                   <td><?= number_format($a->price)?></td>
                   <td><?=$a->thoigian?></td>
                   <td><?=$a->khoihanh?></td>

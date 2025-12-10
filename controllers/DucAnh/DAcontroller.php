@@ -105,7 +105,6 @@ class DAcontroller {
             $phienban->loaipb_id = trim($_POST["loaipb_id"]);
             $phienban->anh_tuor_id = trim($_POST["anh_tuor_id"]);
             $phienban->chinhsach_tuor_id = trim($_POST["chinhsach_tuor_id"]);
-            $phienban->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $phienban->price = trim($_POST["price"]);
             $phienban->thoigian = trim($_POST["thoigian"]);
             $phienban->khoihanh = trim($_POST["khoihanh"]);
@@ -131,7 +130,6 @@ class DAcontroller {
             $phienban->loaipb_id = trim($_POST["loaipb_id"]);
             $phienban->anh_tuor_id = trim($_POST["anh_tuor_id"]);
             $phienban->chinhsach_tuor_id = trim($_POST["chinhsach_tuor_id"]);
-            $phienban->nhacungcap_id = trim($_POST["nhacungcap_id"]);
             $phienban->price = trim($_POST["price"]);
             $phienban->thoigian = trim($_POST["thoigian"]);
             $phienban->khoihanh = trim($_POST["khoihanh"]);

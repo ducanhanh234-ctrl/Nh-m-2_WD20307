@@ -50,18 +50,6 @@
         </select>
       </div>
       <div>
-        <span>Nhập Nhà Cung Cấp:</span>
-        <select name="nhacungcap_id" id="">
-          <?php
-          foreach($arr_nhacungcap as $d){
-            ?>
-          <option value="<?=$d->id?>"><?=$d->ten_don_vi?></option>
-          <?php
-          }
-          ?>
-        </select>
-      </div>
-      <div>
         <span>Nhập Giá:</span>
         <input type="text" name="price" />
       </div>

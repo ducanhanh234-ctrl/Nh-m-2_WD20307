@@ -14,7 +14,13 @@ require_once "views/admin/layout/header.php";
 <h1>Sửa phản hồi</h1>
 
 <form action="index.php?action=phanhoi-update&id=<?= $feedback['id'] ?>" method="POST">
-
+    <div class="form-group">
+        <label>Người Gửi Phản Hồi:</label>
+        <select name="nguoi_gui" id="">
+            <option value="HDV" selected>HDV</option>
+            <option value="Khách Hàng">Khách Hàng</option>
+        </select>
+    </div>
     <div class="form-group">
         <label>Nội dung phản hồi:</label>
         <textarea name="noidung" class="form-control" required><?= htmlspecialchars($feedback['noidung']) ?></textarea>
