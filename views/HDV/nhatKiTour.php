@@ -202,58 +202,7 @@ require_once "views/HDV/layout/header.php";
         <?php endif; ?>
     </div>
 
-    <!-- Phần Lịch sử cập nhật -->
-    <div class="mt-4">
-        <h5 class="mb-3">Lịch sử cập nhật</h5>
-        <?php if (!empty($nhatKiTour) && is_array($nhatKiTour)): ?>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 150px;">Tour</th>
-                            <th style="width: 100px;">Ngày thứ</th>
-                            <th style="width: 150px;">Ngày tạo</th>
-                            <th style="width: 150px;">Ngày cập nhật</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($nhatKiTour as $item): ?>
-                            <tr>
-                                <td>
-                                    <small><?= htmlspecialchars($item['tour_name'] ?? 'N/A') ?></small>
-                                </td>
-                                <td>
-                                    <span class="badge bg-info"><?= htmlspecialchars($item['ngay_thu'] ?? 'N/A') ?></span>
-                                </td>
-                                <td>
-                                    <small class="badge bg-secondary">
-                                        <?= !empty($item['created_at']) ? date('d/m/Y H:i', strtotime($item['created_at'])) : 'N/A' ?>
-                                    </small>
-                                </td>
-                                <td>
-                                    <?php 
-                                    $created_at = !empty($item['created_at']) ? date('Y-m-d H:i:s', strtotime($item['created_at'])) : '';
-                                    $updated_at = !empty($item['updated_at']) ? date('Y-m-d H:i:s', strtotime($item['updated_at'])) : '';
-                                    if (!empty($updated_at) && $updated_at != $created_at): ?>
-                                        <small class="badge bg-success">
-                                            <?= date('d/m/Y H:i', strtotime($item['updated_at'])) ?>
-                                        </small>
-                                    <?php else: ?>
-                                        <small class="text-muted">Chưa cập nhật</small>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-5">
-                <i class="bi bi-clock-history display-4 text-muted"></i>
-                <p class="text-muted mt-2">Không có lịch sử cập nhật.</p>
-            </div>
-        <?php endif; ?>
-    </div>
+    
 </div>
 
 <!-- Bootstrap JS -->
