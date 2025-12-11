@@ -45,15 +45,15 @@
       </div>
       <div>
         <span>Nhập Giờ:</span>
-        <input type="time" name="gio"/>
+        <input type="time" name="gio" required/>
       </div>
       <div>
         <span>Nhập Địa Điểm:</span>
-        <input type="text" name="diadiem" />
+        <input type="text" name="diadiem" required/>
       </div>
       <div>
         <span>Nhập Hoạt Động Cụ Thể:</span>
-        <input type="text" name="hoatdongcuthe" />
+        <input type="text" name="hoatdongcuthe" required/>
       </div>
       <div>
         <span></span>

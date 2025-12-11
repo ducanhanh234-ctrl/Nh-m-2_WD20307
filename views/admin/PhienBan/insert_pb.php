@@ -11,11 +11,11 @@
     <form action="" method="post" enctype="multipart/form-data">
       <div>
         <span>Nhập Tên Phiên Bản:</span>
-        <input type="text" name="name" />
+        <input type="text" name="name" required/>
       </div>
       <div>
         <span>Nhập Loại Phiên Bản:</span>
-        <select name="loaipb_id" id="">
+        <select name="loaipb_id" id="" >
           <?php
           foreach($arr_loaipb as $a){
             ?>
@@ -27,7 +27,7 @@
       </div>
       <div>
         <span>Nhập Ảnh:</span>
-        <select name="anh_tuor_id" id="">
+        <select name="anh_tuor_id" id="" >
           <?php
           foreach($arr_anhtuor as $b){
             ?>
@@ -39,7 +39,7 @@
       </div>
       <div>
         <span>Nhập Chính Sách:</span>
-        <select name="chinhsach_tuor_id" id="">
+        <select name="chinhsach_tuor_id" id="" >
           <?php
           foreach($arr_chinhsach as $c){
             ?>
@@ -51,7 +51,7 @@
       </div>
       <div>
         <span>Nhập Giá:</span>
-        <input type="text" name="price" />
+        <input type="number" name="price" />
       </div>
       <div>
         <span>Nhập Thời Gian:</span>

@@ -11,11 +11,11 @@
     <form action="" method="post" enctype="multipart/form-data">
       <div>
         <span>Nhập Tên Tuor:</span>
-        <input type="text" name="name" />
+        <input type="text" name="name" required/>
       </div>
       <div>
         <span>Nhập danh mục tuor:</span>
-        <select name="danhmuc_id" id="">
+        <select name="danhmuc_id" id="" required>
           <?php
           foreach($arr_danhmuc as $a){
             ?>
@@ -27,13 +27,12 @@
       </div>
       <div>
         <span>Nhập Mô Tả:</span>
-        <input type="text" name="mota" />
+        <input type="text" name="mota" required />
       </div>
 
       <div>
         <span>Nhập Phiên BẢn:</span>
-        <select name="phienban_id" id="phienban_id">
-          <option value="" selected>Chọn Phiên Bản Tuor</option>
+        <select name="phienban_id" id="phienban_id" required>
           <?php
           foreach($arr_phienban as $e){
             ?>
