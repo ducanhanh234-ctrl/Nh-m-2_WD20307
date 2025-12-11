@@ -49,15 +49,44 @@ class CheckinModel extends BaseModel {
     }
 
     // 3. LƯU CHECKIN
-    public function updateCheckin($khach_id, $diem_taptrung, $trangthai_check, $ghichu = '') {
-        $sql = "INSERT INTO checkin 
-                (bookingct_id, diem_taptrung, trangthai_check, ghichu) 
-                VALUES (?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE
-                    trangthai_check = VALUES(trangthai_check),
-                    ghichu = VALUES(ghichu)";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$khach_id, $diem_taptrung, $trangthai_check, $ghichu]);
+    public function updateCheckin($tuor_id, $khach_id, $diem_taptrung, $trangthai_check, $ghichu = '') {
+        // Lấy lichtrinh_id tương ứng với tour và điểm tập trung (nếu có)
+        $lichtrinh_id = null;
+        $sqlLt = "SELECT k.lichtrinh_id
+                  FROM `kẹhoachkhoihanh` k
+                  JOIN lichtrinh l ON k.lichtrinh_id = l.id
+                  WHERE l.tuor_id = ? AND k.diemtaptrung = ?
+                  LIMIT 1";
+        $stmtLt = $this->conn->prepare($sqlLt);
+        $stmtLt->execute([$tuor_id, $diem_taptrung]);
+        $rowLt = $stmtLt->fetch(PDO::FETCH_ASSOC);
+        if ($rowLt && isset($rowLt['lichtrinh_id'])) {
+            $lichtrinh_id = $rowLt['lichtrinh_id'];
+        }
+
+        // Kiểm tra xem đã có bản ghi checkin cho khách này tại điểm tập trung này chưa
+        $sqlCheck = "SELECT id FROM checkin WHERE bookingct_id = ? AND diem_taptrung = ? LIMIT 1";
+        $stmtCheck = $this->conn->prepare($sqlCheck);
+        $stmtCheck->execute([$khach_id, $diem_taptrung]);
+        $rowCheck = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+
+        if ($rowCheck) {
+            // ĐÃ CÓ -> CẬP NHẬT LẠI TRẠNG THÁI & GHI CHÚ CHO ĐÚNG NGƯỜI ĐÓ
+            $sqlUpdate = "UPDATE checkin
+                          SET lichtrinh_id = ?,
+                              trangthai_check = ?,
+                              ghichu = ?
+                          WHERE id = ?";
+            $stmtUpdate = $this->conn->prepare($sqlUpdate);
+            return $stmtUpdate->execute([$lichtrinh_id, $trangthai_check, $ghichu, $rowCheck['id']]);
+        } else {
+            // CHƯA CÓ -> THÊM MỚI BẢN GHI CHECKIN CHO KHÁCH NÀY
+            $sqlInsert = "INSERT INTO checkin
+                          (bookingct_id, lichtrinh_id, diem_taptrung, trangthai_check, ghichu)
+                          VALUES (?, ?, ?, ?, ?)";
+            $stmtInsert = $this->conn->prepare($sqlInsert);
+            return $stmtInsert->execute([$khach_id, $lichtrinh_id, $diem_taptrung, $trangthai_check, $ghichu]);
+        }
     }
 
   // LẤY CÁC CHẶNG ĐÃ ĐIỂM DANH – PHIÊN BẢN CHẠY NGON 100% TRÊN MYSQL 8+

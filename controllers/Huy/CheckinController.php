@@ -42,7 +42,7 @@ class CheckinController {
         foreach ($_POST['khach_id'] as $khach_id) {
             $tt = $_POST['trangthai'][$khach_id] ?? 1;
             $gc = $_POST['ghichu'][$khach_id] ?? '';
-            $this->model->updateCheckin($khach_id, $diem, $tt, $gc);
+            $this->model->updateCheckin($tuor_id, $khach_id, $diem, $tt, $gc);
         }
 
         $_SESSION['msg'] = "Đã lưu điểm danh thành công tại: <strong>$diem</strong>";
