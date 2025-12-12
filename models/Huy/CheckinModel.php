@@ -43,7 +43,7 @@ class CheckinModel extends BaseModel {
                 LEFT JOIN checkin c ON bc.id = c.bookingct_id 
                     AND c.lichtrinh_id = ?
                 LEFT JOIN lichtrinh lt ON c.lichtrinh_id = lt.id
-                WHERE b.tuor_id = ?
+                WHERE b.tuor_id = ? 
                 ORDER BY bc.hovaten";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$lichtrinh_id, $tuor_id]);
@@ -76,20 +76,12 @@ class CheckinModel extends BaseModel {
         }
     }
 
-  // LẤY CÁC CHẶNG ĐÃ ĐIỂM DANH – THEO LỊCH TRÌNH
+  // LẤY DANH SÁCH CÁC CHẶNG CỦA TOUR TỪ BẢNG LỊCH TRÌNH (KHÔNG DỰA TRÊN CHECKIN)
 public function getDiemDaCheck($tuor_id) {
-    $sql = "SELECT lt.id AS lichtrinh_id, lt.diadiem
-            FROM (
-                SELECT c.lichtrinh_id, MAX(c.id) AS max_id
-                FROM checkin c
-                JOIN bookingchitiet bc ON c.bookingct_id = bc.id
-                JOIN booking b ON bc.booking_id = b.id
-                WHERE b.tuor_id = ? 
-                  AND c.lichtrinh_id IS NOT NULL 
-                GROUP BY c.lichtrinh_id
-            ) AS sub
-            JOIN lichtrinh lt ON sub.lichtrinh_id = lt.id
-            ORDER BY sub.max_id DESC";
+    $sql = "SELECT id AS lichtrinh_id, diadiem
+            FROM lichtrinh
+            WHERE tuor_id = ?
+            ORDER BY ngay, gio, id";
 
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$tuor_id]);
