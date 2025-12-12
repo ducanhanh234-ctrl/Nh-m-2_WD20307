@@ -33,13 +33,21 @@ require_once "views/HDV/layout/header.php";
 
     <form method="POST" action="index.php?action=hdv-save" class="bg-white p-4 rounded  mb-5">
         <div class="mb-4">
-            <label class="form-label fw-bold fs-5">ĐIỂM TẬP TRUNG / CHẶNG HIỆN TẠI</label>
-            <input type="text" name="diem_taptrung" class="form-control form-control-lg" 
-                   value="<?= htmlspecialchars($diem ?? 'Sân bay Tân Sơn Nhất') ?>" 
-                   placeholder="VD: Sân bay Tân Sơn Nhất, KS Mường Thanh, Cảng Cái Răng..." required>
+            <?php $lichtrinh_hien_tai = $lichtrinh_id ?? 0;
+                  $ds_chang = $cac_chang ?? []; ?>
+            <label class="form-label mb-1">Chọn chặng / địa điểm điểm danh</label>
+            <select class="form-select form-select-sm"
+                    onchange="window.location='index.php?action=hdv-checkin&tuor_id=<?= $tuor_id ?>&lichtrinh_id='+encodeURIComponent(this.value)">
+                <?php foreach ($ds_chang as $c): ?>
+                    <option value="<?= htmlspecialchars($c['lichtrinh_id']) ?>" <?= ($c['lichtrinh_id'] == $lichtrinh_hien_tai) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($c['diadiem']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <input type="hidden" name="tuor_id" value="<?= $tuor_id ?>">
+        <input type="hidden" name="lichtrinh_id" value="<?= htmlspecialchars($lichtrinh_hien_tai) ?>">
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
@@ -91,15 +99,15 @@ require_once "views/HDV/layout/header.php";
     <!-- DANH SÁCH CÁC CHẶNG ĐÃ ĐIỂM DANH -->
     <?php 
     // Biến đúng là $cac_chang (đã được truyền từ Controller)
-    $ds_diem = $cac_chang ?? []; 
-    if (!empty($ds_diem)): 
+    $ds_chang = $cac_chang ?? []; 
+    if (!empty($ds_chang)): 
     ?>
     <div class="mt-5 p-4 bg-light rounded">
         <h5 class="mb-3">Các chặng đã điểm danh:</h5>
-        <?php foreach($ds_diem as $d): ?>
-            <a href="index.php?action=hdv-checkin&tuor_id=<?= $tuor_id ?>&diem=<?= urlencode($d) ?>"
+        <?php foreach($ds_chang as $c): ?>
+            <a href="index.php?action=hdv-checkin&tuor_id=<?= $tuor_id ?>&lichtrinh_id=<?= urlencode($c['lichtrinh_id']) ?>"
                class="btn btn-outline-primary btn-sm me-2 mb-2">
-               <?= htmlspecialchars($d) ?>
+               <?= htmlspecialchars($c['diadiem']) ?>
             </a>
         <?php endforeach; ?>
     </div>
