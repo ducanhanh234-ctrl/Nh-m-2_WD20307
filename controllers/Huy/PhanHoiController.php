@@ -41,7 +41,7 @@ class PhanHoiController {
             $this->model->insert($data);
         }
 
-        header("Location: index.php?action=index_hdv");
+        header("Location: index.php?action=phanhoi-list");
         exit;
     }
 
