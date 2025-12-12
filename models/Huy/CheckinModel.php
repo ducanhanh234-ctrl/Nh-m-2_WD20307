@@ -27,87 +27,73 @@ class CheckinModel extends BaseModel {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-    // 2. LẤY DANH SÁCH KHÁCH TRONG TOUR + TRẠNG THÁI CHECKIN
-    public function getKhachByTourAndDiem($tuor_id, $diem_taptrung = 'Sân bay Tân Sơn Nhất') {
+    // 2. LẤY DANH SÁCH KHÁCH TRONG TOUR + TRẠNG THÁI CHECKIN (THEO LỊCH TRÌNH)
+    public function getKhachByTourAndDiem($tuor_id, $lichtrinh_id) {
         $sql = "SELECT 
                     bc.id AS khach_id,
                     bc.hovaten AS hoten,
                     bc.cccd,
                     bc.sdt,
                     c.trangthai_check,
-                    c.diem_taptrung,
-                    c.ghichu
+                    c.lichtrinh_id,
+                    c.ghichu,
+                    lt.diadiem
                 FROM bookingchitiet bc
                 JOIN booking b ON bc.booking_id = b.id
                 LEFT JOIN checkin c ON bc.id = c.bookingct_id 
-                    AND c.diem_taptrung = ?
+                    AND c.lichtrinh_id = ?
+                LEFT JOIN lichtrinh lt ON c.lichtrinh_id = lt.id
                 WHERE b.tuor_id = ?
                 ORDER BY bc.hovaten";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$diem_taptrung, $tuor_id]);
+        $stmt->execute([$lichtrinh_id, $tuor_id]);
         return $stmt;
     }
 
-    // 3. LƯU CHECKIN
-    public function updateCheckin($tuor_id, $khach_id, $diem_taptrung, $trangthai_check, $ghichu = '') {
-        // Lấy lichtrinh_id tương ứng với tour và điểm tập trung (nếu có)
-        $lichtrinh_id = null;
-        $sqlLt = "SELECT k.lichtrinh_id
-                  FROM `kẹhoachkhoihanh` k
-                  JOIN lichtrinh l ON k.lichtrinh_id = l.id
-                  WHERE l.tuor_id = ? AND k.diemtaptrung = ?
-                  LIMIT 1";
-        $stmtLt = $this->conn->prepare($sqlLt);
-        $stmtLt->execute([$tuor_id, $diem_taptrung]);
-        $rowLt = $stmtLt->fetch(PDO::FETCH_ASSOC);
-        if ($rowLt && isset($rowLt['lichtrinh_id'])) {
-            $lichtrinh_id = $rowLt['lichtrinh_id'];
-        }
-
-        // Kiểm tra xem đã có bản ghi checkin cho khách này tại điểm tập trung này chưa
-        $sqlCheck = "SELECT id FROM checkin WHERE bookingct_id = ? AND diem_taptrung = ? LIMIT 1";
+    // 3. LƯU CHECKIN (THEO LỊCH TRÌNH)
+    public function updateCheckin($tuor_id, $khach_id, $lichtrinh_id, $trangthai_check, $ghichu = '') {
+        // Kiểm tra xem đã có bản ghi checkin cho khách này tại lịch trình này chưa
+        $sqlCheck = "SELECT id FROM checkin WHERE bookingct_id = ? AND lichtrinh_id = ? LIMIT 1";
         $stmtCheck = $this->conn->prepare($sqlCheck);
-        $stmtCheck->execute([$khach_id, $diem_taptrung]);
+        $stmtCheck->execute([$khach_id, $lichtrinh_id]);
         $rowCheck = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
         if ($rowCheck) {
             // ĐÃ CÓ -> CẬP NHẬT LẠI TRẠNG THÁI & GHI CHÚ CHO ĐÚNG NGƯỜI ĐÓ
             $sqlUpdate = "UPDATE checkin
-                          SET lichtrinh_id = ?,
-                              trangthai_check = ?,
+                          SET trangthai_check = ?,
                               ghichu = ?
                           WHERE id = ?";
             $stmtUpdate = $this->conn->prepare($sqlUpdate);
-            return $stmtUpdate->execute([$lichtrinh_id, $trangthai_check, $ghichu, $rowCheck['id']]);
+            return $stmtUpdate->execute([$trangthai_check, $ghichu, $rowCheck['id']]);
         } else {
             // CHƯA CÓ -> THÊM MỚI BẢN GHI CHECKIN CHO KHÁCH NÀY
             $sqlInsert = "INSERT INTO checkin
-                          (bookingct_id, lichtrinh_id, diem_taptrung, trangthai_check, ghichu)
-                          VALUES (?, ?, ?, ?, ?)";
+                          (bookingct_id, lichtrinh_id, trangthai_check, ghichu)
+                          VALUES (?, ?, ?, ?)";
             $stmtInsert = $this->conn->prepare($sqlInsert);
-            return $stmtInsert->execute([$khach_id, $lichtrinh_id, $diem_taptrung, $trangthai_check, $ghichu]);
+            return $stmtInsert->execute([$khach_id, $lichtrinh_id, $trangthai_check, $ghichu]);
         }
     }
 
-  // LẤY CÁC CHẶNG ĐÃ ĐIỂM DANH – PHIÊN BẢN CHẠY NGON 100% TRÊN MYSQL 8+
+  // LẤY CÁC CHẶNG ĐÃ ĐIỂM DANH – THEO LỊCH TRÌNH
 public function getDiemDaCheck($tuor_id) {
-    $sql = "SELECT diem_taptrung
+    $sql = "SELECT lt.id AS lichtrinh_id, lt.diadiem
             FROM (
-                SELECT c.diem_taptrung, c.id
+                SELECT c.lichtrinh_id, MAX(c.id) AS max_id
                 FROM checkin c
                 JOIN bookingchitiet bc ON c.bookingct_id = bc.id
                 JOIN booking b ON bc.booking_id = b.id
                 WHERE b.tuor_id = ? 
-                  AND c.diem_taptrung IS NOT NULL 
-                  AND c.diem_taptrung != ''
-                ORDER BY c.id DESC
+                  AND c.lichtrinh_id IS NOT NULL 
+                GROUP BY c.lichtrinh_id
             ) AS sub
-            GROUP BY diem_taptrung
-            ORDER BY MAX(id) DESC";
+            JOIN lichtrinh lt ON sub.lichtrinh_id = lt.id
+            ORDER BY sub.max_id DESC";
 
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$tuor_id]);
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }
 ?>
