@@ -74,9 +74,9 @@ require_once "views/HDV/layout/header.php";
                         <td><?= htmlspecialchars($row['sdt'] ?? '') ?></td>
                         <td>
                             <select name="trangthai[<?= $row['khach_id'] ?>]" class="form-select form-select-sm">
-                                <option value="1" <?= ($row['trangthai_check']!=2 && $row['trangthai_check']!=3)?'selected':'' ?>>Chưa đến</option>
-                                <option value="2" <?= $row['trangthai_check']==2?'selected':'' ?>>Đã đến</option>
-                                <option value="3" <?= $row['trangthai_check']==3?'selected':'' ?>>Vắng mặt</option>
+                                <option value="1" <?= ($row['trangthai_check']!=2 && $row['trangthai_check']!=3)?'selected':'' ?>>Có mặt</option>
+                                <option value="2" <?= $row['trangthai_check']==2?'selected':'' ?>>Vắng mặt</option>
+                                <option value="3" <?= $row['trangthai_check']==3?'selected':'' ?>>Đang đến</option>
                             </select>
                             <input type="hidden" name="khach_id[]" value="<?= $row['khach_id'] ?>">
                         </td>
